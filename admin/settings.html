@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="settings.css">
 </head>
 <body>
     <!-- Sidebar -->
@@ -63,18 +64,163 @@
         </header>
 
         <main class="main-content">
-            <div class="page-placeholder">
-                <i class="fas fa-cog"></i>
-                <h2>Settings</h2>
-                <p>This page will be implemented later</p>
+            <div class="settings-container">
+                <!-- Notification Settings -->
+                <div class="settings-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-bell"></i> Notification Preferences</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Email Notifications</h4>
+                                <p>Receive email alerts for new appointments and messages</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="emailNotif" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>New Appointment Alerts</h4>
+                                <p>Get notified when new appointments are booked</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="appointmentNotif" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>New Message Alerts</h4>
+                                <p>Get notified when new contact messages arrive</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="messageNotif" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Callback Request Alerts</h4>
+                                <p>Get notified for new callback requests</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="callbackNotif" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Display Settings -->
+                <div class="settings-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-desktop"></i> Display Settings</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Compact Mode</h4>
+                                <p>Show more items with smaller spacing</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="compactMode">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Items Per Page</h4>
+                                <p>Number of items to display in tables</p>
+                            </div>
+                            <select id="itemsPerPage" class="setting-select">
+                                <option value="10">10 items</option>
+                                <option value="25" selected>25 items</option>
+                                <option value="50">50 items</option>
+                                <option value="100">100 items</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Date Format</h4>
+                                <p>Choose your preferred date format</p>
+                            </div>
+                            <select id="dateFormat" class="setting-select">
+                                <option value="MM/DD/YYYY">MM/DD/YYYY</option>
+                                <option value="DD/MM/YYYY">DD/MM/YYYY</option>
+                                <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Data Management -->
+                <div class="settings-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-database"></i> Data Management</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Auto-archive Old Records</h4>
+                                <p>Automatically archive records older than 90 days</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="autoArchive">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Export Data</h4>
+                                <p>Download all data as CSV file</p>
+                            </div>
+                            <button class="btn-secondary" id="exportDataBtn">
+                                <i class="fas fa-download"></i> Export
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Account Actions -->
+                <div class="settings-card danger-zone">
+                    <div class="card-header">
+                        <h3><i class="fas fa-exclamation-triangle"></i> Account Actions</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Sign Out</h4>
+                                <p>Sign out from this device</p>
+                            </div>
+                            <button class="btn-danger" id="signOutBtn">
+                                <i class="fas fa-sign-out-alt"></i> Sign Out
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Save Button -->
+                <div class="settings-footer">
+                    <button class="btn-primary" id="saveSettingsBtn">
+                        <i class="fas fa-save"></i> Save Settings
+                    </button>
+                </div>
             </div>
         </main>
     </div>
 
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="../firebase-config.js"></script>
     <script src="admin.js"></script>
+    <script src="settings.js"></script>
 </body>
 </html>

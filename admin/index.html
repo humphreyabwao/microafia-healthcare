@@ -89,12 +89,37 @@
             </div>
 
             <div class="topbar-right">
+                <!-- Refresh -->
+                <button class="refresh-icon" id="refreshBtn" title="Sync Data">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+                <span class="sync-msg" id="syncMsg">Syncing...</span>
+
                 <!-- Notifications -->
                 <div class="topbar-item notification-dropdown">
                     <button class="topbar-btn" id="notifBtn">
                         <i class="fas fa-bell"></i>
                         <span class="badge" id="notifCount">0</span>
                     </button>
+                    <!-- Notification Panel -->
+                    <div class="notification-panel" id="notificationPanel">
+                        <div class="notif-header">
+                            <h3>Notifications</h3>
+                            <button class="mark-all-read" id="markAllRead">Mark all read</button>
+                        </div>
+                        <div class="notif-tabs">
+                            <button class="notif-tab active" data-tab="all">All</button>
+                            <button class="notif-tab" data-tab="appointments">Appointments</button>
+                            <button class="notif-tab" data-tab="messages">Messages</button>
+                            <button class="notif-tab" data-tab="reminders">Reminders</button>
+                        </div>
+                        <div class="notif-list" id="notifList">
+                            <div class="notif-loading">Loading notifications...</div>
+                        </div>
+                        <div class="notif-footer">
+                            <a href="#" id="viewAllNotifs">View All Notifications</a>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Profile Dropdown -->
