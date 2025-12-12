@@ -1104,6 +1104,245 @@ img {
     transform: translateY(-2px);
 }
 
+/* ========================================
+   DNA Paternity Test Promo Section
+======================================== */
+.dna-promo-section {
+    background: linear-gradient(135deg, rgba(6, 78, 59, 0.85) 0%, rgba(4, 120, 87, 0.85) 100%),
+                url('images/Doctor .jpg') center/cover no-repeat;
+    padding: 25px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.dna-promo-section::before {
+    content: 'OFFER';
+    position: absolute;
+    font-size: 8rem;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.05);
+    top: 50%;
+    left: -5%;
+    transform: translateY(-50%);
+    letter-spacing: 20px;
+    white-space: nowrap;
+    animation: slideOffer 15s linear infinite;
+    pointer-events: none;
+}
+
+.dna-promo-section::after {
+    content: 'SPECIAL OFFER';
+    position: absolute;
+    font-size: 6rem;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.03);
+    bottom: -20%;
+    right: -5%;
+    letter-spacing: 15px;
+    white-space: nowrap;
+    animation: slideOfferReverse 20s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes slideOffer {
+    0% {
+        transform: translateY(-50%) translateX(0);
+    }
+    100% {
+        transform: translateY(-50%) translateX(-50%);
+    }
+}
+
+@keyframes slideOfferReverse {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(50%);
+    }
+}
+
+.dna-promo-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    position: relative;
+    z-index: 1;
+}
+
+.dna-promo-text {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.promo-badge {
+    background: #dc2626;
+    color: var(--white);
+    padding: 8px 16px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px 5px rgba(220, 38, 38, 0.4);
+    }
+}
+
+.promo-badge i {
+    font-size: 0.9rem;
+}
+
+.dna-promo-text h3 {
+    color: var(--white);
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 0;
+    white-space: nowrap;
+}
+
+.dna-promo-text p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.85rem;
+    margin: 0;
+    display: none;
+}
+
+.dna-promo-features {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.promo-feature {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--white);
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+
+.promo-feature i {
+    color: #86efac;
+    font-size: 1rem;
+}
+
+.promo-feature strong {
+    font-weight: 700;
+}
+
+.btn-promo {
+    background: var(--white);
+    color: #064e3b;
+    padding: 12px 24px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: var(--transition);
+    white-space: nowrap;
+}
+
+.btn-promo:hover {
+    background: #f0fdf4;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* DNA Promo Responsive */
+@media (max-width: 1200px) {
+    .dna-promo-content {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        text-align: left;
+    }
+    
+    .dna-promo-text {
+        flex-direction: row;
+        gap: 15px;
+    }
+}
+
+@media (max-width: 767px) {
+    .dna-promo-section {
+        padding: 20px 0;
+    }
+    
+    .dna-promo-content {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+    }
+    
+    .dna-promo-text {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+    
+    .dna-promo-features {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 15px;
+        width: 100%;
+    }
+    
+    .promo-feature {
+        font-size: 0.8rem;
+    }
+    
+    .dna-promo-text h3 {
+        font-size: 1.1rem;
+    }
+    
+    .btn-promo {
+        margin-left: auto;
+    }
+}
+
+@media (max-width: 575px) {
+    .dna-promo-section .container {
+        padding: 0 10px;
+    }
+    
+    .dna-promo-features {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        width: 100%;
+    }
+    
+    .promo-feature {
+        font-size: 0.75rem;
+        justify-content: flex-start;
+    }
+    
+    .btn-promo {
+        width: auto;
+        justify-content: center;
+        padding: 10px 20px;
+        margin-left: auto;
+    }
+}
+
 /* Services Responsive */
 @media (max-width: 991px) {
     .services-grid {
@@ -2402,7 +2641,7 @@ img {
     
     .hero {
         min-height: auto;
-        padding-top: 70px;
+        padding-top: 160px;
         padding-bottom: 60px;
     }
     
@@ -2444,6 +2683,10 @@ img {
 @media (max-width: 375px) {
     .logo-img {
         height: 45px;
+    }
+    
+    .hero {
+        padding-top: 150px;
     }
     
     .mobile-nav .social-links a:nth-child(3) {
