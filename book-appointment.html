@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment - Microafia Healthcare</title>
+    
+    <link rel="preload" href="images/Logo.png" as="image">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="book-appointment.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <!-- Upper Navigation Bar -->
+        <div class="upper-nav">
+            <div class="container">
+                <div class="upper-nav-content">
+                    <div class="logo">
+                        <a href="index.html">
+                            <img src="images/Logo.png" alt="Microafia Health" class="logo-img" loading="eager">
+                        </a>
+                    </div>
+                    <div class="upper-nav-right">
+                        <div class="social-links">
+                            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                        </div>
+                        <a href="#" class="btn-notification" aria-label="Notifications">
+                            <i class="fas fa-bell"></i>
+                        </a>
+                        <a href="#" class="btn-signin">
+                            <i class="fas fa-user"></i>
+                            <span>Sign In</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lower Navigation Bar -->
+        <nav class="lower-nav">
+            <div class="container">
+                <div class="lower-nav-content">
+                    <ul class="nav-menu">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#about">About Us</a></li>
+                        <li class="has-dropdown">
+                            <a href="index.html#services">Our Services <i class="fas fa-chevron-down dropdown-icon"></i></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="index.html#services">Consultation</a></li>
+                                <li><a href="index.html#services">General Treatment</a></li>
+                                <li><a href="lab-services.html">Laboratory Services</a></li>
+                                <li><a href="index.html#services">Pharmacy</a></li>
+                                <li><a href="index.html#services">Dental Clinic</a></li>
+                                <li><a href="index.html#services">Surgery & Procedures</a></li>
+                                <li><a href="index.html#services">Maternal & Child Health</a></li>
+                                <li><a href="index.html#services">Emergency & Critical Care</a></li>
+                                <li><a href="index.html#services">Ultrasound & Imaging</a></li>
+                                <li><a href="index.html#services">Wellness & Checkups</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="index.html#doctors">Doctors</a></li>
+                        <li class="has-dropdown">
+                            <a href="index.html#wellness">Health & Wellness <i class="fas fa-chevron-down dropdown-icon"></i></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="index.html#wellness">Women Wellness Package</a></li>
+                                <li><a href="index.html#wellness">Men Wellness Package</a></li>
+                                <li><a href="index.html#wellness">Family Wellness Package</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="index.html#contact">Find Us</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Mobile Navigation -->
+        <div class="mobile-nav">
+            <div class="container">
+                <div class="mobile-nav-content">
+                    <div class="logo">
+                        <a href="index.html">
+                            <img src="images/Logo.png" alt="Microafia Health" class="logo-img" loading="eager">
+                        </a>
+                    </div>
+                    <div class="mobile-nav-right">
+                        <div class="social-links">
+                            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                        </div>
+                        <a href="#" class="btn-notification" aria-label="Notifications">
+                            <i class="fas fa-bell"></i>
+                        </a>
+                        <a href="#" class="btn-signin">
+                            <i class="fas fa-user"></i>
+                        </a>
+                        <button class="menu-toggle" aria-label="Toggle Menu">
+                            <span class="hamburger"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div class="mobile-menu">
+            <ul class="mobile-menu-list">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#about">About Us</a></li>
+                <li class="mobile-has-dropdown">
+                    <a href="index.html#services" class="mobile-dropdown-toggle">Our Services <i class="fas fa-chevron-down dropdown-icon"></i></a>
+                    <ul class="mobile-dropdown-menu">
+                        <li><a href="index.html#services">Consultation</a></li>
+                        <li><a href="index.html#services">General Treatment</a></li>
+                        <li><a href="lab-services.html">Laboratory Services</a></li>
+                        <li><a href="index.html#services">Pharmacy</a></li>
+                        <li><a href="index.html#services">Dental Clinic</a></li>
+                        <li><a href="index.html#services">Surgery & Procedures</a></li>
+                        <li><a href="index.html#services">Maternal & Child Health</a></li>
+                        <li><a href="index.html#services">Emergency & Critical Care</a></li>
+                        <li><a href="index.html#services">Ultrasound & Imaging</a></li>
+                        <li><a href="index.html#services">Wellness & Checkups</a></li>
+                    </ul>
+                </li>
+                <li><a href="index.html#doctors">Doctors</a></li>
+                <li class="mobile-has-dropdown">
+                    <a href="index.html#wellness" class="mobile-dropdown-toggle">Health & Wellness <i class="fas fa-chevron-down dropdown-icon"></i></a>
+                    <ul class="mobile-dropdown-menu">
+                        <li><a href="index.html#wellness">Women Wellness Package</a></li>
+                        <li><a href="index.html#wellness">Men Wellness Package</a></li>
+                        <li><a href="index.html#wellness">Family Wellness Package</a></li>
+                    </ul>
+                </li>
+                <li><a href="index.html#contact">Find Us</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Page Hero -->
+    <section class="booking-hero">
+        <div class="container">
+            <h1><i class="fas fa-calendar-check"></i> Book an Appointment</h1>
+            <p>Schedule your visit with our experienced healthcare professionals</p>
+        </div>
+    </section>
+
+    <!-- Booking Main -->
+    <main class="booking-main">
+        <div class="container">
+            <div class="booking-layout">
+                <!-- Booking Form -->
+                <div class="booking-form-container">
+                    <div class="form-header">
+                        <h2>Appointment Details</h2>
+                        <p>Fill in your details below and we'll confirm your appointment</p>
+                    </div>
+
+                    <form id="appointmentForm" class="booking-form">
+                        <!-- Personal Information -->
+                        <div class="form-section">
+                            <h3><i class="fas fa-user"></i> Personal Information</h3>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="firstName">First Name *</label>
+                                    <input type="text" id="firstName" name="firstName" required placeholder="Enter your first name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastName">Last Name *</label>
+                                    <input type="text" id="lastName" name="lastName" required placeholder="Enter your last name">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="phone">Phone Number *</label>
+                                    <input type="tel" id="phone" name="phone" required placeholder="e.g., 0712345678">
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email Address</label>
+                                    <input type="email" id="email" name="email" placeholder="your@email.com">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="dob">Date of Birth</label>
+                                    <input type="date" id="dob" name="dob">
+                                </div>
+                                <div class="form-group">
+                                    <label for="gender">Gender</label>
+                                    <select id="gender" name="gender">
+                                        <option value="">Select gender</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Appointment Details -->
+                        <div class="form-section">
+                            <h3><i class="fas fa-stethoscope"></i> Appointment Details</h3>
+                            
+                            <div class="form-group">
+                                <label for="service">Select Service *</label>
+                                <select id="service" name="service" required>
+                                    <option value="">-- Choose a service --</option>
+                                    <optgroup label="General Services">
+                                        <option value="consultation">General Consultation</option>
+                                        <option value="general-treatment">General Treatment</option>
+                                        <option value="follow-up">Follow-up Visit</option>
+                                    </optgroup>
+                                    <optgroup label="Specialized Services">
+                                        <option value="dental">Dental Clinic</option>
+                                        <option value="ultrasound">Ultrasound & Imaging</option>
+                                        <option value="lab-services">Laboratory Services</option>
+                                        <option value="pharmacy">Pharmacy Services</option>
+                                    </optgroup>
+                                    <optgroup label="Surgery & Procedures">
+                                        <option value="minor-surgery">Minor Surgery</option>
+                                        <option value="circumcision">Circumcision</option>
+                                        <option value="wound-care">Wound Care & Dressing</option>
+                                    </optgroup>
+                                    <optgroup label="Maternal & Child Health">
+                                        <option value="antenatal">Antenatal Care</option>
+                                        <option value="postnatal">Postnatal Care</option>
+                                        <option value="immunization">Child Immunization</option>
+                                        <option value="family-planning">Family Planning</option>
+                                    </optgroup>
+                                    <optgroup label="Wellness Packages">
+                                        <option value="women-wellness">Women Wellness Package</option>
+                                        <option value="men-wellness">Men Wellness Package</option>
+                                        <option value="family-wellness">Family Wellness Package</option>
+                                        <option value="executive-checkup">Executive Health Checkup</option>
+                                    </optgroup>
+                                    <optgroup label="Special Services">
+                                        <option value="dna-paternity">DNA Paternity Testing</option>
+                                        <option value="medical-certificate">Medical Certificate</option>
+                                        <option value="home-visit">Home Visit</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="preferredDate">Preferred Date *</label>
+                                    <input type="date" id="preferredDate" name="preferredDate" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="preferredTime">Preferred Time *</label>
+                                    <select id="preferredTime" name="preferredTime" required>
+                                        <option value="">Select time</option>
+                                        <option value="08:00">8:00 AM</option>
+                                        <option value="08:30">8:30 AM</option>
+                                        <option value="09:00">9:00 AM</option>
+                                        <option value="09:30">9:30 AM</option>
+                                        <option value="10:00">10:00 AM</option>
+                                        <option value="10:30">10:30 AM</option>
+                                        <option value="11:00">11:00 AM</option>
+                                        <option value="11:30">11:30 AM</option>
+                                        <option value="12:00">12:00 PM</option>
+                                        <option value="12:30">12:30 PM</option>
+                                        <option value="13:00">1:00 PM</option>
+                                        <option value="13:30">1:30 PM</option>
+                                        <option value="14:00">2:00 PM</option>
+                                        <option value="14:30">2:30 PM</option>
+                                        <option value="15:00">3:00 PM</option>
+                                        <option value="15:30">3:30 PM</option>
+                                        <option value="16:00">4:00 PM</option>
+                                        <option value="16:30">4:30 PM</option>
+                                        <option value="17:00">5:00 PM</option>
+                                        <option value="17:30">5:30 PM</option>
+                                        <option value="18:00">6:00 PM</option>
+                                        <option value="18:30">6:30 PM</option>
+                                        <option value="19:00">7:00 PM</option>
+                                        <option value="19:30">7:30 PM</option>
+                                        <option value="20:00">8:00 PM</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="symptoms">Describe Your Symptoms / Reason for Visit</label>
+                                <textarea id="symptoms" name="symptoms" rows="4" placeholder="Please briefly describe your symptoms or reason for the appointment..."></textarea>
+                            </div>
+
+                            <div class="form-group checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="isNewPatient" name="isNewPatient">
+                                    <span class="checkmark"></span>
+                                    I am a new patient at Microafia Healthcare
+                                </label>
+                            </div>
+
+                            <div class="form-group checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="agreeTerms" name="agreeTerms" required>
+                                    <span class="checkmark"></span>
+                                    I agree to the appointment terms and conditions *
+                                </label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-submit">
+                            <i class="fas fa-calendar-check"></i>
+                            Book Appointment
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Sidebar -->
+                <aside class="booking-sidebar">
+                    <div class="sidebar-card info-card">
+                        <h3><i class="fas fa-clock"></i> Working Hours</h3>
+                        <ul class="hours-list">
+                            <li>
+                                <span>Monday - Friday</span>
+                                <span>8:00 AM - 9:00 PM</span>
+                            </li>
+                            <li>
+                                <span>Saturday</span>
+                                <span>8:00 AM - 9:00 PM</span>
+                            </li>
+                            <li>
+                                <span>Sunday</span>
+                                <span>8:00 AM - 9:00 PM</span>
+                            </li>
+                            <li class="highlight">
+                                <span>Emergency</span>
+                                <span>24/7</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="sidebar-card contact-card">
+                        <h3><i class="fas fa-phone-alt"></i> Need Help?</h3>
+                        <p>Call us directly to book or for any inquiries</p>
+                        <a href="tel:+254740250696" class="phone-link">
+                            <i class="fas fa-phone"></i>
+                            +254 740 250 696
+                        </a>
+                        <a href="https://wa.me/254740250696" class="whatsapp-link" target="_blank">
+                            <i class="fab fa-whatsapp"></i>
+                            WhatsApp Us
+                        </a>
+                    </div>
+
+                    <div class="sidebar-card location-card">
+                        <h3><i class="fas fa-map-marker-alt"></i> Our Location</h3>
+                        <p>KK Place Building<br>Zambezi Town, Nairobi</p>
+                        <a href="https://maps.google.com" target="_blank" class="directions-link">
+                            <i class="fas fa-directions"></i>
+                            Get Directions
+                        </a>
+                    </div>
+
+                    <div class="sidebar-card tips-card">
+                        <h3><i class="fas fa-lightbulb"></i> Before Your Visit</h3>
+                        <ul class="tips-list">
+                            <li><i class="fas fa-check"></i> Bring your ID or Passport</li>
+                            <li><i class="fas fa-check"></i> Carry previous medical records</li>
+                            <li><i class="fas fa-check"></i> List all current medications</li>
+                            <li><i class="fas fa-check"></i> Arrive 15 minutes early</li>
+                            <li><i class="fas fa-check"></i> Bring your insurance card</li>
+                        </ul>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-main">
+                <!-- Footer Logo & About -->
+                <div class="footer-brand">
+                    <a href="index.html" class="footer-logo">
+                        <img src="images/Logo.png" alt="Microafia Health" class="footer-logo-img">
+                    </a>
+                    <p class="footer-tagline">Your Health, Our Priority. Providing quality healthcare services to our community with compassion and excellence.</p>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#about">About Us</a></li>
+                        <li><a href="index.html#services">Our Services</a></li>
+                        <li><a href="index.html#doctors">Doctors</a></li>
+                        <li><a href="index.html#wellness">Health & Wellness</a></li>
+                        <li><a href="index.html#contact">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <!-- Services -->
+                <div class="footer-column">
+                    <h4>Our Services</h4>
+                    <ul>
+                        <li><a href="index.html#services">Consultation</a></li>
+                        <li><a href="lab-services.html">Laboratory Services</a></li>
+                        <li><a href="index.html#services">Pharmacy</a></li>
+                        <li><a href="index.html#services">Dental Clinic</a></li>
+                        <li><a href="index.html#services">Maternal & Child Health</a></li>
+                        <li><a href="index.html#services">Emergency Care</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="footer-column">
+                    <h4>Contact Info</h4>
+                    <ul class="footer-contact">
+                        <li>
+                            <i class="fas fa-phone-alt"></i>
+                            <a href="tel:+254740250696">+254 740 250 696</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:info@microafiahealthcare.co.ke">info@microafiahealthcare.co.ke</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>KK Place Building, Zambezi Town</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-clock"></i>
+                            <span>Open Daily: 8 AM - 9 PM</span>
+                        </li>
+                    </ul>
+                    <div class="footer-actions">
+                        <a href="#" class="btn-footer">Careers</a>
+                        <a href="#" class="btn-footer btn-footer-primary">Sign In</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 Microafia Healthcare. All rights reserved.</p>
+                <p class="footer-credit">Developed by <a href="https://www.noxartechsln.tech" target="_blank" rel="noopener noreferrer">Noxartech Solutions</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="book-appointment.js"></script>
+</body>
+</html>

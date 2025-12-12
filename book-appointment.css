@@ -1,0 +1,422 @@
+/* Book Appointment Page Styles */
+
+/* Dark Green Color Theme - matching footer */
+:root {
+    --booking-primary: #064e3b;
+    --booking-primary-dark: #053d2f;
+    --booking-primary-light: #086e54;
+}
+
+/* Page Hero */
+.booking-hero {
+    background: linear-gradient(135deg, rgba(6, 78, 59, 0.85) 0%, rgba(5, 61, 47, 0.85) 100%),
+                url('images/Doctor .jpg') center/cover no-repeat;
+    color: #fff;
+    padding: 80px 0;
+    text-align: left;
+    margin-top: 130px;
+}
+
+.booking-hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+}
+
+.booking-hero p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+/* Main Layout */
+.booking-main {
+    padding: 50px 0;
+    background: #f8f9fa;
+    min-height: calc(100vh - 300px);
+}
+
+.booking-layout {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 40px;
+    align-items: start;
+}
+
+/* Booking Form Container */
+.booking-form-container {
+    background: #fff;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+}
+
+.form-header {
+    background: linear-gradient(135deg, var(--booking-primary) 0%, var(--booking-primary-dark) 100%);
+    color: #fff;
+    padding: 25px 30px;
+}
+
+.form-header h2 {
+    margin: 0 0 5px;
+    font-size: 1.5rem;
+}
+
+.form-header p {
+    margin: 0;
+    opacity: 0.9;
+    font-size: 0.95rem;
+}
+
+/* Form Sections */
+.booking-form {
+    padding: 30px;
+}
+
+.form-section {
+    margin-bottom: 30px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #eee;
+}
+
+.form-section:last-of-type {
+    border-bottom: none;
+    margin-bottom: 20px;
+    padding-bottom: 0;
+}
+
+.form-section h3 {
+    color: var(--booking-primary);
+    font-size: 1.1rem;
+    margin: 0 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+    font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 0;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    background: #fff;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--booking-primary);
+    box-shadow: 0 0 0 3px rgba(6, 78, 59, 0.1);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #999;
+}
+
+.form-group select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 40px;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* Checkbox Styling */
+.checkbox-group {
+    margin-bottom: 15px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 0.95rem;
+    color: #555;
+}
+
+.checkbox-label input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.checkbox-label .checkmark {
+    width: 22px;
+    height: 22px;
+    border: 2px solid #ddd;
+    margin-right: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.checkbox-label input:checked + .checkmark {
+    background: var(--booking-primary);
+    border-color: var(--booking-primary);
+}
+
+.checkbox-label .checkmark::after {
+    content: '\f00c';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    color: #fff;
+    font-size: 12px;
+    display: none;
+}
+
+.checkbox-label input:checked + .checkmark::after {
+    display: block;
+}
+
+/* Submit Button */
+.btn-submit {
+    width: 100%;
+    padding: 16px 30px;
+    background: var(--booking-primary);
+    color: #fff;
+    border: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-submit:hover {
+    background: var(--booking-primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(6, 78, 59, 0.3);
+}
+
+/* Sidebar */
+.booking-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.sidebar-card {
+    background: #fff;
+    padding: 25px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+}
+
+.sidebar-card h3 {
+    color: var(--booking-primary);
+    font-size: 1.1rem;
+    margin: 0 0 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Hours Card */
+.hours-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.hours-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px dashed #eee;
+    font-size: 0.95rem;
+}
+
+.hours-list li:last-child {
+    border-bottom: none;
+}
+
+.hours-list li.highlight {
+    background: rgba(6, 78, 59, 0.1);
+    margin: 10px -25px -25px;
+    padding: 15px 25px;
+    font-weight: 600;
+    color: var(--booking-primary);
+}
+
+/* Contact Card */
+.contact-card p {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+}
+
+.phone-link,
+.whatsapp-link,
+.directions-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.phone-link {
+    background: var(--booking-primary);
+    color: #fff;
+}
+
+.phone-link:hover {
+    background: var(--booking-primary-dark);
+}
+
+.whatsapp-link {
+    background: #25d366;
+    color: #fff;
+}
+
+.whatsapp-link:hover {
+    background: #1fb855;
+}
+
+.directions-link {
+    background: #f8f9fa;
+    color: var(--booking-primary);
+    border: 2px solid var(--booking-primary);
+    margin-bottom: 0;
+}
+
+.directions-link:hover {
+    background: var(--booking-primary);
+    color: #fff;
+}
+
+/* Location Card */
+.location-card p {
+    color: #666;
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+/* Tips Card */
+.tips-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.tips-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 0;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.tips-list li i {
+    color: var(--booking-primary);
+    margin-top: 3px;
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+    .booking-hero {
+        margin-top: 80px;
+    }
+
+    .booking-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .booking-sidebar {
+        order: -1;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 767px) {
+    .booking-hero {
+        margin-top: 70px;
+        padding: 60px 0;
+    }
+
+    .booking-hero h1 {
+        font-size: 1.8rem;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .booking-main {
+        padding: 30px 0;
+    }
+
+    .booking-form {
+        padding: 20px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .booking-sidebar {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 575px) {
+    .booking-hero {
+        padding: 50px 0;
+    }
+
+    .booking-hero h1 {
+        font-size: 1.5rem;
+    }
+
+    .form-header {
+        padding: 20px;
+    }
+
+    .form-header h2 {
+        font-size: 1.3rem;
+    }
+
+    .sidebar-card {
+        padding: 20px;
+    }
+}
