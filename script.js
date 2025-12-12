@@ -459,6 +459,30 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize on load and resize
     initReviewsCarousel();
     window.addEventListener('resize', initReviewsCarousel);
+
+    // ==================== //
+    // Scroll to Top Button //
+    // ==================== //
+    const scrollToTopBtn = document.getElementById('scrollToTop');
+    
+    if (scrollToTopBtn) {
+        // Show/hide button based on scroll position
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 500) {
+                scrollToTopBtn.classList.add('visible');
+            } else {
+                scrollToTopBtn.classList.remove('visible');
+            }
+        });
+
+        // Scroll to top on click
+        scrollToTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
     
     console.log('Microafia Healthcare website loaded successfully!');
 });

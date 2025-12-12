@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Wellness Package - Microafia Healthcare</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="book-wellness.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <!-- Upper Navigation Bar -->
+        <div class="upper-nav">
+            <div class="container">
+                <div class="upper-nav-content">
+                    <div class="logo">
+                        <a href="index.html">
+                            <img src="images/Logo.png" alt="Microafia Health" class="logo-img" loading="eager">
+                        </a>
+                    </div>
+                    <div class="upper-nav-right">
+                        <div class="social-links">
+                            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                        </div>
+                        <a href="#" class="btn-notification" aria-label="Notifications">
+                            <i class="fas fa-bell"></i>
+                        </a>
+                        <a href="#" class="btn-signin">
+                            <i class="fas fa-user"></i>
+                            <span>Sign In</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lower Navigation Bar -->
+        <nav class="lower-nav">
+            <div class="container">
+                <div class="lower-nav-content">
+                    <ul class="nav-menu">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#about">About Us</a></li>
+                        <li class="has-dropdown">
+                            <a href="index.html#services">Our Services <i class="fas fa-chevron-down dropdown-icon"></i></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="index.html#services">Consultation</a></li>
+                                <li><a href="index.html#services">General Treatment</a></li>
+                                <li><a href="lab-services.html">Laboratory Services</a></li>
+                                <li><a href="index.html#services">Pharmacy</a></li>
+                                <li><a href="index.html#services">Dental Clinic</a></li>
+                                <li><a href="index.html#services">Surgery & Procedures</a></li>
+                                <li><a href="index.html#services">Maternal & Child Health</a></li>
+                                <li><a href="index.html#services">Emergency & Critical Care</a></li>
+                                <li><a href="index.html#services">Ultrasound & Imaging</a></li>
+                                <li><a href="index.html#services">Wellness & Checkups</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="index.html#doctors">Doctors</a></li>
+                        <li class="has-dropdown">
+                            <a href="index.html#wellness" class="active">Health & Wellness <i class="fas fa-chevron-down dropdown-icon"></i></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="book-wellness.html?package=women">Women Wellness Package</a></li>
+                                <li><a href="book-wellness.html?package=men">Men Wellness Package</a></li>
+                                <li><a href="book-wellness.html?package=family">Family Wellness Package</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="index.html#contact">Find Us</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Mobile Navigation -->
+        <div class="mobile-nav">
+            <div class="container">
+                <div class="mobile-nav-content">
+                    <div class="logo">
+                        <a href="index.html">
+                            <img src="images/Logo.png" alt="Microafia Health" class="logo-img" loading="eager">
+                        </a>
+                    </div>
+                    <div class="mobile-nav-right">
+                        <div class="social-links">
+                            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                        </div>
+                        <a href="#" class="btn-notification" aria-label="Notifications">
+                            <i class="fas fa-bell"></i>
+                        </a>
+                        <a href="#" class="btn-signin">
+                            <i class="fas fa-user"></i>
+                        </a>
+                        <button class="menu-toggle" aria-label="Toggle Menu">
+                            <span class="hamburger"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div class="mobile-menu">
+            <ul class="mobile-menu-list">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#about">About Us</a></li>
+                <li class="mobile-has-dropdown">
+                    <a href="index.html#services" class="mobile-dropdown-toggle">Our Services <i class="fas fa-chevron-down dropdown-icon"></i></a>
+                    <ul class="mobile-dropdown-menu">
+                        <li><a href="index.html#services">Consultation</a></li>
+                        <li><a href="index.html#services">General Treatment</a></li>
+                        <li><a href="lab-services.html">Laboratory Services</a></li>
+                        <li><a href="index.html#services">Pharmacy</a></li>
+                        <li><a href="index.html#services">Dental Clinic</a></li>
+                        <li><a href="index.html#services">Surgery & Procedures</a></li>
+                        <li><a href="index.html#services">Maternal & Child Health</a></li>
+                        <li><a href="index.html#services">Emergency & Critical Care</a></li>
+                        <li><a href="index.html#services">Ultrasound & Imaging</a></li>
+                        <li><a href="index.html#services">Wellness & Checkups</a></li>
+                    </ul>
+                </li>
+                <li><a href="index.html#doctors">Doctors</a></li>
+                <li class="mobile-has-dropdown">
+                    <a href="index.html#wellness" class="mobile-dropdown-toggle active">Health & Wellness <i class="fas fa-chevron-down dropdown-icon"></i></a>
+                    <ul class="mobile-dropdown-menu">
+                        <li><a href="book-wellness.html?package=women">Women Wellness Package</a></li>
+                        <li><a href="book-wellness.html?package=men">Men Wellness Package</a></li>
+                        <li><a href="book-wellness.html?package=family">Family Wellness Package</a></li>
+                    </ul>
+                </li>
+                <li><a href="index.html#contact">Find Us</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="wellness-hero">
+        <div class="container">
+            <h1><i class="fas fa-heart-pulse"></i> Book Wellness Package</h1>
+            <p>Invest in your health with our comprehensive wellness packages</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="wellness-main">
+        <div class="container">
+            <div class="wellness-layout">
+                <!-- Booking Form -->
+                <div class="wellness-form-container">
+                    <div class="form-header">
+                        <h2>Book Your Wellness Package</h2>
+                        <p>Fill in your details and we'll get back to you shortly</p>
+                    </div>
+
+                    <form id="wellness-form" class="wellness-form">
+                        <!-- Package Selection -->
+                        <div class="form-section">
+                            <h3><i class="fas fa-box-heart"></i> Select Package</h3>
+                            
+                            <div class="package-cards">
+                                <!-- Women's Package -->
+                                <label class="package-card" data-package="women">
+                                    <input type="radio" name="package" value="women" required>
+                                    <div class="package-card-content">
+                                        <div class="package-icon women">
+                                            <i class="fas fa-venus"></i>
+                                        </div>
+                                        <h4>Women's Wellness</h4>
+                                        <p class="package-price">KSh 10,000</p>
+                                        <ul class="package-features">
+                                            <li>Complete Blood Count</li>
+                                            <li>Breast Examination</li>
+                                            <li>Cervical Screening</li>
+                                            <li>Thyroid Function Test</li>
+                                            <li>Doctor Consultation</li>
+                                        </ul>
+                                        <span class="check-mark"><i class="fas fa-check"></i></span>
+                                    </div>
+                                </label>
+
+                                <!-- Men's Package -->
+                                <label class="package-card" data-package="men">
+                                    <input type="radio" name="package" value="men" required>
+                                    <div class="package-card-content">
+                                        <div class="package-icon men">
+                                            <i class="fas fa-mars"></i>
+                                        </div>
+                                        <h4>Men's Wellness</h4>
+                                        <p class="package-price">KSh 12,000</p>
+                                        <ul class="package-features">
+                                            <li>Complete Blood Count</li>
+                                            <li>Prostate Screening (PSA)</li>
+                                            <li>Liver Function Test</li>
+                                            <li>Kidney Function Test</li>
+                                            <li>Doctor Consultation</li>
+                                        </ul>
+                                        <span class="check-mark"><i class="fas fa-check"></i></span>
+                                    </div>
+                                </label>
+
+                                <!-- Family Package -->
+                                <label class="package-card" data-package="family">
+                                    <input type="radio" name="package" value="family" required>
+                                    <div class="package-card-content">
+                                        <span class="popular-badge">Most Popular</span>
+                                        <div class="package-icon family">
+                                            <i class="fas fa-users"></i>
+                                        </div>
+                                        <h4>Family Wellness</h4>
+                                        <p class="package-price">KSh 15,000</p>
+                                        <ul class="package-features">
+                                            <li>Full Checkup (4 Members)</li>
+                                            <li>Child Growth Assessment</li>
+                                            <li>Vaccination Review</li>
+                                            <li>Diabetes & Cholesterol</li>
+                                            <li>Family Health Report</li>
+                                        </ul>
+                                        <span class="check-mark"><i class="fas fa-check"></i></span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Personal Information -->
+                        <div class="form-section">
+                            <h3><i class="fas fa-user"></i> Personal Information</h3>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="full-name">Full Name *</label>
+                                    <input type="text" id="full-name" name="fullName" placeholder="Enter your full name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">Phone Number *</label>
+                                    <input type="tel" id="phone" name="phone" placeholder="e.g., 0712 345 678" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="email">Email Address *</label>
+                                    <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="members">Number of Members</label>
+                                    <select id="members" name="members">
+                                        <option value="1">1 Person</option>
+                                        <option value="2">2 People</option>
+                                        <option value="3">3 People</option>
+                                        <option value="4" selected>4 People (Family Package)</option>
+                                        <option value="5">5+ People (Contact Us)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Preferred Date & Time -->
+                        <div class="form-section">
+                            <h3><i class="fas fa-calendar-alt"></i> Preferred Schedule</h3>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="preferred-date">Preferred Date *</label>
+                                    <input type="date" id="preferred-date" name="preferredDate" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="preferred-time">Preferred Time *</label>
+                                    <select id="preferred-time" name="preferredTime" required>
+                                        <option value="">Select a time slot</option>
+                                        <option value="08:00">8:00 AM - 9:00 AM</option>
+                                        <option value="09:00">9:00 AM - 10:00 AM</option>
+                                        <option value="10:00">10:00 AM - 11:00 AM</option>
+                                        <option value="11:00">11:00 AM - 12:00 PM</option>
+                                        <option value="14:00">2:00 PM - 3:00 PM</option>
+                                        <option value="15:00">3:00 PM - 4:00 PM</option>
+                                        <option value="16:00">4:00 PM - 5:00 PM</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="notes">Additional Notes (Optional)</label>
+                                <textarea id="notes" name="notes" placeholder="Any special requirements, health concerns, or questions..."></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Terms & Submit -->
+                        <div class="form-section">
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="terms" required>
+                                    <span class="checkmark"></span>
+                                    I agree to the <a href="#">Terms & Conditions</a> and <a href="#">Privacy Policy</a>
+                                </label>
+                            </div>
+
+                            <button type="submit" class="btn-submit">
+                                <i class="fab fa-whatsapp"></i>
+                                Book via WhatsApp
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Sidebar -->
+                <aside class="wellness-sidebar">
+                    <!-- Package Benefits -->
+                    <div class="sidebar-card benefits-card">
+                        <h3><i class="fas fa-star"></i> Why Choose Our Packages?</h3>
+                        <ul class="benefits-list">
+                            <li>
+                                <i class="fas fa-check-circle"></i>
+                                <span>Comprehensive Health Screening</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-check-circle"></i>
+                                <span>Doctor Consultation Included</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-check-circle"></i>
+                                <span>Same-Day Results Available</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-check-circle"></i>
+                                <span>Transparent, No Hidden Fees</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-check-circle"></i>
+                                <span>Personalized Health Report</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Working Hours -->
+                    <div class="sidebar-card hours-card">
+                        <h3><i class="fas fa-clock"></i> Working Hours</h3>
+                        <ul class="hours-list">
+                            <li>
+                                <span>Monday - Friday</span>
+                                <span>8:00 AM - 6:00 PM</span>
+                            </li>
+                            <li>
+                                <span>Saturday</span>
+                                <span>8:00 AM - 4:00 PM</span>
+                            </li>
+                            <li class="highlight">
+                                <span>Sunday</span>
+                                <span>Closed</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Contact Card -->
+                    <div class="sidebar-card contact-card">
+                        <h3><i class="fas fa-phone-alt"></i> Need Help?</h3>
+                        <p>Have questions about our wellness packages? Contact us directly:</p>
+                        <a href="tel:+254700000000" class="phone-link">
+                            <i class="fas fa-phone"></i>
+                            +254 700 000 000
+                        </a>
+                        <a href="https://wa.me/254700000000" target="_blank" class="whatsapp-link">
+                            <i class="fab fa-whatsapp"></i>
+                            Chat on WhatsApp
+                        </a>
+                    </div>
+
+                    <!-- Community Care -->
+                    <div class="sidebar-card community-card">
+                        <h3><i class="fas fa-heart"></i> Community Care</h3>
+                        <p>Can't afford a checkup? Ask about our <strong>Pay-What-You-Can</strong> program for community members in need.</p>
+                        <a href="index.html#contact" class="learn-more-link">
+                            Learn More <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-main">
+                <!-- Footer Logo & About -->
+                <div class="footer-brand">
+                    <a href="index.html" class="footer-logo">
+                        <img src="images/Logo.png" alt="Microafia Health" class="footer-logo-img">
+                    </a>
+                    <p class="footer-tagline">Your Health, Our Priority. Providing quality healthcare services to our community with compassion and excellence.</p>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#about">About Us</a></li>
+                        <li><a href="index.html#services">Our Services</a></li>
+                        <li><a href="index.html#doctors">Doctors</a></li>
+                        <li><a href="index.html#wellness">Health & Wellness</a></li>
+                        <li><a href="index.html#contact">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <!-- Services -->
+                <div class="footer-column">
+                    <h4>Our Services</h4>
+                    <ul>
+                        <li><a href="book-appointment.html">Consultation</a></li>
+                        <li><a href="lab-services.html">Laboratory Services</a></li>
+                        <li><a href="book-appointment.html">Pharmacy</a></li>
+                        <li><a href="book-appointment.html">Dental Clinic</a></li>
+                        <li><a href="book-appointment.html">Maternal & Child Health</a></li>
+                        <li><a href="book-appointment.html">Emergency Care</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="footer-column">
+                    <h4>Contact Info</h4>
+                    <ul class="footer-contact">
+                        <li>
+                            <i class="fas fa-phone-alt"></i>
+                            <a href="tel:+254740250696">+254 740 250 696</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:info@microafiahealthcare.co.ke">info@microafiahealthcare.co.ke</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>KK Place Building, Zambezi Town</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-clock"></i>
+                            <span>Open Daily: 8 AM - 9 PM</span>
+                        </li>
+                    </ul>
+                    <div class="footer-actions">
+                        <a href="#" class="btn-footer">Careers</a>
+                        <a href="#" class="btn-footer btn-footer-primary">Sign In</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 Microafia Healthcare. All rights reserved.</p>
+                <p class="footer-credit">Developed by <a href="https://www.noxartechsln.tech" target="_blank" rel="noopener noreferrer">Noxartech Solutions</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/254740250696" target="_blank" class="floating-whatsapp" aria-label="Chat on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+        <span class="whatsapp-tooltip">Chat with us</span>
+    </a>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <script src="script.js"></script>
+    <script src="book-wellness.js"></script>
+</body>
+</html>
