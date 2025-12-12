@@ -356,5 +356,102 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
+    // ========================================
+    // Reviews Carousel (Mobile)
+    // ========================================
+    const reviewsGrid = document.querySelector('.reviews-grid');
+    const reviewCards = document.querySelectorAll('.review-card');
+    let currentReview = 0;
+    let reviewInterval;
+    
+    function initReviewsCarousel() {
+        if (window.innerWidth <= 767 && reviewCards.length > 0) {
+            // Add dots navigation if not exists
+            let dotsContainer = document.querySelector('.reviews-dots');
+            if (!dotsContainer) {
+                dotsContainer = document.createElement('div');
+                dotsContainer.className = 'reviews-dots';
+                reviewCards.forEach((_, index) => {
+                    const dot = document.createElement('span');
+                    dot.className = 'reviews-dot' + (index === 0 ? ' active' : '');
+                    dot.addEventListener('click', () => goToReview(index));
+                    dotsContainer.appendChild(dot);
+                });
+                reviewsGrid.parentNode.appendChild(dotsContainer);
+            }
+            
+            // Set initial state
+            reviewCards.forEach((card, index) => {
+                card.classList.remove('active', 'prev');
+                if (index === 0) card.classList.add('active');
+            });
+            
+            // Start auto-slide
+            startReviewSlider();
+        } else {
+            // Reset for desktop
+            stopReviewSlider();
+            reviewCards.forEach(card => {
+                card.classList.remove('active', 'prev');
+            });
+            const dotsContainer = document.querySelector('.reviews-dots');
+            if (dotsContainer) dotsContainer.style.display = 'none';
+        }
+    }
+    
+    function goToReview(index) {
+        reviewCards[currentReview].classList.remove('active');
+        reviewCards[currentReview].classList.add('prev');
+        
+        currentReview = index;
+        
+        reviewCards.forEach((card, i) => {
+            card.classList.remove('active', 'prev');
+            if (i === currentReview) card.classList.add('active');
+        });
+        
+        // Update dots
+        const dots = document.querySelectorAll('.reviews-dot');
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === currentReview);
+        });
+        
+        // Reset interval
+        stopReviewSlider();
+        startReviewSlider();
+    }
+    
+    function nextReview() {
+        const prevIndex = currentReview;
+        currentReview = (currentReview + 1) % reviewCards.length;
+        
+        reviewCards[prevIndex].classList.remove('active');
+        reviewCards[prevIndex].classList.add('prev');
+        
+        setTimeout(() => {
+            reviewCards[prevIndex].classList.remove('prev');
+        }, 500);
+        
+        reviewCards[currentReview].classList.add('active');
+        
+        // Update dots
+        const dots = document.querySelectorAll('.reviews-dot');
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === currentReview);
+        });
+    }
+    
+    function startReviewSlider() {
+        reviewInterval = setInterval(nextReview, 4000);
+    }
+    
+    function stopReviewSlider() {
+        clearInterval(reviewInterval);
+    }
+    
+    // Initialize on load and resize
+    initReviewsCarousel();
+    window.addEventListener('resize', initReviewsCarousel);
+    
     console.log('Microafia Healthcare website loaded successfully!');
 });
