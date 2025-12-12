@@ -77,31 +77,31 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        if (file.size > 5 * 1024 * 1024) {
-            showToast('Image must be less than 5MB', 'error');
+        if (file.size > 1 * 1024 * 1024) {
+            showToast('Image must be less than 1MB', 'error');
             return;
         }
+
+        // Show immediate preview using FileReader
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            profileImage.src = event.target.result;
+            profileImage.classList.add('loaded');
+            avatarPlaceholder.classList.add('hidden');
+        };
+        reader.readAsDataURL(file);
 
         try {
             showToast('Uploading image...');
 
-            // Create storage reference
-            const storageRef = storage.ref(`profile_images/${currentUser.uid}`);
+            // Convert to base64 and store in Firestore directly (no Storage needed)
+            const base64 = await fileToBase64(file);
             
-            // Upload file
-            const snapshot = await storageRef.put(file);
-            const downloadURL = await snapshot.ref.getDownloadURL();
-
-            // Update Firestore
+            // Update Firestore with base64 image
             await db.collection('admin_users').doc(currentUser.uid).set({
-                photoURL: downloadURL,
+                photoURL: base64,
                 updatedAt: firebase.firestore.FieldValue.serverTimestamp()
             }, { merge: true });
-
-            // Update UI
-            profileImage.src = downloadURL;
-            profileImage.classList.add('loaded');
-            avatarPlaceholder.classList.add('hidden');
 
             showToast('Profile picture updated!', 'success');
         } catch (error) {
@@ -109,6 +109,16 @@ document.addEventListener('DOMContentLoaded', function() {
             showToast('Failed to upload image', 'error');
         }
     });
+
+    // Convert file to base64
+    function fileToBase64(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+        });
+    }
 
     // Handle profile form submission
     profileForm.addEventListener('submit', async function(e) {
