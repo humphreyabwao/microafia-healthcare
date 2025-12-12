@@ -7,6 +7,69 @@ document.addEventListener('DOMContentLoaded', function() {
     const header = document.querySelector('.header');
     const menuToggle = document.querySelector('.menu-toggle');
     const mobileMenu = document.querySelector('.mobile-menu');
+
+    // ========================================
+    // Contact Form - Firebase Submission
+    // ========================================
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        contactForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            submitBtn.disabled = true;
+
+            const data = {
+                name: this.querySelector('[name="name"]').value.trim(),
+                phone: this.querySelector('[name="phone"]').value.trim(),
+                email: this.querySelector('[name="email"]').value.trim(),
+                service: this.querySelector('[name="service"]').value,
+                message: this.querySelector('[name="message"]').value.trim()
+            };
+
+            try {
+                const docRef = await db.collection('contact_messages').add({
+                    ...data,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    status: 'unread'
+                });
+                console.log('Contact message saved:', docRef.id);
+                showContactMessage('success', 'Message Sent!', 'Thank you for contacting us. We will get back to you shortly.');
+                this.reset();
+            } catch (error) {
+                console.error('Error:', error);
+                showContactMessage('error', 'Failed to Send', 'Please try again or call us at +254 740 250 696');
+            } finally {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+    }
+
+    function showContactMessage(type, title, message) {
+        const isSuccess = type === 'success';
+        const color = isSuccess ? '#064e3b' : '#dc3545';
+        const icon = isSuccess ? 'fa-check-circle' : 'fa-exclamation-circle';
+
+        const overlay = document.createElement('div');
+        overlay.id = 'messageOverlay';
+        overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:9999;';
+
+        const popup = document.createElement('div');
+        popup.id = 'messagePopup';
+        popup.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;padding:40px;text-align:center;z-index:10000;max-width:400px;width:90%;box-shadow:0 10px 40px rgba(0,0,0,0.2);';
+        popup.innerHTML = `
+            <i class="fas ${icon}" style="font-size:60px;color:${color};margin-bottom:20px;display:block;"></i>
+            <h3 style="margin:0 0 15px;color:${color};">${title}</h3>
+            <p style="color:#666;margin:0 0 20px;">${message}</p>
+            <button onclick="this.parentElement.remove();document.getElementById('messageOverlay').remove();" style="background:${color};color:#fff;border:none;padding:12px 30px;cursor:pointer;font-size:1rem;">OK</button>
+        `;
+
+        document.body.appendChild(overlay);
+        document.body.appendChild(popup);
+    }
     const mobileMenuLinks = document.querySelectorAll('.mobile-menu-list > li > a:not(.mobile-dropdown-toggle)');
     const navLinks = document.querySelectorAll('.nav-menu li a');
     const mobileDropdownToggle = document.querySelectorAll('.mobile-dropdown-toggle');
