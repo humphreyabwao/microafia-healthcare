@@ -95,6 +95,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
     ctaButtons.forEach(button => {
         button.addEventListener('click', function(e) {
+            // Check if button has a real link (not just #)
+            const href = this.getAttribute('href');
+            if (href && href !== '#') {
+                // Allow the link to work normally
+                return;
+            }
+            
             e.preventDefault();
             // Add ripple effect
             const ripple = document.createElement('span');
