@@ -345,22 +345,84 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         // Handle form submission
-        callbackForm.addEventListener('submit', function(e) {
+        callbackForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             const name = this.querySelector('[name="callback-name"]').value;
             const phone = this.querySelector('[name="callback-phone"]').value;
             
-            // Here you would typically send this to a server
-            console.log('Callback requested:', { name, phone });
+            // Show loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            submitBtn.disabled = true;
             
-            // Show success message
-            alert('Thank you! We will call you back shortly.');
-            
-            // Reset form and close modal
-            this.reset();
-            callbackModal.classList.remove('active');
-            document.body.style.overflow = '';
+            // Save to Firebase Firestore
+            try {
+                if (typeof saveCallbackRequest === 'function') {
+                    const result = await saveCallbackRequest({ name, phone });
+                    if (result.success) {
+                        console.log('Callback request saved to Firebase:', result.id);
+                        // Show success message
+                        showCallbackSuccess();
+                        // Reset form and close modal
+                        this.reset();
+                        callbackModal.classList.remove('active');
+                        document.body.style.overflow = '';
+                    } else {
+                        throw new Error(result.error);
+                    }
+                } else {
+                    throw new Error('Firebase not loaded');
+                }
+            } catch (error) {
+                console.error('Firebase error:', error);
+                alert('Failed to submit. Please try again or call us directly.');
+            } finally {
+                submitBtn.innerHTML = originalBtnText;
+                submitBtn.disabled = false;
+            }
         });
+        
+        function showCallbackSuccess() {
+            const successDiv = document.createElement('div');
+            successDiv.className = 'callback-success';
+            successDiv.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: #fff;
+                padding: 40px;
+                box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+                text-align: center;
+                z-index: 10001;
+                max-width: 400px;
+            `;
+            successDiv.innerHTML = `
+                <i class="fas fa-check-circle" style="font-size: 60px; color: #064e3b; margin-bottom: 20px;"></i>
+                <h3 style="margin: 0 0 15px; color: #064e3b;">Request Received!</h3>
+                <p style="color: #666; margin: 0 0 20px;">Thank you! We will call you back shortly.</p>
+                <button onclick="this.parentElement.remove(); document.querySelector('.callback-overlay').remove();" 
+                        style="background: #064e3b; color: #fff; border: none; padding: 12px 30px; cursor: pointer; font-size: 1rem;">
+                    OK
+                </button>
+            `;
+
+            const overlay = document.createElement('div');
+            overlay.className = 'callback-overlay';
+            overlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0,0,0,0.5);
+                z-index: 10000;
+            `;
+
+            document.body.appendChild(overlay);
+            document.body.appendChild(successDiv);
+        }
     }
     
     // ========================================
