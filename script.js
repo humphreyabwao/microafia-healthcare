@@ -9,6 +9,52 @@ document.addEventListener('DOMContentLoaded', function() {
     const mobileMenu = document.querySelector('.mobile-menu');
 
     // ========================================
+    // Notification Badge - Real-time Firestore Listeners
+    // ========================================
+    initNotificationBadge();
+
+    function initNotificationBadge() {
+        if (typeof db === 'undefined') return;
+
+        // Get today's date at midnight for filtering
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        let totalCount = 0;
+        const counts = { appointments: 0, lab_orders: 0, wellness_bookings: 0, contact_messages: 0 };
+        const collections = ['appointments', 'lab_orders', 'wellness_bookings', 'contact_messages'];
+
+        // Listen to each collection for today's documents
+        collections.forEach(collectionName => {
+            db.collection(collectionName)
+                .where('createdAt', '>=', today)
+                .onSnapshot(snapshot => {
+                    counts[collectionName] = snapshot.size;
+                    totalCount = Object.values(counts).reduce((a, b) => a + b, 0);
+                    updateBadge(totalCount);
+                }, error => {
+                    console.log('Notification listener error:', error);
+                });
+        });
+    }
+
+    function updateBadge(count) {
+        const badge1 = document.getElementById('notifBadge1');
+        const badge2 = document.getElementById('notifBadge2');
+
+        [badge1, badge2].forEach(badge => {
+            if (badge) {
+                if (count > 0) {
+                    badge.textContent = count > 99 ? '99+' : count;
+                    badge.style.display = 'flex';
+                } else {
+                    badge.style.display = 'none';
+                }
+            }
+        });
+    }
+
+    // ========================================
     // Contact Form - Firebase Submission
     // ========================================
     const contactForm = document.getElementById('contactForm');
