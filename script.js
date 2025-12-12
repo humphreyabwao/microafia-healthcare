@@ -2,6 +2,25 @@
 // Microafia Healthcare - JavaScript
 // ========================================
 
+// Global function to save callback requests to Firestore
+async function saveCallbackRequest(data) {
+    if (typeof db === 'undefined') {
+        return { success: false, error: 'Firebase not initialized' };
+    }
+    try {
+        const docRef = await db.collection('callback_requests').add({
+            name: data.name,
+            phone: data.phone,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            status: 'pending'
+        });
+        return { success: true, id: docRef.id };
+    } catch (error) {
+        console.error('Error saving callback request:', error);
+        return { success: false, error: error.message };
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     // DOM Elements
     const header = document.querySelector('.header');
@@ -21,8 +40,8 @@ document.addEventListener('DOMContentLoaded', function() {
         today.setHours(0, 0, 0, 0);
 
         let totalCount = 0;
-        const counts = { appointments: 0, lab_orders: 0, wellness_bookings: 0, contact_messages: 0 };
-        const collections = ['appointments', 'lab_orders', 'wellness_bookings', 'contact_messages'];
+        const counts = { appointments: 0, lab_orders: 0, wellness_bookings: 0, contact_messages: 0, callback_requests: 0 };
+        const collections = ['appointments', 'lab_orders', 'wellness_bookings', 'contact_messages', 'callback_requests'];
 
         // Listen to each collection for today's documents
         collections.forEach(collectionName => {

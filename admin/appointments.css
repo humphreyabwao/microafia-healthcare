@@ -1,0 +1,707 @@
+/* ========================================
+   Appointments Page Styles
+   ======================================== */
+
+/* Mini Stats */
+.mini-stats {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.mini-stat {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.mini-stat.pending {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.mini-stat.completed {
+    background: #d1fae5;
+    color: #059669;
+}
+
+.mini-stat-count {
+    font-weight: 700;
+}
+
+.mini-stat-label {
+    font-weight: 500;
+}
+
+/* Filter Bar */
+.filter-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.filter-select {
+    padding: 10px 16px;
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: var(--gray-700);
+    background: var(--white);
+    cursor: pointer;
+    min-width: 150px;
+}
+
+.filter-select:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-box i {
+    position: absolute;
+    left: 14px;
+    color: var(--gray-400);
+}
+
+.search-box input {
+    padding: 10px 16px 10px 42px;
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    width: 280px;
+    transition: all 0.3s ease;
+}
+
+.search-box input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(6, 78, 59, 0.1);
+}
+
+/* Table Card */
+.table-card {
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    border: 1px solid var(--gray-200);
+    overflow: hidden;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+/* Appointments Table */
+.appointments-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.appointments-table th,
+.appointments-table td {
+    padding: 16px 20px;
+    text-align: left;
+    border-bottom: 1px solid var(--gray-100);
+}
+
+.appointments-table th {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--gray-500);
+    text-transform: uppercase;
+    background: var(--gray-50);
+    white-space: nowrap;
+}
+
+.appointments-table td {
+    font-size: 0.9rem;
+    color: var(--gray-700);
+    vertical-align: middle;
+}
+
+.appointments-table tbody tr {
+    transition: background 0.2s ease;
+}
+
+.appointments-table tbody tr:hover {
+    background: var(--gray-50);
+}
+
+.loading-row {
+    text-align: center;
+    padding: 60px 20px !important;
+    color: var(--gray-400);
+}
+
+.loading-row i {
+    margin-right: 8px;
+}
+
+/* Status Badge */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.status-badge.pending {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.status-badge.reviewed {
+    background: #dbeafe;
+    color: #2563eb;
+}
+
+.status-badge.in-progress {
+    background: #e0e7ff;
+    color: #4f46e5;
+}
+
+.status-badge.completed {
+    background: #d1fae5;
+    color: #059669;
+}
+
+/* Service Badges */
+.service-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+/* General Services - Green */
+.service-badge.consultation,
+.service-badge.general-treatment,
+.service-badge.follow-up {
+    background: #d1fae5;
+    color: #059669;
+}
+
+/* Specialized Services - Blue */
+.service-badge.dental {
+    background: #dbeafe;
+    color: #2563eb;
+}
+
+.service-badge.ultrasound {
+    background: #e0e7ff;
+    color: #4f46e5;
+}
+
+.service-badge.lab-services {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.service-badge.pharmacy {
+    background: #fce7f3;
+    color: #db2777;
+}
+
+/* Surgery & Procedures - Red/Orange */
+.service-badge.minor-surgery,
+.service-badge.circumcision,
+.service-badge.wound-care {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+/* Maternal & Child Health - Pink/Purple */
+.service-badge.antenatal,
+.service-badge.postnatal {
+    background: #fce7f3;
+    color: #be185d;
+}
+
+.service-badge.immunization {
+    background: #ede9fe;
+    color: #7c3aed;
+}
+
+.service-badge.family-planning {
+    background: #fdf2f8;
+    color: #db2777;
+}
+
+/* Wellness Packages - Teal/Cyan */
+.service-badge.women-wellness {
+    background: #fdf2f8;
+    color: #be185d;
+}
+
+.service-badge.men-wellness {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.service-badge.family-wellness {
+    background: #d1fae5;
+    color: #047857;
+}
+
+.service-badge.executive-checkup {
+    background: #fef3c7;
+    color: #b45309;
+}
+
+/* Special Services */
+.service-badge.dna-paternity {
+    background: #e0e7ff;
+    color: #4338ca;
+}
+
+.service-badge.default {
+    background: #f3f4f6;
+    color: #4b5563;
+}
+
+/* Status Dropdown */
+.status-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.status-dropdown .status-badge {
+    cursor: pointer;
+    padding-right: 28px;
+    position: relative;
+}
+
+.status-dropdown .status-badge::after {
+    content: '\f107';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    right: 10px;
+    font-size: 0.65rem;
+}
+
+.status-options {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    background: var(--white);
+    border-radius: 8px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    border: 1px solid var(--gray-200);
+    z-index: 100;
+    min-width: 140px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.2s ease;
+}
+
+.status-dropdown.active .status-options {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.status-option {
+    display: block;
+    width: 100%;
+    padding: 10px 14px;
+    text-align: left;
+    border: none;
+    background: none;
+    font-family: inherit;
+    font-size: 0.85rem;
+    color: var(--gray-700);
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.status-option:hover {
+    background: var(--gray-50);
+}
+
+.status-option.active {
+    background: var(--primary);
+    color: var(--white);
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.action-btn {
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+}
+
+.action-btn.view {
+    background: #dbeafe;
+    color: #2563eb;
+}
+
+.action-btn.view:hover {
+    background: #2563eb;
+    color: white;
+}
+
+.action-btn.note {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.action-btn.note:hover {
+    background: #d97706;
+    color: white;
+}
+
+.action-btn.complete {
+    background: #d1fae5;
+    color: #059669;
+}
+
+.action-btn.complete:hover {
+    background: #059669;
+    color: white;
+}
+
+.action-btn.delete {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.action-btn.delete:hover {
+    background: #dc2626;
+    color: white;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--gray-400);
+}
+
+.empty-state i {
+    font-size: 4rem;
+    margin-bottom: 16px;
+    color: var(--gray-300);
+}
+
+.empty-state h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--gray-600);
+    margin-bottom: 8px;
+}
+
+.empty-state p {
+    font-size: 0.9rem;
+}
+
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal {
+    background: var(--white);
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow: hidden;
+    transform: translateY(-20px);
+    transition: transform 0.3s ease;
+}
+
+.modal-overlay.active .modal {
+    transform: translateY(0);
+}
+
+.modal.modal-sm {
+    max-width: 400px;
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.modal-header h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--gray-800);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.modal-header h2 i {
+    color: var(--primary);
+}
+
+.modal-close {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: var(--gray-100);
+    border-radius: 50%;
+    font-size: 1.2rem;
+    color: var(--gray-500);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.modal-close:hover {
+    background: var(--gray-200);
+    color: var(--gray-700);
+}
+
+.modal-body {
+    padding: 24px;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 16px 24px;
+    border-top: 1px solid var(--gray-200);
+    background: var(--gray-50);
+}
+
+/* View Modal Content */
+.detail-row {
+    display: flex;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--gray-100);
+}
+
+.detail-row:last-child {
+    border-bottom: none;
+}
+
+.detail-label {
+    width: 120px;
+    font-weight: 600;
+    color: var(--gray-500);
+    font-size: 0.85rem;
+}
+
+.detail-value {
+    flex: 1;
+    color: var(--gray-800);
+    font-size: 0.9rem;
+}
+
+/* Form Elements */
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--gray-700);
+    font-size: 0.9rem;
+}
+
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    resize: vertical;
+    transition: all 0.2s ease;
+}
+
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(6, 78, 59, 0.1);
+}
+
+/* Existing Notes */
+#existingNotes {
+    margin-top: 20px;
+}
+
+.notes-title {
+    font-weight: 600;
+    color: var(--gray-700);
+    font-size: 0.9rem;
+    margin-bottom: 12px;
+}
+
+.note-item {
+    background: var(--gray-50);
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    border-left: 3px solid var(--primary);
+}
+
+.note-text {
+    color: var(--gray-700);
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+}
+
+.note-date {
+    color: var(--gray-400);
+    font-size: 0.75rem;
+}
+
+/* Buttons */
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: var(--white);
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+}
+
+.btn-secondary {
+    background: var(--gray-200);
+    color: var(--gray-700);
+}
+
+.btn-secondary:hover {
+    background: var(--gray-300);
+}
+
+.btn-danger {
+    background: #dc2626;
+    color: var(--white);
+}
+
+.btn-danger:hover {
+    background: #b91c1c;
+}
+
+/* Toast Notification */
+.toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--gray-800);
+    color: var(--white);
+    padding: 14px 24px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 3000;
+}
+
+.toast.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.toast.success {
+    background: #059669;
+}
+
+.toast.error {
+    background: #dc2626;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .filter-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filter-group {
+        width: 100%;
+    }
+
+    .filter-select,
+    .search-box input {
+        width: 100%;
+    }
+
+    .action-buttons {
+        flex-wrap: wrap;
+    }
+}
