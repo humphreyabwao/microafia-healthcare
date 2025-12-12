@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microafia Healthcare - Your Health, Our Priority</title>
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="images/Logo.png" as="image">
+    <link rel="preload" href="images/Doctor .jpg" as="image">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <!-- Upper Navigation Bar -->
+        <div class="upper-nav">
+            <div class="container">
+                <div class="upper-nav-content">
+                    <div class="logo">
+                        <a href="#">
+                            <img src="images/Logo.png" alt="Microafia Health" class="logo-img" loading="eager">
+                        </a>
+                    </div>
+                    <div class="upper-nav-right">
+                        <div class="social-links">
+                            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                        </div>
+                        <a href="#" class="btn-notification" aria-label="Notifications">
+                            <i class="fas fa-bell"></i>
+                        </a>
+                        <a href="#" class="btn-signin">
+                            <i class="fas fa-user"></i>
+                            <span>Sign In</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lower Navigation Bar -->
+        <nav class="lower-nav">
+            <div class="container">
+                <div class="lower-nav-content">
+                    <ul class="nav-menu">
+                        <li><a href="#hero" class="active">Home</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li class="has-dropdown">
+                            <a href="#services">Our Services <i class="fas fa-chevron-down dropdown-icon"></i></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#services">Consultation</a></li>
+                                <li><a href="#services">General Treatment</a></li>
+                                <li><a href="#services">Laboratory Services</a></li>
+                                <li><a href="#services">Pharmacy</a></li>
+                                <li><a href="#services">Dental Clinic</a></li>
+                                <li><a href="#services">Surgery & Procedures</a></li>
+                                <li><a href="#services">Maternal & Child Health</a></li>
+                                <li><a href="#services">Emergency & Critical Care</a></li>
+                                <li><a href="#services">Ultrasound & Imaging</a></li>
+                                <li><a href="#services">Wellness & Checkups</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#doctors">Doctors</a></li>
+                        <li class="has-dropdown">
+                            <a href="#wellness">Health & Wellness <i class="fas fa-chevron-down dropdown-icon"></i></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#wellness">Women Wellness Package</a></li>
+                                <li><a href="#wellness">Men Wellness Package</a></li>
+                                <li><a href="#wellness">Family Wellness Package</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#contact">Find Us</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Mobile Navigation -->
+        <div class="mobile-nav">
+            <div class="container">
+                <div class="mobile-nav-content">
+                    <div class="logo">
+                        <a href="#">
+                            <img src="images/Logo.png" alt="Microafia Health" class="logo-img" loading="eager">
+                        </a>
+                    </div>
+                    <div class="mobile-nav-right">
+                        <div class="social-links">
+                            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                        </div>
+                        <a href="#" class="btn-notification" aria-label="Notifications">
+                            <i class="fas fa-bell"></i>
+                        </a>
+                        <a href="#" class="btn-signin">
+                            <i class="fas fa-user"></i>
+                        </a>
+                        <button class="menu-toggle" aria-label="Toggle Menu">
+                            <span class="hamburger"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div class="mobile-menu">
+            <ul class="mobile-menu-list">
+                <li><a href="#hero" class="active">Home</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li class="mobile-has-dropdown">
+                    <a href="#services" class="mobile-dropdown-toggle">Our Services <i class="fas fa-chevron-down dropdown-icon"></i></a>
+                    <ul class="mobile-dropdown-menu">
+                        <li><a href="#services">Consultation</a></li>
+                        <li><a href="#services">General Treatment</a></li>
+                        <li><a href="#services">Laboratory Services</a></li>
+                        <li><a href="#services">Pharmacy</a></li>
+                        <li><a href="#services">Dental Clinic</a></li>
+                        <li><a href="#services">Surgery & Procedures</a></li>
+                        <li><a href="#services">Maternal & Child Health</a></li>
+                        <li><a href="#services">Emergency & Critical Care</a></li>
+                        <li><a href="#services">Ultrasound & Imaging</a></li>
+                        <li><a href="#services">Wellness & Checkups</a></li>
+                    </ul>
+                </li>
+                <li><a href="#doctors">Doctors</a></li>
+                <li class="mobile-has-dropdown">
+                    <a href="#wellness" class="mobile-dropdown-toggle">Health & Wellness <i class="fas fa-chevron-down dropdown-icon"></i></a>
+                    <ul class="mobile-dropdown-menu">
+                        <li><a href="#wellness">Women Wellness Package</a></li>
+                        <li><a href="#wellness">Men Wellness Package</a></li>
+                        <li><a href="#wellness">Family Wellness Package</a></li>
+                    </ul>
+                </li>
+                <li><a href="#contact">Find Us</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-slides">
+            <div class="hero-slide active" data-bg="images/Doctor .jpg"></div>
+            <div class="hero-slide" data-bg="images/Doctor .jpg"></div>
+            <div class="hero-slide" data-bg="images/Doctor .jpg"></div>
+        </div>
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Welcome to <span>Microafia Healthcare</span></h1>
+                <p class="hero-subtitle">Providing compassionate, comprehensive healthcare services with cutting-edge technology and experienced medical professionals dedicated to your well-being.</p>
+                <div class="hero-cta">
+                    <a href="#" class="btn btn-primary">
+                        <i class="fas fa-calendar-check"></i>
+                        Book Appointment
+                    </a>
+                    <a href="#" class="btn btn-secondary">
+                        <i class="fas fa-flask"></i>
+                        Request Lab Service
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section class="about-section" id="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <span class="section-tag">About Us</span>
+                    <h2 class="section-title">Dedicated to Your <span>Health & Wellness</span></h2>
+                    <p class="about-description">
+                        At Microafia Healthcare, we believe that quality healthcare should be accessible to everyone. Our state-of-the-art facility combines modern medical technology with compassionate care to deliver exceptional health services.
+                    </p>
+                    <p class="about-description">
+                        With a team of experienced doctors, nurses, and healthcare professionals, we are committed to providing comprehensive medical solutions tailored to your unique needs. From preventive care to specialized treatments, we're here for you every step of the way.
+                    </p>
+                    <div class="about-stats">
+                        <div class="stat-item">
+                            <span class="stat-number" data-count="1">0</span>
+                            <span class="stat-label">Year Experience</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" data-count="5">0</span>
+                            <span class="stat-label">Expert Doctors</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" data-count="500" data-suffix="+">0</span>
+                            <span class="stat-label">Happy Patients</span>
+                        </div>
+                    </div>
+                    <div class="about-cta">
+                        <a href="#" class="btn btn-primary">
+                            <i class="fas fa-arrow-right"></i>
+                            Learn More
+                        </a>
+                        <a href="#" class="btn btn-secondary">
+                            <i class="fas fa-user-md"></i>
+                            Meet Our Doctors
+                        </a>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <div class="image-wrapper">
+                        <img src="images/Image 1.jpeg" alt="Microafia Healthcare Team" loading="lazy">
+                        <div class="image-accent"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Services Section -->
+    <section class="services-section" id="services">
+        <div class="container">
+            <div class="services-header">
+                <span class="section-tag">Our Services</span>
+                <p class="services-intro">We offer a wide range of medical services designed to meet all your healthcare needs under one roof. Our experienced team is dedicated to providing quality care with compassion.</p>
+            </div>
+            <div class="services-grid">
+                <!-- Consultation -->
+                <div class="service-card">
+                    <div class="service-image">
+                        <img src="images/Doctor .jpg" alt="Consultation" loading="lazy">
+                    </div>
+                    <div class="service-content">
+                        <h3>Consultation</h3>
+                        <p>Expert medical consultations with experienced physicians for all your health concerns.</p>
+                        <a href="#" class="btn-service">Talk to Doctor</a>
+                    </div>
+                </div>
+                <!-- General Treatment -->
+                <div class="service-card">
+                    <div class="service-image">
+                        <img src="images/Doctor .jpg" alt="General Treatment" loading="lazy">
+                    </div>
+                    <div class="service-content">
+                        <h3>General Treatment</h3>
+                        <p>Comprehensive treatment for common illnesses and medical conditions.</p>
+                        <a href="#" class="btn-service">Learn More</a>
+                    </div>
+                </div>
+                <!-- Lab Services -->
+                <div class="service-card">
+                    <div class="service-image">
+                        <img src="images/Doctor .jpg" alt="Laboratory Services" loading="lazy">
+                    </div>
+                    <div class="service-content">
+                        <h3>Lab Services</h3>
+                        <p>Accurate diagnostic testing with quick results using modern laboratory equipment.</p>
+                        <a href="#" class="btn-service">View Tests & Prices</a>
+                    </div>
+                </div>
+                <!-- Ultrasound -->
+                <div class="service-card">
+                    <div class="service-image">
+                        <img src="images/Doctor .jpg" alt="Ultrasound" loading="lazy">
+                    </div>
+                    <div class="service-content">
+                        <h3>Ultrasound & Imaging</h3>
+                        <p>Advanced imaging services for accurate diagnosis and monitoring.</p>
+                        <a href="#" class="btn-service">Book Now</a>
+                    </div>
+                </div>
+                <!-- Dental -->
+                <div class="service-card">
+                    <div class="service-image">
+                        <img src="images/Doctor .jpg" alt="Dental Clinic" loading="lazy">
+                    </div>
+                    <div class="service-content">
+                        <h3>Dental Clinic</h3>
+                        <p>Complete dental care from routine checkups to specialized treatments.</p>
+                        <a href="#" class="btn-service">Book Appointment</a>
+                    </div>
+                </div>
+                <!-- Pharmacy -->
+                <div class="service-card">
+                    <div class="service-image">
+                        <img src="images/Doctor .jpg" alt="Pharmacy" loading="lazy">
+                    </div>
+                    <div class="service-content">
+                        <h3>Pharmacy</h3>
+                        <p>Quality medicines and healthcare products available at our in-house pharmacy.</p>
+                        <a href="#" class="btn-service">Shop Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Meet Our Doctor Section -->
+    <section class="doctor-spotlight-section" id="doctors">
+        <div class="container">
+            <div class="doctor-spotlight-content">
+                <div class="doctor-spotlight-image">
+                    <img src="images/Image 1.jpeg" alt="Peter Ngumba" loading="lazy">
+                </div>
+                <div class="doctor-spotlight-info">
+                    <span class="section-tag">Meet Our Doctor</span>
+                    <h2 class="doctor-spotlight-name">Peter Ngumba</h2>
+                    <p class="doctor-spotlight-title">Founder & Lab Technician</p>
+                    <p class="doctor-spotlight-experience"><i class="fas fa-award"></i> Over 5 Years Experience</p>
+                    <p class="doctor-spotlight-bio">
+                        Peter Ngumba is the visionary founder of Microafia Healthcare, bringing over 5 years of hands-on experience in laboratory diagnostics and healthcare management. His dedication to providing accurate, timely diagnostic services has been the cornerstone of our commitment to quality patient care. Under his leadership, Microafia Healthcare continues to grow as a trusted name in community health services.
+                    </p>
+                    <a href="#" class="btn btn-primary">
+                        <i class="fas fa-users"></i>
+                        View All Doctors
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Health & Wellness Section -->
+    <section class="wellness-section" id="wellness">
+        <div class="container">
+            <div class="wellness-header">
+                <span class="section-tag">Health & Wellness</span>
+                <h2 class="section-title">Preventive Care That <span>Saves Lives & Money</span></h2>
+                <p class="wellness-intro">At Microafia, we believe prevention is better than cure. Our transparent wellness packages are designed to catch health issues early, when they're easiest and most affordable to treat.</p>
+            </div>
+
+            <!-- Unique Selling Point Banner -->
+            <div class="wellness-usp">
+                <div class="usp-item">
+                    <i class="fas fa-tag"></i>
+                    <span>Transparent Pricing</span>
+                </div>
+                <div class="usp-item">
+                    <i class="fas fa-hand-holding-heart"></i>
+                    <span>Community Discounts</span>
+                </div>
+                <div class="usp-item">
+                    <i class="fas fa-clock"></i>
+                    <span>Same-Day Results</span>
+                </div>
+                <div class="usp-item">
+                    <i class="fas fa-user-md"></i>
+                    <span>Doctor Consultation Included</span>
+                </div>
+            </div>
+
+            <!-- Wellness Packages -->
+            <div class="wellness-grid">
+                <!-- Women's Package -->
+                <div class="wellness-card">
+                    <div class="wellness-card-header women">
+                        <i class="fas fa-venus"></i>
+                        <h3>Women's Wellness</h3>
+                    </div>
+                    <div class="wellness-card-body">
+                        <ul class="wellness-features">
+                            <li><i class="fas fa-check"></i> Complete Blood Count</li>
+                            <li><i class="fas fa-check"></i> Breast Examination</li>
+                            <li><i class="fas fa-check"></i> Cervical Screening</li>
+                            <li><i class="fas fa-check"></i> Thyroid Function Test</li>
+                            <li><i class="fas fa-check"></i> Blood Pressure & BMI</li>
+                            <li><i class="fas fa-check"></i> Doctor Consultation</li>
+                        </ul>
+                        <div class="wellness-price">
+                            <span class="price-label">Starting from</span>
+                            <span class="price-amount">KSh 10,000</span>
+                        </div>
+                        <a href="#" class="btn-wellness">Book Package</a>
+                    </div>
+                </div>
+
+                <!-- Men's Package -->
+                <div class="wellness-card">
+                    <div class="wellness-card-header men">
+                        <i class="fas fa-mars"></i>
+                        <h3>Men's Wellness</h3>
+                    </div>
+                    <div class="wellness-card-body">
+                        <ul class="wellness-features">
+                            <li><i class="fas fa-check"></i> Complete Blood Count</li>
+                            <li><i class="fas fa-check"></i> Prostate Screening (PSA)</li>
+                            <li><i class="fas fa-check"></i> Liver Function Test</li>
+                            <li><i class="fas fa-check"></i> Kidney Function Test</li>
+                            <li><i class="fas fa-check"></i> Blood Pressure & BMI</li>
+                            <li><i class="fas fa-check"></i> Doctor Consultation</li>
+                        </ul>
+                        <div class="wellness-price">
+                            <span class="price-label">Starting from</span>
+                            <span class="price-amount">KSh 12,000</span>
+                        </div>
+                        <a href="#" class="btn-wellness">Book Package</a>
+                    </div>
+                </div>
+
+                <!-- Family Package -->
+                <div class="wellness-card featured">
+                    <div class="featured-badge">Most Popular</div>
+                    <div class="wellness-card-header family">
+                        <i class="fas fa-users"></i>
+                        <h3>Family Wellness</h3>
+                    </div>
+                    <div class="wellness-card-body">
+                        <ul class="wellness-features">
+                            <li><i class="fas fa-check"></i> Full Checkup for 4 Members</li>
+                            <li><i class="fas fa-check"></i> Child Growth Assessment</li>
+                            <li><i class="fas fa-check"></i> Vaccination Review</li>
+                            <li><i class="fas fa-check"></i> Diabetes & Cholesterol Screen</li>
+                            <li><i class="fas fa-check"></i> Dental Checkup for All</li>
+                            <li><i class="fas fa-check"></i> Family Health Report</li>
+                        </ul>
+                        <div class="wellness-price">
+                            <span class="price-label">Starting from</span>
+                            <span class="price-amount">KSh 15,000</span>
+                        </div>
+                        <a href="#" class="btn-wellness">Book Package</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Community Care Highlight -->
+            <div class="community-care">
+                <div class="community-care-content">
+                    <div class="community-icon">
+                        <i class="fas fa-heart-pulse"></i>
+                    </div>
+                    <div class="community-text">
+                        <h3>Community Care Program</h3>
+                        <p>Can't afford a checkup? Ask about our <strong>Pay-What-You-Can</strong> program for community members in need. Because everyone deserves quality healthcare.</p>
+                    </div>
+                    <a href="#" class="btn btn-secondary">
+                        <i class="fas fa-info-circle"></i>
+                        Learn More
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Us Section -->
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <div class="contact-header">
+                <span class="section-tag">Contact Us</span>
+                <p class="contact-intro">Have questions or need to book an appointment? Reach out to us. We're here to help you on your journey to better health.</p>
+            </div>
+            <div class="contact-content">
+                <!-- Contact Form -->
+                <div class="contact-form-wrapper">
+                    <h3>Send Us a Message</h3>
+                    <form class="contact-form" action="#" method="POST">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <input type="text" name="name" placeholder="Your Name" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="tel" name="phone" placeholder="Phone Number" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email" placeholder="Email Address" required>
+                        </div>
+                        <div class="form-group">
+                            <select name="service" required>
+                                <option value="" disabled selected>Select Service</option>
+                                <option value="consultation">Consultation</option>
+                                <option value="laboratory">Laboratory Services</option>
+                                <option value="dental">Dental Clinic</option>
+                                <option value="pharmacy">Pharmacy</option>
+                                <option value="wellness">Wellness Package</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <textarea name="message" rows="4" placeholder="Your Message" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Contact Info & Map -->
+                <div class="contact-info-wrapper">
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone-alt"></i>
+                            </div>
+                            <div class="contact-text">
+                                <h4>Call Us</h4>
+                                <a href="tel:+254740250696">+254 740 250 696</a>
+                            </div>
+                            <button class="btn-callback" id="openCallbackModal">
+                                <i class="fas fa-phone-volume"></i>
+                                Request Callback
+                            </button>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-text">
+                                <h4>Email Us</h4>
+                                <a href="mailto:info@microafiahealthcare.co.ke">info@microafiahealthcare.co.ke</a>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="contact-text">
+                                <h4>Visit Us</h4>
+                                <p>KK Place Building, Zambezi Town</p>
+                                <a href="https://maps.app.goo.gl/JHzCm9myL8izxaKE6" target="_blank">Get Directions</a>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="contact-text">
+                                <h4>Operation Hours</h4>
+                                <p>Open Daily: 8 AM - 9 PM</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contact-map">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.123456789!2d36.123456789!3d-1.123456789!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMcKwMDcnMjQuMCJTIDM2wrAwNyczMi4wIkU!5e0!3m2!1sen!2ske!4v1234567890" 
+                            width="100%" 
+                            height="200" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Callback Modal -->
+    <div class="modal-overlay" id="callbackModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeCallbackModal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-header">
+                <i class="fas fa-phone-volume"></i>
+                <h3>Request a Callback</h3>
+                <p>Leave your details and we'll call you back shortly.</p>
+            </div>
+            <form class="callback-form" id="callbackForm">
+                <div class="form-group">
+                    <input type="text" name="callback-name" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="tel" name="callback-phone" placeholder="Phone Number" required>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-paper-plane"></i>
+                    Request Callback
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
