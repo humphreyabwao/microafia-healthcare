@@ -4,57 +4,41 @@
 [build]
   publish = "."
 
-# Pretty URLs - removes .html extension
+# Admin pages - serve .html files for clean URLs
+[[redirects]]
+  from = "/admin"
+  to = "/admin/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin/"
+  to = "/admin/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin/:page"
+  to = "/admin/:page.html"
+  status = 200
+
+# Redirect admin .html URLs to clean URLs
+[[redirects]]
+  from = "/admin/index.html"
+  to = "/admin"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/admin/:page.html"
+  to = "/admin/:page"
+  status = 301
+  force = true
+
+# Pretty URLs for root pages - removes .html extension
 [[redirects]]
   from = "/*"
   to = "/:splat.html"
   status = 200
   force = false
-
-# Redirect .html URLs to clean URLs
-[[redirects]]
-  from = "/*.html"
-  to = "/:splat"
-  status = 301
-  force = true
-
-# Specific page redirects
-[[redirects]]
-  from = "/index.html"
-  to = "/"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/lab-services.html"
-  to = "/lab-services"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/imaging-services.html"
-  to = "/imaging-services"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/book-appointment.html"
-  to = "/book-appointment"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/book-wellness.html"
-  to = "/book-wellness"
-  status = 301
-  force = true
-
-# Admin pages
-[[redirects]]
-  from = "/admin/*.html"
-  to = "/admin/:splat"
-  status = 301
-  force = true
 
 # Headers for security and caching
 [[headers]]
