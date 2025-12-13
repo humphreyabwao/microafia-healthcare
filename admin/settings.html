@@ -70,17 +70,141 @@
         </header>
 
         <main class="main-content">
-            <div class="settings-container">
+            <!-- Page Header -->
+            <div class="settings-header">
+                <h2>Manage your application settings</h2>
+                <button class="btn-save" id="saveSettingsBtn">
+                    <i class="fas fa-save"></i> Save All Settings
+                </button>
+            </div>
+
+            <!-- Settings Grid -->
+            <div class="settings-grid">
+                <!-- Hospital Information -->
+                <div class="settings-card span-2">
+                    <div class="card-header">
+                        <h3><i class="fas fa-hospital"></i> Hospital Information</h3>
+                        <span class="sync-status synced" id="hospitalSyncStatus"><i class="fas fa-check-circle"></i> Synced</span>
+                    </div>
+                    <div class="hospital-info-grid">
+                        <div class="info-field">
+                            <label>Hospital Name</label>
+                            <input type="text" id="hospitalName" placeholder="Enter hospital name">
+                        </div>
+                        <div class="info-field">
+                            <label>Registration Number</label>
+                            <input type="text" id="registrationNumber" placeholder="e.g., MED-12345">
+                        </div>
+                        <div class="info-field full-width">
+                            <label>Address</label>
+                            <input type="text" id="hospitalAddress" placeholder="Enter full address">
+                        </div>
+                        <div class="info-field full-width">
+                            <label>About / Description</label>
+                            <textarea id="hospitalAbout" placeholder="Brief description of your hospital..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Information -->
+                <div class="settings-card span-2">
+                    <div class="card-header">
+                        <h3><i class="fas fa-address-book"></i> Contact Information</h3>
+                    </div>
+                    <div class="contact-grid">
+                        <div class="contact-card">
+                            <div class="contact-icon"><i class="fas fa-phone"></i></div>
+                            <label>Phone Number</label>
+                            <input type="tel" id="contactPhone" placeholder="+1 234 567 8900">
+                        </div>
+                        <div class="contact-card">
+                            <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                            <label>Email Address</label>
+                            <input type="email" id="contactEmail" placeholder="info@hospital.com">
+                        </div>
+                        <div class="contact-card">
+                            <div class="contact-icon"><i class="fas fa-globe"></i></div>
+                            <label>Website</label>
+                            <input type="url" id="contactWebsite" placeholder="https://www.hospital.com">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Working Hours -->
+                <div class="settings-card span-2">
+                    <div class="card-header">
+                        <h3><i class="fas fa-clock"></i> Working Hours</h3>
+                    </div>
+                    <div class="working-hours-grid">
+                        <div class="day-card" id="dayMon">
+                            <div class="day-name">Monday</div>
+                            <input type="time" id="monOpen" value="08:00">
+                            <input type="time" id="monClose" value="18:00">
+                            <label class="closed-toggle">
+                                <input type="checkbox" id="monClosed"> Closed
+                            </label>
+                        </div>
+                        <div class="day-card" id="dayTue">
+                            <div class="day-name">Tuesday</div>
+                            <input type="time" id="tueOpen" value="08:00">
+                            <input type="time" id="tueClose" value="18:00">
+                            <label class="closed-toggle">
+                                <input type="checkbox" id="tueClosed"> Closed
+                            </label>
+                        </div>
+                        <div class="day-card" id="dayWed">
+                            <div class="day-name">Wednesday</div>
+                            <input type="time" id="wedOpen" value="08:00">
+                            <input type="time" id="wedClose" value="18:00">
+                            <label class="closed-toggle">
+                                <input type="checkbox" id="wedClosed"> Closed
+                            </label>
+                        </div>
+                        <div class="day-card" id="dayThu">
+                            <div class="day-name">Thursday</div>
+                            <input type="time" id="thuOpen" value="08:00">
+                            <input type="time" id="thuClose" value="18:00">
+                            <label class="closed-toggle">
+                                <input type="checkbox" id="thuClosed"> Closed
+                            </label>
+                        </div>
+                        <div class="day-card" id="dayFri">
+                            <div class="day-name">Friday</div>
+                            <input type="time" id="friOpen" value="08:00">
+                            <input type="time" id="friClose" value="18:00">
+                            <label class="closed-toggle">
+                                <input type="checkbox" id="friClosed"> Closed
+                            </label>
+                        </div>
+                        <div class="day-card" id="daySat">
+                            <div class="day-name">Saturday</div>
+                            <input type="time" id="satOpen" value="09:00">
+                            <input type="time" id="satClose" value="14:00">
+                            <label class="closed-toggle">
+                                <input type="checkbox" id="satClosed"> Closed
+                            </label>
+                        </div>
+                        <div class="day-card closed" id="daySun">
+                            <div class="day-name">Sunday</div>
+                            <input type="time" id="sunOpen" value="09:00" disabled>
+                            <input type="time" id="sunClose" value="12:00" disabled>
+                            <label class="closed-toggle">
+                                <input type="checkbox" id="sunClosed" checked> Closed
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Notification Settings -->
                 <div class="settings-card">
                     <div class="card-header">
-                        <h3><i class="fas fa-bell"></i> Notification Preferences</h3>
+                        <h3><i class="fas fa-bell"></i> Notifications</h3>
                     </div>
                     <div class="card-body">
                         <div class="setting-item">
                             <div class="setting-info">
                                 <h4>Email Notifications</h4>
-                                <p>Receive email alerts for new appointments and messages</p>
+                                <p>Receive email alerts for new bookings</p>
                             </div>
                             <label class="toggle-switch">
                                 <input type="checkbox" id="emailNotif" checked>
@@ -89,8 +213,8 @@
                         </div>
                         <div class="setting-item">
                             <div class="setting-info">
-                                <h4>New Appointment Alerts</h4>
-                                <p>Get notified when new appointments are booked</p>
+                                <h4>Appointment Alerts</h4>
+                                <p>Notify when new appointments are booked</p>
                             </div>
                             <label class="toggle-switch">
                                 <input type="checkbox" id="appointmentNotif" checked>
@@ -99,8 +223,8 @@
                         </div>
                         <div class="setting-item">
                             <div class="setting-info">
-                                <h4>New Message Alerts</h4>
-                                <p>Get notified when new contact messages arrive</p>
+                                <h4>Message Alerts</h4>
+                                <p>Notify when new messages arrive</p>
                             </div>
                             <label class="toggle-switch">
                                 <input type="checkbox" id="messageNotif" checked>
@@ -109,8 +233,8 @@
                         </div>
                         <div class="setting-item">
                             <div class="setting-info">
-                                <h4>Callback Request Alerts</h4>
-                                <p>Get notified for new callback requests</p>
+                                <h4>Callback Alerts</h4>
+                                <p>Notify for callback requests</p>
                             </div>
                             <label class="toggle-switch">
                                 <input type="checkbox" id="callbackNotif" checked>
@@ -123,13 +247,13 @@
                 <!-- Display Settings -->
                 <div class="settings-card">
                     <div class="card-header">
-                        <h3><i class="fas fa-desktop"></i> Display Settings</h3>
+                        <h3><i class="fas fa-desktop"></i> Display</h3>
                     </div>
                     <div class="card-body">
                         <div class="setting-item">
                             <div class="setting-info">
                                 <h4>Compact Mode</h4>
-                                <p>Show more items with smaller spacing</p>
+                                <p>Show more items with less spacing</p>
                             </div>
                             <label class="toggle-switch">
                                 <input type="checkbox" id="compactMode">
@@ -139,7 +263,7 @@
                         <div class="setting-item">
                             <div class="setting-info">
                                 <h4>Items Per Page</h4>
-                                <p>Number of items to display in tables</p>
+                                <p>Default table pagination</p>
                             </div>
                             <select id="itemsPerPage" class="setting-select">
                                 <option value="10">10 items</option>
@@ -151,7 +275,7 @@
                         <div class="setting-item">
                             <div class="setting-info">
                                 <h4>Date Format</h4>
-                                <p>Choose your preferred date format</p>
+                                <p>Choose date display format</p>
                             </div>
                             <select id="dateFormat" class="setting-select">
                                 <option value="MM/DD/YYYY">MM/DD/YYYY</option>
@@ -170,8 +294,8 @@
                     <div class="card-body">
                         <div class="setting-item">
                             <div class="setting-info">
-                                <h4>Auto-archive Old Records</h4>
-                                <p>Automatically archive records older than 90 days</p>
+                                <h4>Auto-archive Records</h4>
+                                <p>Archive records older than 90 days</p>
                             </div>
                             <label class="toggle-switch">
                                 <input type="checkbox" id="autoArchive">
@@ -180,10 +304,10 @@
                         </div>
                         <div class="setting-item">
                             <div class="setting-info">
-                                <h4>Export Data</h4>
-                                <p>Download all data as CSV file</p>
+                                <h4>Export All Data</h4>
+                                <p>Download as CSV file</p>
                             </div>
-                            <button class="btn-secondary" id="exportDataBtn">
+                            <button class="btn-action btn-secondary" id="exportDataBtn">
                                 <i class="fas fa-download"></i> Export
                             </button>
                         </div>
@@ -193,7 +317,7 @@
                 <!-- Account Actions -->
                 <div class="settings-card danger-zone">
                     <div class="card-header">
-                        <h3><i class="fas fa-exclamation-triangle"></i> Account Actions</h3>
+                        <h3><i class="fas fa-exclamation-triangle"></i> Account</h3>
                     </div>
                     <div class="card-body">
                         <div class="setting-item">
@@ -201,25 +325,18 @@
                                 <h4>Sign Out</h4>
                                 <p>Sign out from this device</p>
                             </div>
-                            <button class="btn-danger" id="signOutBtn">
+                            <button class="btn-action btn-danger" id="signOutBtn">
                                 <i class="fas fa-sign-out-alt"></i> Sign Out
                             </button>
                         </div>
                     </div>
-                </div>
-
-                <!-- Save Button -->
-                <div class="settings-footer">
-                    <button class="btn-primary" id="saveSettingsBtn">
-                        <i class="fas fa-save"></i> Save Settings
-                    </button>
                 </div>
             </div>
         </main>
     </div>
 
     <!-- Toast -->
-    <div class="toast" id="toast"></div>
+    <div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMessage"></span></div>
 
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
