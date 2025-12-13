@@ -29,26 +29,45 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // ========================================
     // Notification Badge - Real-time Firestore Listeners
+    // Only shows NEW items added within last 12 hours that are unread/pending
     // ========================================
     initNotificationBadge();
 
     function initNotificationBadge() {
         if (typeof db === 'undefined') return;
 
-        // Get today's date at midnight for filtering
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
+        // Get timestamp for 12 hours ago
+        const twelveHoursAgo = new Date();
+        twelveHoursAgo.setHours(twelveHoursAgo.getHours() - 12);
 
         let totalCount = 0;
         const counts = { appointments: 0, lab_orders: 0, wellness_bookings: 0, contact_messages: 0, callback_requests: 0 };
-        const collections = ['appointments', 'lab_orders', 'wellness_bookings', 'contact_messages', 'callback_requests'];
+        
+        // Collection configurations with their "unreviewed" status field
+        const collections = [
+            { name: 'appointments', statusField: 'status', unreviewedStatuses: ['pending', 'new'] },
+            { name: 'lab_orders', statusField: 'status', unreviewedStatuses: ['pending', 'new', 'submitted'] },
+            { name: 'wellness_bookings', statusField: 'status', unreviewedStatuses: ['pending', 'new'] },
+            { name: 'contact_messages', statusField: 'status', unreviewedStatuses: ['unread', 'new'] },
+            { name: 'callback_requests', statusField: 'status', unreviewedStatuses: ['pending', 'new'] }
+        ];
 
-        // Listen to each collection for today's documents
-        collections.forEach(collectionName => {
-            db.collection(collectionName)
-                .where('createdAt', '>=', today)
+        // Listen to each collection for recent unreviewed documents only
+        collections.forEach(collection => {
+            db.collection(collection.name)
+                .where('createdAt', '>=', twelveHoursAgo)
                 .onSnapshot(snapshot => {
-                    counts[collectionName] = snapshot.size;
+                    // Filter only unreviewed items (not yet seen by admin)
+                    let unreviewedCount = 0;
+                    snapshot.forEach(doc => {
+                        const data = doc.data();
+                        const status = data[collection.statusField] || 'new';
+                        // Only count if status indicates it hasn't been reviewed
+                        if (collection.unreviewedStatuses.includes(status.toLowerCase())) {
+                            unreviewedCount++;
+                        }
+                    });
+                    counts[collection.name] = unreviewedCount;
                     totalCount = Object.values(counts).reduce((a, b) => a + b, 0);
                     updateBadge(totalCount);
                 }, error => {

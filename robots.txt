@@ -1,0 +1,15 @@
+# Microafia Healthcare - Robots.txt
+# https://www.microafiahealthcare.co.ke/robots.txt
+
+User-agent: *
+Allow: /
+
+# Disallow admin pages from indexing
+Disallow: /admin/
+Disallow: /firebase-config.js
+
+# Sitemap location
+Sitemap: https://www.microafiahealthcare.co.ke/sitemap.xml
+
+# Crawl-delay for polite crawling
+Crawl-delay: 1
