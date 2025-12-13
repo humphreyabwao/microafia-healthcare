@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management - Microafia Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="users.css">
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div class="permissions-loading" id="permissionsLoading">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="../images/Logo.png" alt="Microafia" class="sidebar-logo">
+        </div>
+        <nav class="sidebar-nav">
+            <ul class="nav-list">
+                <li class="nav-item"><a href="index.html" class="nav-link"><i class="fas fa-th-large"></i><span>Dashboard</span></a></li>
+                <li class="nav-item"><a href="appointments.html" class="nav-link"><i class="fas fa-calendar-check"></i><span>Appointments</span></a></li>
+                <li class="nav-item"><a href="lab-orders.html" class="nav-link"><i class="fas fa-flask"></i><span>Lab Orders</span></a></li>
+                <li class="nav-item"><a href="wellness.html" class="nav-link"><i class="fas fa-heart-pulse"></i><span>Wellness Bookings</span></a></li>
+                <li class="nav-item"><a href="messages.html" class="nav-link"><i class="fas fa-envelope"></i><span>Messages</span></a></li>
+                <li class="nav-item"><a href="callbacks.html" class="nav-link"><i class="fas fa-phone-alt"></i><span>Callback Requests</span></a></li>
+            </ul>
+            <div class="nav-divider"></div>
+            <ul class="nav-list">
+                <li class="nav-item"><a href="users.html" class="nav-link active"><i class="fas fa-users"></i><span>User Management</span></a></li>
+                <li class="nav-item"><a href="settings.html" class="nav-link"><i class="fas fa-cog"></i><span>Settings</span></a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="../index.html" class="back-to-site"><i class="fas fa-external-link-alt"></i><span>View Website</span></a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-wrapper" id="mainWrapper">
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+                <h1 class="page-title">User Management</h1>
+            </div>
+            <div class="topbar-right">
+                <div class="topbar-item notification-dropdown">
+                    <button class="topbar-btn" id="notifBtn"><i class="fas fa-bell"></i><span class="badge" id="notifCount">0</span></button>
+                </div>
+                <div class="topbar-item profile-dropdown">
+                    <button class="profile-btn" id="profileBtn">
+                        <div class="profile-avatar"><i class="fas fa-user"></i></div>
+                        <span class="profile-name">Admin</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="dropdown-menu" id="profileMenu">
+                        <a href="profile.html" class="dropdown-item"><i class="fas fa-user-circle"></i><span>My Profile</span></a>
+                        <a href="settings.html" class="dropdown-item"><i class="fas fa-cog"></i><span>Settings</span></a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item logout" id="logoutBtn"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <!-- Stats Cards -->
+            <div class="mini-stats">
+                <div class="mini-stat total">
+                    <span class="mini-stat-count" id="totalUsers">0</span>
+                    <span class="mini-stat-label">Total Users</span>
+                </div>
+                <div class="mini-stat active">
+                    <span class="mini-stat-count" id="activeUsers">0</span>
+                    <span class="mini-stat-label">Active</span>
+                </div>
+            </div>
+
+            <!-- Action Bar -->
+            <div class="action-bar">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search users...">
+                </div>
+                <button class="btn btn-primary" id="addUserBtn">
+                    <i class="fas fa-plus"></i> Add User
+                </button>
+            </div>
+
+            <!-- Users Table -->
+            <div class="table-card">
+                <div class="table-responsive">
+                    <table class="users-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Department</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody">
+                            <tr>
+                                <td colspan="7" class="loading-row">
+                                    <i class="fas fa-spinner fa-spin"></i> Loading users...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="empty-state" id="emptyState" style="display: none;">
+                    <i class="fas fa-users"></i>
+                    <h3>No users found</h3>
+                    <p>Add users to manage access permissions</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit User Modal -->
+    <div class="modal-overlay" id="userModal">
+        <div class="modal modal-lg">
+            <div class="modal-header">
+                <h2><i class="fas fa-user-plus"></i> <span id="modalTitle">Add New User</span></h2>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="userForm">
+                    <input type="hidden" id="userId">
+                    
+                    <!-- User Details Section -->
+                    <div class="form-section">
+                        <h3 class="section-title"><i class="fas fa-user"></i> User Details</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="userName">Full Name</label>
+                                <input type="text" id="userName" required placeholder="Enter full name">
+                            </div>
+                            <div class="form-group">
+                                <label for="userEmail">Email Address</label>
+                                <input type="email" id="userEmail" required placeholder="Enter email address">
+                            </div>
+                            <div class="form-group" id="passwordGroup">
+                                <label for="userPassword">Password</label>
+                                <input type="password" id="userPassword" placeholder="Min 6 characters" minlength="6">
+                            </div>
+                            <div class="form-group">
+                                <label for="userRole">Role</label>
+                                <select id="userRole" required>
+                                    <option value="">Select Role</option>
+                                    <option value="admin">Admin</option>
+                                    <option value="manager">Manager</option>
+                                    <option value="staff">Staff</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="userDepartment">Department</label>
+                                <select id="userDepartment" required>
+                                    <option value="">Select Department</option>
+                                    <option value="administration">Administration</option>
+                                    <option value="reception">Reception</option>
+                                    <option value="doctors">Doctors</option>
+                                    <option value="nursing">Nursing</option>
+                                    <option value="pharmacy">Pharmacy</option>
+                                    <option value="laboratory">Laboratory</option>
+                                    <option value="radiology">Radiology / Imaging</option>
+                                    <option value="dentistry">Dentistry</option>
+                                    <option value="physiotherapy">Physiotherapy</option>
+                                    <option value="emergency">Emergency</option>
+                                    <option value="surgery">Surgery</option>
+                                    <option value="maternity">Maternity</option>
+                                    <option value="pediatrics">Pediatrics</option>
+                                    <option value="outpatient">Outpatient (OPD)</option>
+                                    <option value="inpatient">Inpatient (IPD)</option>
+                                    <option value="records">Medical Records</option>
+                                    <option value="billing">Billing / Finance</option>
+                                    <option value="it">IT / Technical</option>
+                                    <option value="housekeeping">Housekeeping</option>
+                                    <option value="security">Security</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Status Section -->
+                    <div class="form-section">
+                        <h3 class="section-title"><i class="fas fa-toggle-on"></i> Account Status</h3>
+                        <div class="status-card">
+                            <div class="status-info">
+                                <span class="status-label">User Account</span>
+                                <span class="status-desc">Enable or disable user access to the admin panel</span>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="userStatus" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Permissions Section -->
+                    <div class="form-section">
+                        <h3 class="section-title"><i class="fas fa-shield-alt"></i> Module Permissions</h3>
+                        <p class="section-desc">Assign view, edit, and delete permissions for each module</p>
+                        
+                        <div class="permissions-grid">
+                            <div class="perm-card" data-module="dashboard">
+                                <div class="perm-card-header">
+                                    <i class="fas fa-th-large"></i>
+                                    <span>Dashboard</span>
+                                </div>
+                                <div class="perm-card-body">
+                                    <label class="perm-item">
+                                        <input type="checkbox" name="perm_dashboard_view">
+                                        <span>View</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="perm-card" data-module="appointments">
+                                <div class="perm-card-header">
+                                    <i class="fas fa-calendar-check"></i>
+                                    <span>Appointments</span>
+                                </div>
+                                <div class="perm-card-body">
+                                    <label class="perm-item">
+                                        <input type="checkbox" name="perm_appointments_view">
+                                        <span>View</span>
+                                    </label>
+                                    <label class="perm-item">
+                                        <input type="checkbox" name="perm_appointments_edit">
+                                        <span>Edit</span>
+                                    </label>
+                                    <label class="perm-item">
+                                        <input type="checkbox" name="perm_appointments_delete">
+                                        <span>Delete</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="perm-card" data-module="lab-orders">
+                                <div class="perm-card-header">
+                                    <i class="fas fa-flask"></i>
+                                    <span>Lab Orders</span>
+                                </div>
+                                <div class="perm-card-body">
+                                    <label class="perm-item">
+                                        <input type="checkbox" name="perm_lab-orders_view">
+                                        <span>View</span>
+                                    </label>
+                                    <label class="perm-item">
+                                        <input type="checkbox" name="perm_lab-orders_edit">
+                                        <span>Edit</span>
+                                    </label>
+                                    <label class="perm-item">
+                                        <input type="checkbox" name="perm_lab-orders_delete">
+                                        <span>Delete</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="perm-card" data-module="wellness">
+                                <div class="perm-card-header">
+                                    <i class="fas fa-heart-pulse"></i>
+                                    <span>Wellness</span>
+                                </div>
+                                <div class="perm-card-body">
+                                    <label class="perm-item">
+                                        <input type="checkbox" name="perm_wellness_view">
+                                        <span>View</span>
+                                    </label>
+                                    <label class="perm-item">
+                                        <input type="checkbox" name="perm_wellness_edit">
+                                        <span>Edit</span>
+                                    </label>
+                                    <label class="perm-item">
+                                        <input type="checkbox" name="perm_wellness_delete">
+                                        <span>Delete</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="perm-card" data-module="messages">
+                                <div class="perm-card-header">
+                                    <i class="fas fa-envelope"></i>
+                                    <span>Messages</span>
+                                </div>
+                                <div class="perm-card-body">
+                                    <label class="perm-item">
+                                        <input type="checkbox" name="perm_messages_view">
+                                        <span>View</span>
+                                    </label>
+                                    <label class="perm-item">
+                                        <input type="checkbox" name="perm_messages_edit">
+                                        <span>Edit</span>
+                                    </label>
+                                    <label class="perm-item">
+                                        <input type="checkbox" name="perm_messages_delete">
+                                        <span>Delete</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="perm-card" data-module="callbacks">
+                                <div class="perm-card-header">
+                                    <i class="fas fa-phone-alt"></i>
+                                    <span>Callbacks</span>
+                                </div>
+                                <div class="perm-card-body">
+                                    <label class="perm-item">
+                                        <input type="checkbox" name="perm_callbacks_view">
+                                        <span>View</span>
+                                    </label>
+                                    <label class="perm-item">
+                                        <input type="checkbox" name="perm_callbacks_edit">
+                                        <span>Edit</span>
+                                    </label>
+                                    <label class="perm-item">
+                                        <input type="checkbox" name="perm_callbacks_delete">
+                                        <span>Delete</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="perm-card" data-module="users">
+                                <div class="perm-card-header">
+                                    <i class="fas fa-users"></i>
+                                    <span>Users</span>
+                                </div>
+                                <div class="perm-card-body">
+                                    <label class="perm-item">
+                                        <input type="checkbox" name="perm_users_view">
+                                        <span>View</span>
+                                    </label>
+                                    <label class="perm-item">
+                                        <input type="checkbox" name="perm_users_edit">
+                                        <span>Edit</span>
+                                    </label>
+                                    <label class="perm-item">
+                                        <input type="checkbox" name="perm_users_delete">
+                                        <span>Delete</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="perm-card" data-module="settings">
+                                <div class="perm-card-header">
+                                    <i class="fas fa-cog"></i>
+                                    <span>Settings</span>
+                                </div>
+                                <div class="perm-card-body">
+                                    <label class="perm-item">
+                                        <input type="checkbox" name="perm_settings_view">
+                                        <span>View</span>
+                                    </label>
+                                    <label class="perm-item">
+                                        <input type="checkbox" name="perm_settings_edit">
+                                        <span>Edit</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                <button class="btn btn-primary" id="saveUserBtn"><i class="fas fa-save"></i> Save User</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal-overlay" id="deleteModal">
+        <div class="modal modal-sm">
+            <div class="modal-header modal-header-danger">
+                <h2><i class="fas fa-trash-alt"></i> Delete User</h2>
+                <button class="modal-close" onclick="closeDeleteModal()">&times;</button>
+            </div>
+            <div class="modal-body text-center">
+                <div class="delete-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <input type="hidden" id="deleteUserId">
+                <h3>Are you sure?</h3>
+                <p>This action cannot be undone. The user will be permanently removed.</p>
+            </div>
+            <div class="modal-footer modal-footer-centered">
+                <button class="btn btn-secondary" onclick="closeDeleteModal()">Cancel</button>
+                <button class="btn btn-danger" id="confirmDeleteBtn"><i class="fas fa-trash"></i> Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="../firebase-config.js"></script>
+    <script src="admin.js"></script>
+    <script src="users.js"></script>
+</body>
+</html>

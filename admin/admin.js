@@ -2,12 +2,224 @@
    Admin Dashboard JavaScript
    ======================================== */
 
+// Current user data and permissions
+let currentUserData = null;
+let userPermissions = {};
+
+/* ========================================
+   MODULE CONFIGURATION
+   ========================================
+   To add a new module:
+   1. Add entry here: 'module-name': 'page.html'
+   2. Create the page with loading overlay
+   3. Add nav-item in sidebar (all admin pages)
+   4. Add permission card in users.html modal
+   5. Add to allModules array in users.js
+   ======================================== */
+const modulePageMap = {
+    'dashboard': 'index.html',
+    'appointments': 'appointments.html',
+    'lab-orders': 'lab-orders.html',
+    'wellness': 'wellness.html',
+    'messages': 'messages.html',
+    'callbacks': 'callbacks.html',
+    'users': 'users.html',
+    'settings': 'settings.html'
+    // Add new modules here: 'module-name': 'page.html'
+};
+
 // Auth Check - Redirect to login if not authenticated
-firebase.auth().onAuthStateChanged((user) => {
+firebase.auth().onAuthStateChanged(async (user) => {
     if (!user) {
         window.location.href = 'login.html';
+        return;
+    }
+    
+    // Fetch user permissions and apply role-based access
+    try {
+        const userDoc = await db.collection('admin_users').doc(user.uid).get();
+        if (userDoc.exists) {
+            currentUserData = { id: userDoc.id, ...userDoc.data() };
+            userPermissions = currentUserData.permissions || {};
+            
+            // Check if user is active
+            if (currentUserData.status !== 'active') {
+                alert('Your account is inactive. Please contact administrator.');
+                firebase.auth().signOut();
+                return;
+            }
+            
+            // Apply role-based navigation
+            applyRoleBasedAccess(currentUserData);
+            
+            // Apply action-based permissions (hide edit/delete buttons)
+            applyActionPermissions();
+            
+            // Update profile name if element exists
+            const profileName = document.querySelector('.profile-name');
+            if (profileName) {
+                profileName.textContent = currentUserData.name || 'Admin';
+            }
+        } else {
+            // No user record exists - this might be first login
+            // Create default admin record for existing auth user
+            const defaultPermissions = {};
+            Object.keys(modulePageMap).forEach(m => {
+                defaultPermissions[m] = { view: true, edit: true, delete: true };
+            });
+            
+            await db.collection('admin_users').doc(user.uid).set({
+                uid: user.uid,
+                name: user.displayName || 'Admin',
+                email: user.email,
+                role: 'admin',
+                status: 'active',
+                modules: Object.keys(modulePageMap),
+                permissions: defaultPermissions,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            
+            // Reload to apply permissions
+            window.location.reload();
+        }
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+        // Still show the page on error
+        document.body.classList.add('permissions-loaded');
+        hideLoadingOverlay();
     }
 });
+
+// Apply Role-Based Access Control
+function applyRoleBasedAccess(userData) {
+    if (!userData || !userData.modules) {
+        // No permissions data - mark as loaded anyway to prevent stuck state
+        document.body.classList.add('permissions-loaded');
+        hideLoadingOverlay();
+        return;
+    }
+    
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    const allowedModules = userData.modules;
+    
+    // Check if current page is allowed
+    let isPageAllowed = false;
+    for (const [module, page] of Object.entries(modulePageMap)) {
+        if (page === currentPage && allowedModules.includes(module)) {
+            isPageAllowed = true;
+            break;
+        }
+    }
+    
+    // Profile page is always allowed
+    if (currentPage === 'profile.html') {
+        isPageAllowed = true;
+    }
+    
+    // Redirect if not allowed
+    if (!isPageAllowed && currentPage !== 'login.html') {
+        // Redirect to first allowed module
+        for (const module of allowedModules) {
+            if (modulePageMap[module]) {
+                window.location.href = modulePageMap[module];
+                return;
+            }
+        }
+        // If no modules allowed, go to profile
+        window.location.href = 'profile.html';
+        return;
+    }
+    
+    // Hide nav items for modules user doesn't have access to
+    const navItems = document.querySelectorAll('.sidebar-nav .nav-item');
+    navItems.forEach(item => {
+        const link = item.querySelector('.nav-link');
+        if (!link) return;
+        
+        const href = link.getAttribute('href');
+        
+        for (const [module, page] of Object.entries(modulePageMap)) {
+            if (href === page) {
+                // Set data attribute for the module
+                item.setAttribute('data-module', module);
+                
+                // Add 'allowed' class if user has access
+                if (allowedModules.includes(module)) {
+                    item.classList.add('allowed');
+                }
+                break;
+            }
+        }
+    });
+    
+    // Mark permissions as loaded - this triggers CSS visibility
+    document.body.classList.add('permissions-loaded');
+    
+    // Hide loading overlay
+    hideLoadingOverlay();
+}
+
+// Hide loading overlay
+function hideLoadingOverlay() {
+    const overlay = document.getElementById('permissionsLoading');
+    if (overlay) {
+        overlay.classList.add('hidden');
+        setTimeout(() => overlay.remove(), 300);
+    }
+}
+
+// Apply Action-Based Permissions (Edit/Delete buttons)
+function applyActionPermissions() {
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    
+    // Find which module we're on
+    let currentModule = null;
+    for (const [module, page] of Object.entries(modulePageMap)) {
+        if (page === currentPage) {
+            currentModule = module;
+            break;
+        }
+    }
+    
+    if (!currentModule || !userPermissions[currentModule]) return;
+    
+    const perms = userPermissions[currentModule];
+    
+    // Hide edit buttons if no edit permission
+    if (!perms.edit) {
+        document.querySelectorAll('.action-btn.edit, .btn-edit, [data-action="edit"]').forEach(btn => {
+            btn.style.display = 'none';
+        });
+        // Also hide add buttons
+        document.querySelectorAll('#addUserBtn, .btn-add, [data-action="add"]').forEach(btn => {
+            btn.style.display = 'none';
+        });
+    }
+    
+    // Hide delete buttons if no delete permission
+    if (!perms.delete) {
+        document.querySelectorAll('.action-btn.delete, .btn-delete, [data-action="delete"]').forEach(btn => {
+            btn.style.display = 'none';
+        });
+    }
+}
+
+// Check if user has permission for action
+function hasPermission(module, action) {
+    if (!userPermissions[module]) return false;
+    return !!userPermissions[module][action];
+}
+
+// Get current user permissions (for use in other modules)
+function getCurrentUserPermissions() {
+    return userPermissions;
+}
+
+// Get current user data
+function getCurrentUserData() {
+    return currentUserData;
+}
 
 // DOM Elements
 const sidebar = document.getElementById('sidebar');
