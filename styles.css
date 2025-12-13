@@ -1897,7 +1897,8 @@ img {
     }
     
     .wellness-usp {
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
         gap: 12px;
         padding: 20px;
         margin-left: -6px;
@@ -1905,7 +1906,8 @@ img {
     }
     
     .usp-item {
-        justify-content: center;
+        justify-content: flex-start;
+        font-size: 0.75rem;
     }
     
     .featured-badge {
