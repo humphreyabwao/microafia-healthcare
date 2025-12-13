@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultrasound & Imaging Services - Microafia Healthcare</title>
+    
+    <link rel="preload" href="images/Logo.png" as="image">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="imaging-services.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <!-- Upper Navigation Bar -->
+        <div class="upper-nav">
+            <div class="container">
+                <div class="upper-nav-content">
+                    <div class="logo">
+                        <a href="index.html">
+                            <img src="images/Logo.png" alt="Microafia Health" class="logo-img" loading="eager">
+                        </a>
+                    </div>
+                    <div class="upper-nav-right">
+                        <div class="social-links">
+                            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                        </div>
+                        <a href="#" class="btn-notification" aria-label="Notifications">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-badge" id="notifBadge1"></span>
+                        </a>
+                        <a href="admin/login.html" class="btn-signin">
+                            <i class="fas fa-user"></i>
+                            <span>Sign In</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lower Navigation Bar -->
+        <nav class="lower-nav">
+            <div class="container">
+                <div class="lower-nav-content">
+                    <ul class="nav-menu">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#about">About Us</a></li>
+                        <li class="has-dropdown">
+                            <a href="index.html#services">Our Services <i class="fas fa-chevron-down dropdown-icon"></i></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="index.html#services">Consultation</a></li>
+                                <li><a href="index.html#services">General Treatment</a></li>
+                                <li><a href="lab-services.html">Laboratory Services</a></li>
+                                <li><a href="index.html#services">Pharmacy</a></li>
+                                <li><a href="index.html#services">Dental Clinic</a></li>
+                                <li><a href="index.html#services">Surgery & Procedures</a></li>
+                                <li><a href="index.html#services">Maternal & Child Health</a></li>
+                                <li><a href="index.html#services">Emergency & Critical Care</a></li>
+                                <li><a href="imaging-services.html" class="active">Ultrasound & Imaging</a></li>
+                                <li><a href="index.html#services">Wellness & Checkups</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="index.html#doctors">Doctors</a></li>
+                        <li class="has-dropdown">
+                            <a href="index.html#wellness">Health & Wellness <i class="fas fa-chevron-down dropdown-icon"></i></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="index.html#wellness">Women Wellness Package</a></li>
+                                <li><a href="index.html#wellness">Men Wellness Package</a></li>
+                                <li><a href="index.html#wellness">Family Wellness Package</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="index.html#contact">Find Us</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Mobile Navigation -->
+        <div class="mobile-nav">
+            <div class="container">
+                <div class="mobile-nav-content">
+                    <div class="logo">
+                        <a href="index.html">
+                            <img src="images/Logo.png" alt="Microafia Health" class="logo-img" loading="eager">
+                        </a>
+                    </div>
+                    <div class="mobile-nav-right">
+                        <div class="social-links">
+                            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                        </div>
+                        <a href="#" class="btn-notification" aria-label="Notifications">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-badge" id="notifBadge2"></span>
+                        </a>
+                        <a href="admin/login.html" class="btn-signin">
+                            <i class="fas fa-user"></i>
+                        </a>
+                        <button class="menu-toggle" aria-label="Toggle Menu">
+                            <span class="hamburger"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div class="mobile-menu">
+            <ul class="mobile-menu-list">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#about">About Us</a></li>
+                <li class="mobile-has-dropdown">
+                    <a href="index.html#services" class="mobile-dropdown-toggle">Our Services <i class="fas fa-chevron-down dropdown-icon"></i></a>
+                    <ul class="mobile-dropdown-menu">
+                        <li><a href="index.html#services">Consultation</a></li>
+                        <li><a href="index.html#services">General Treatment</a></li>
+                        <li><a href="lab-services.html">Laboratory Services</a></li>
+                        <li><a href="index.html#services">Pharmacy</a></li>
+                        <li><a href="index.html#services">Dental Clinic</a></li>
+                        <li><a href="index.html#services">Surgery & Procedures</a></li>
+                        <li><a href="index.html#services">Maternal & Child Health</a></li>
+                        <li><a href="index.html#services">Emergency & Critical Care</a></li>
+                        <li><a href="imaging-services.html" class="active">Ultrasound & Imaging</a></li>
+                        <li><a href="index.html#services">Wellness & Checkups</a></li>
+                    </ul>
+                </li>
+                <li><a href="index.html#doctors">Doctors</a></li>
+                <li class="mobile-has-dropdown">
+                    <a href="index.html#wellness" class="mobile-dropdown-toggle">Health & Wellness <i class="fas fa-chevron-down dropdown-icon"></i></a>
+                    <ul class="mobile-dropdown-menu">
+                        <li><a href="index.html#wellness">Women Wellness Package</a></li>
+                        <li><a href="index.html#wellness">Men Wellness Package</a></li>
+                        <li><a href="index.html#wellness">Family Wellness Package</a></li>
+                    </ul>
+                </li>
+                <li><a href="index.html#contact">Find Us</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Page Hero -->
+    <section class="imaging-hero" data-bg="images/ultrasound.jpg">
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="hero-content">
+                <span class="section-tag"><i class="fas fa-broadcast-tower"></i> Diagnostic Imaging</span>
+                <h1>Ultrasound & Imaging Services</h1>
+                <p>Professional diagnostic imaging with accurate results and expert interpretation</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mobile Ultrasound CTA -->
+    <section class="mobile-ultrasound-cta">
+        <div class="container">
+            <div class="cta-content">
+                <div class="cta-text">
+                    <i class="fas fa-truck-medical"></i>
+                    <div>
+                        <h3>Mobile Ultrasound Service</h3>
+                        <p>Can't come to us? We'll come to you! Request a mobile ultrasound at your location within Nairobi.</p>
+                    </div>
+                </div>
+                <a href="book-appointment.html" class="btn-mobile-request">
+                    <i class="fas fa-calendar-plus"></i>
+                    Request Mobile Ultrasound
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Table Section -->
+    <section class="imaging-services-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Ultrasound Services</h2>
+                <p>Comprehensive diagnostic imaging for all your healthcare needs</p>
+            </div>
+
+            <div class="services-table-wrapper">
+                <table class="imaging-table">
+                    <thead>
+                        <tr>
+                            <th>Service</th>
+                            <th>Price (KSh)</th>
+                            <th>Clinical Indications</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-label="Service">Obstetric (ANC) Scan</td>
+                            <td data-label="Price" class="price">1,500</td>
+                            <td data-label="Indications">Confirm dating, viability, fetal growth, anomaly screening, placental position, and ectopic suspicion.</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Service">Abdominal Scan</td>
+                            <td data-label="Price" class="price">1,500</td>
+                            <td data-label="Indications">Investigate persistent pain, evaluate liver/gallbladder pathology (e.g., gallstones), spleen, and pancreas.</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Service">Pelvic Scan (Female)</td>
+                            <td data-label="Price" class="price">1,500</td>
+                            <td data-label="Indications">Assess abnormal bleeding, chronic pain, diagnose fibroids, ovarian cysts, and check IUCD position.</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Service">KUBP Scan (K/U/B/Prostate)</td>
+                            <td data-label="Price" class="price">2,000</td>
+                            <td data-label="Indications">Work-up hematuria/flank pain, detect kidney/bladder stones, blockages, and check the prostate (male).</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Service">Prostate Scan</td>
+                            <td data-label="Price" class="price">2,000</td>
+                            <td data-label="Indications">Investigate LUTS (urinary symptoms), BPH assessment, and check for prostatic masses.</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Service">Breast Scan</td>
+                            <td data-label="Price" class="price">2,000</td>
+                            <td data-label="Indications">Characterize palpable lumps (solid vs. cyst), evaluate dense breast tissue, and mastitis.</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Service">Testicular/Scrotal Scan</td>
+                            <td data-label="Price" class="price">2,000</td>
+                            <td data-label="Indications">Investigate scrotal pain, swelling, masses (e.g., hydrocele, varicocele), or potential torsion.</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Service">Thyroid Scan</td>
+                            <td data-label="Price" class="price">2,000</td>
+                            <td data-label="Indications">Evaluate thyroid nodules (size/risk), goitre (enlargement), and investigate abnormal function tests.</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Service">Regional/MSK Scan</td>
+                            <td data-label="Price" class="price">2,000</td>
+                            <td data-label="Indications">Assess joint effusions, tendon tears (e.g., rotator cuff), ligament sprains, and soft tissue masses.</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Service">Doppler U/S (Lower Limb)</td>
+                            <td data-label="Price" class="price">3,500</td>
+                            <td data-label="Indications">Diagnose Deep Vein Thrombosis (DVT), assess varicose veins, and evaluate lower limb arterial flow.</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Service">Doppler U/S (Neck/Carotid)</td>
+                            <td data-label="Price" class="price">3,500</td>
+                            <td data-label="Indications">Assess stroke risk by checking for narrowing (stenosis) or plaques in the carotid arteries.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="table-note">
+                <i class="fas fa-info-circle"></i>
+                <p>Prices are subject to change. Please contact us for the most current pricing and to schedule your appointment.</p>
+            </div>
+
+            <!-- Request Ultrasound Button -->
+            <div class="request-cta">
+                <a href="book-appointment.html" class="btn-request-ultrasound">
+                    <i class="fas fa-calendar-plus"></i>
+                    Request Ultrasound
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-main">
+                <!-- Footer Logo & About -->
+                <div class="footer-brand">
+                    <a href="index.html" class="footer-logo">
+                        <img src="images/Logo.png" alt="Microafia Health" class="footer-logo-img">
+                    </a>
+                    <p class="footer-tagline">Your Health, Our Priority. Providing quality healthcare services to our community with compassion and excellence.</p>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#about">About Us</a></li>
+                        <li><a href="index.html#services">Our Services</a></li>
+                        <li><a href="index.html#doctors">Doctors</a></li>
+                        <li><a href="index.html#wellness">Health & Wellness</a></li>
+                        <li><a href="index.html#contact">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <!-- Services -->
+                <div class="footer-column">
+                    <h4>Our Services</h4>
+                    <ul>
+                        <li><a href="index.html#services">Consultation</a></li>
+                        <li><a href="lab-services.html">Laboratory Services</a></li>
+                        <li><a href="index.html#services">Pharmacy</a></li>
+                        <li><a href="index.html#services">Dental Clinic</a></li>
+                        <li><a href="index.html#services">Maternal & Child Health</a></li>
+                        <li><a href="imaging-services.html">Ultrasound & Imaging</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="footer-column">
+                    <h4>Contact Info</h4>
+                    <ul class="footer-contact">
+                        <li>
+                            <i class="fas fa-phone-alt"></i>
+                            <a href="tel:+254740250696">+254 740 250 696</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:info@microafiahealthcare.co.ke">info@microafiahealthcare.co.ke</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>KK Place Building, Zambezi Town</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-clock"></i>
+                            <span>Open Daily: 8 AM - 9 PM</span>
+                        </li>
+                    </ul>
+                    <div class="footer-actions">
+                        <a href="#" class="btn-footer">Careers</a>
+                        <a href="admin/login.html" class="btn-footer btn-footer-primary">Sign In</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 Microafia Healthcare. All rights reserved.</p>
+                <p class="footer-credit">Developed by <a href="https://www.noxartechsln.tech" target="_blank" rel="noopener noreferrer">Noxartech Solutions</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/254740250696" target="_blank" class="floating-whatsapp" aria-label="Chat on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+        <span class="whatsapp-tooltip">Chat with us</span>
+    </a>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="script.js"></script>
+    <script src="imaging-services.js"></script>
+</body>
+</html>

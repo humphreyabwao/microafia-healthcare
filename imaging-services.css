@@ -1,0 +1,375 @@
+/* Imaging Services Page Styles */
+
+/* Hero Section */
+.imaging-hero {
+    position: relative;
+    background-color: var(--primary-color);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 80px 0 60px;
+    margin-top: 120px;
+    color: white;
+}
+
+.imaging-hero.bg-loaded {
+    background-image: var(--bg-image);
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.6) 0%, rgba(59, 130, 246, 0.5) 100%);
+    z-index: 1;
+}
+
+.imaging-hero .container {
+    position: relative;
+    z-index: 2;
+}
+
+.imaging-hero .hero-content {
+    max-width: 100%;
+}
+
+.imaging-hero .section-tag {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 8px 20px;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.imaging-hero h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.imaging-hero p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+/* Mobile Ultrasound CTA */
+.mobile-ultrasound-cta {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    padding: 25px 0;
+}
+
+.mobile-ultrasound-cta .cta-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.mobile-ultrasound-cta .cta-text {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: white;
+}
+
+.mobile-ultrasound-cta .cta-text > i {
+    font-size: 2.5rem;
+    opacity: 0.9;
+}
+
+.mobile-ultrasound-cta .cta-text h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.mobile-ultrasound-cta .cta-text p {
+    font-size: 0.95rem;
+    opacity: 0.9;
+    margin: 0;
+}
+
+.btn-mobile-request {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: white;
+    color: #059669;
+    padding: 14px 28px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn-mobile-request:hover {
+    background: #f0fdf4;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Services Section */
+.imaging-services-section {
+    padding: 60px 0;
+    background: #f8fafc;
+}
+
+.imaging-services-section .section-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.imaging-services-section .section-header h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--dark-color);
+    margin-bottom: 10px;
+}
+
+.imaging-services-section .section-header p {
+    color: #64748b;
+    font-size: 1.05rem;
+}
+
+/* Table Styles - Minimal & Clean */
+.services-table-wrapper {
+    background: white;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+}
+
+.imaging-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.imaging-table thead {
+    background: var(--primary-color);
+}
+
+.imaging-table thead th {
+    color: white;
+    padding: 16px 20px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.imaging-table thead th:last-child {
+    border-right: none;
+}
+
+.imaging-table tbody tr {
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.imaging-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.imaging-table tbody tr:nth-child(even) {
+    background: #f8fafc;
+}
+
+.imaging-table tbody tr:hover {
+    background: #f1f5f9;
+}
+
+.imaging-table td {
+    padding: 16px 20px;
+    vertical-align: middle;
+    border-right: 1px solid #e2e8f0;
+}
+
+.imaging-table td:last-child {
+    border-right: none;
+}
+
+.imaging-table td:first-child {
+    font-weight: 600;
+    color: var(--dark-color);
+}
+
+.imaging-table .price {
+    font-weight: 700;
+    color: var(--primary-color);
+    font-size: 1rem;
+    white-space: nowrap;
+}
+
+.imaging-table .price::before {
+    content: 'KSh ';
+    font-weight: 500;
+    font-size: 0.85rem;
+}
+
+.imaging-table td:last-child {
+    color: #64748b;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+/* Table Note */
+.table-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-top: 25px;
+    padding: 15px 20px;
+    background: #f1f5f9;
+    border-left: 4px solid var(--primary-color);
+    color: #475569;
+}
+
+.table-note i {
+    font-size: 1rem;
+    color: var(--primary-color);
+    margin-top: 2px;
+}
+
+.table-note p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* Request CTA Button */
+.request-cta {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.btn-request-ultrasound {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--primary-color);
+    color: white;
+    padding: 16px 32px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.btn-request-ultrasound:hover {
+    background: var(--secondary-color);
+}
+
+.btn-request-ultrasound i {
+    font-size: 1rem;
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+    .imaging-hero {
+        margin-top: 80px;
+        padding: 60px 0 50px;
+    }
+    
+    .imaging-hero h1 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .imaging-hero {
+        margin-top: 70px;
+        padding: 50px 0 40px;
+    }
+    
+    .imaging-hero h1 {
+        font-size: 1.75rem;
+    }
+    
+    .imaging-hero p {
+        font-size: 1rem;
+    }
+    
+    .mobile-ultrasound-cta .cta-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .mobile-ultrasound-cta .cta-text {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .btn-mobile-request {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    /* Table Responsive */
+    .imaging-table thead {
+        display: none;
+    }
+    
+    .imaging-table tbody tr {
+        display: block;
+        padding: 16px;
+        margin-bottom: 12px;
+        background: white;
+        border: 1px solid #e2e8f0;
+    }
+    
+    .imaging-table tbody tr:nth-child(even) {
+        background: white;
+    }
+    
+    .imaging-table td {
+        display: block;
+        padding: 8px 0;
+        border: none;
+        border-right: none;
+    }
+    
+    .imaging-table td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: #64748b;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        display: block;
+        margin-bottom: 4px;
+    }
+    
+    .imaging-table td:first-child {
+        font-size: 1.05rem;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #e2e8f0;
+        margin-bottom: 8px;
+    }
+    
+    .imaging-table .price {
+        font-size: 1.1rem;
+    }
+    
+    .btn-request-ultrasound {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .imaging-hero h1 {
+        font-size: 1.5rem;
+    }
+    
+    .imaging-services-section .section-header h2 {
+        font-size: 1.5rem;
+    }
+}
