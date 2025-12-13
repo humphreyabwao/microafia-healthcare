@@ -2072,30 +2072,33 @@ img {
     }
     
     .reviews-grid {
-        display: flex;
+        display: block;
         overflow: hidden;
-        gap: 0;
         position: relative;
+        min-height: 280px;
     }
     
     .review-card {
         min-width: 100%;
         padding: 20px 16px;
         opacity: 0;
-        transform: translateX(100%);
+        visibility: hidden;
         position: absolute;
-        transition: opacity 0.5s ease, transform 0.5s ease;
+        top: 0;
+        left: 0;
+        right: 0;
+        transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
     }
     
     .review-card.active {
         opacity: 1;
-        transform: translateX(0);
+        visibility: visible;
         position: relative;
     }
     
     .review-card.prev {
         opacity: 0;
-        transform: translateX(-100%);
+        visibility: hidden;
     }
     
     .reviews-header .section-title {

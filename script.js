@@ -597,15 +597,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function goToReview(index) {
+        // Remove active from current
         reviewCards[currentReview].classList.remove('active');
-        reviewCards[currentReview].classList.add('prev');
         
+        // Update current index
         currentReview = index;
         
-        reviewCards.forEach((card, i) => {
-            card.classList.remove('active', 'prev');
-            if (i === currentReview) card.classList.add('active');
-        });
+        // Add active to new review
+        reviewCards[currentReview].classList.add('active');
         
         // Update dots
         const dots = document.querySelectorAll('.reviews-dot');
@@ -622,13 +621,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const prevIndex = currentReview;
         currentReview = (currentReview + 1) % reviewCards.length;
         
+        // Simple fade transition
         reviewCards[prevIndex].classList.remove('active');
-        reviewCards[prevIndex].classList.add('prev');
-        
-        setTimeout(() => {
-            reviewCards[prevIndex].classList.remove('prev');
-        }, 500);
-        
         reviewCards[currentReview].classList.add('active');
         
         // Update dots
@@ -639,7 +633,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function startReviewSlider() {
-        reviewInterval = setInterval(nextReview, 4000);
+        reviewInterval = setInterval(nextReview, 7000);
     }
     
     function stopReviewSlider() {
