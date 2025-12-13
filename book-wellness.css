@@ -284,6 +284,8 @@
     cursor: pointer;
     font-size: 0.95rem;
     color: #555;
+    flex-wrap: nowrap;
+    gap: 0;
 }
 
 .checkbox-label input[type="checkbox"] {
@@ -295,14 +297,29 @@
 
 .checkbox-label .checkmark {
     width: 22px;
+    min-width: 22px;
     height: 22px;
     border: 2px solid #ddd;
-    margin-right: 12px;
+    margin-right: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.2s;
     flex-shrink: 0;
+}
+
+.checkbox-label .terms-text {
+    white-space: nowrap;
+    font-size: 0.9rem;
+    display: inline;
+    line-height: 1.4;
+}
+
+.checkbox-label .terms-text a {
+    color: var(--wellness-primary);
+    text-decoration: underline;
+    margin: 0;
+    padding: 0;
 }
 
 .checkbox-label input:checked + .checkmark {
@@ -639,5 +656,32 @@
     .btn-submit {
         padding: 14px 20px;
         font-size: 1rem;
+    }
+
+    /* Checkbox responsive */
+    .checkbox-group {
+        margin-bottom: 15px;
+    }
+
+    .checkbox-label {
+        align-items: center;
+        gap: 0;
+    }
+
+    .checkbox-label .checkmark {
+        width: 18px;
+        min-width: 18px;
+        height: 18px;
+        margin-right: 6px;
+    }
+
+    .checkbox-label .terms-text {
+        font-size: 0.75rem;
+        white-space: nowrap;
+        letter-spacing: -0.2px;
+    }
+
+    .checkbox-label .terms-text a {
+        font-size: 0.75rem;
     }
 }
