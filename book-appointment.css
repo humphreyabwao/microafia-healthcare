@@ -9,8 +9,8 @@
 
 /* Page Hero */
 .booking-hero {
-    background: linear-gradient(135deg, rgba(6, 78, 59, 0.85) 0%, rgba(5, 61, 47, 0.85) 100%),
-                url('images/Doctor .jpg') center/cover no-repeat;
+    background: linear-gradient(135deg, rgba(6, 78, 59, 0.75) 0%, rgba(5, 61, 47, 0.75) 100%),
+                url('images/consultataion.jpeg') center/cover no-repeat;
     color: #fff;
     padding: 80px 0;
     text-align: left;
@@ -373,12 +373,19 @@
     .booking-hero {
         margin-top: 70px;
         padding: 60px 0;
+        text-align: left;
     }
 
     .booking-hero h1 {
         font-size: 1.8rem;
-        flex-direction: column;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
         gap: 10px;
+    }
+
+    .booking-hero p {
+        text-align: left;
     }
 
     .booking-main {
@@ -402,10 +409,19 @@
 @media (max-width: 575px) {
     .booking-hero {
         padding: 50px 0;
+        text-align: left;
     }
 
     .booking-hero h1 {
         font-size: 1.5rem;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .booking-hero p {
+        text-align: left;
     }
 
     .form-header {
