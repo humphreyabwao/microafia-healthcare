@@ -2,11 +2,11 @@
 [build]
   publish = "."
 
-# Pretty URLs - serve .html files without extension
+# Ensure /admin loads with trailing slash so relative assets resolve correctly
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+  from = "/admin"
+  to = "/admin/"
+  status = 301
   force = false
 
 # Headers for static assets
@@ -14,5 +14,7 @@
   for = "/*"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
     X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
