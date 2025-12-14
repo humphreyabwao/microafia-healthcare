@@ -35,6 +35,15 @@ function toAdminPath(page) {
     return page.startsWith('/') ? page : `${ADMIN_BASE}${page}`;
 }
 
+function normalizePath(path) {
+    if (!path) return '/';
+    let p = path;
+    if (!p.startsWith('/')) p = `/${p}`;
+    if (p.endsWith('/')) p = p.slice(0, -1);
+    if (p.endsWith('.html')) p = p.slice(0, -5);
+    return p;
+}
+
 // Auth Check - Redirect to login if not authenticated
 firebase.auth().onAuthStateChanged(async (user) => {
     if (!user) {
@@ -107,15 +116,17 @@ function applyRoleBasedAccess(userData) {
         return;
     }
     
-    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    const rawSlug = window.location.pathname.split('/').pop();
+    const currentPage = rawSlug ? (rawSlug.includes('.') ? rawSlug : `${rawSlug}.html`) : 'index.html';
     const currentPath = window.location.pathname;
+    const normalizedPath = normalizePath(currentPath);
     const allowedModules = userData.modules;
     
     // Check if current page is allowed
     let isPageAllowed = false;
     for (const [module, page] of Object.entries(modulePageMap)) {
         const pagePath = toAdminPath(page);
-        if ((page === currentPage || pagePath === currentPath) && allowedModules.includes(module)) {
+        if ((page === currentPage || normalizePath(pagePath) === normalizedPath) && allowedModules.includes(module)) {
             isPageAllowed = true;
             break;
         }
@@ -148,10 +159,12 @@ function applyRoleBasedAccess(userData) {
 
         const href = link.getAttribute('href');
         const linkPath = href ? new URL(href, window.location.origin).pathname : '';
+        const normalizedLink = normalizePath(linkPath);
         
         for (const [module, page] of Object.entries(modulePageMap)) {
             const pagePath = toAdminPath(page);
-            if (linkPath === pagePath || href === page) {
+            const normalizedPage = normalizePath(pagePath);
+            if (normalizedLink === normalizedPage || href === page) {
                 // Set data attribute for the module
                 item.setAttribute('data-module', module);
                 
