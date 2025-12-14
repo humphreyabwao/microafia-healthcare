@@ -21,7 +21,7 @@ const LOCKOUT_DURATION = 5 * 60 * 1000; // 5 minutes
 // Check if already logged in
 firebase.auth().onAuthStateChanged((user) => {
     if (user) {
-        window.location.href = 'index.html';
+        window.location.href = '/admin/';
     }
 });
 
@@ -127,7 +127,7 @@ if (loginForm) {
             sessionStorage.setItem('loginTime', Date.now().toString());
 
             // Redirect to dashboard
-            window.location.href = 'index.html';
+            window.location.href = '/admin/';
 
         } catch (error) {
             hideLoading();

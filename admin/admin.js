@@ -16,6 +16,8 @@ let userPermissions = {};
    4. Add permission card in users.html modal
    5. Add to allModules array in users.js
    ======================================== */
+const ADMIN_BASE = '/admin/';
+
 const modulePageMap = {
     'dashboard': 'index.html',
     'appointments': 'appointments.html',
@@ -28,10 +30,15 @@ const modulePageMap = {
     // Add new modules here: 'module-name': 'page.html'
 };
 
+function toAdminPath(page) {
+    if (!page) return ADMIN_BASE;
+    return page.startsWith('/') ? page : `${ADMIN_BASE}${page}`;
+}
+
 // Auth Check - Redirect to login if not authenticated
 firebase.auth().onAuthStateChanged(async (user) => {
     if (!user) {
-        window.location.href = 'login.html';
+        window.location.href = toAdminPath('login.html');
         return;
     }
     
@@ -101,12 +108,14 @@ function applyRoleBasedAccess(userData) {
     }
     
     const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    const currentPath = window.location.pathname;
     const allowedModules = userData.modules;
     
     // Check if current page is allowed
     let isPageAllowed = false;
     for (const [module, page] of Object.entries(modulePageMap)) {
-        if (page === currentPage && allowedModules.includes(module)) {
+        const pagePath = toAdminPath(page);
+        if ((page === currentPage || pagePath === currentPath) && allowedModules.includes(module)) {
             isPageAllowed = true;
             break;
         }
@@ -122,12 +131,12 @@ function applyRoleBasedAccess(userData) {
         // Redirect to first allowed module
         for (const module of allowedModules) {
             if (modulePageMap[module]) {
-                window.location.href = modulePageMap[module];
+                window.location.href = toAdminPath(modulePageMap[module]);
                 return;
             }
         }
         // If no modules allowed, go to profile
-        window.location.href = 'profile.html';
+        window.location.href = toAdminPath('profile.html');
         return;
     }
     
@@ -136,11 +145,13 @@ function applyRoleBasedAccess(userData) {
     navItems.forEach(item => {
         const link = item.querySelector('.nav-link');
         if (!link) return;
-        
+
         const href = link.getAttribute('href');
+        const linkPath = href ? new URL(href, window.location.origin).pathname : '';
         
         for (const [module, page] of Object.entries(modulePageMap)) {
-            if (href === page) {
+            const pagePath = toAdminPath(page);
+            if (linkPath === pagePath || href === page) {
                 // Set data attribute for the module
                 item.setAttribute('data-module', module);
                 
@@ -830,7 +841,7 @@ function navigateToNotification(type) {
         reminder: 'reminders.html'
     };
     if (routes[type]) {
-        window.location.href = routes[type];
+        window.location.href = toAdminPath(routes[type]);
     }
 }
 
@@ -914,7 +925,7 @@ async function completeReminder(reminderId) {
 // Logout Function
 function logout() {
     firebase.auth().signOut().then(() => {
-        window.location.href = '../index.html';
+        window.location.href = toAdminPath('login.html');
     }).catch((error) => {
         console.error('Logout error:', error);
         alert('Error logging out. Please try again.');
