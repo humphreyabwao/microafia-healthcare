@@ -1,23 +1,4 @@
 # Microafia Healthcare - Netlify _redirects file
-# Alternative to netlify.toml for clean URLs
+# Netlify handles clean URLs automatically with pretty_urls setting
 
-# Redirect .html to clean URLs
-/index.html              /                    301
-/lab-services.html       /lab-services        301
-/imaging-services.html   /imaging-services    301
-/book-appointment.html   /book-appointment    301
-/book-wellness.html      /book-wellness       301
-
-# Admin redirects
-/admin/index.html        /admin               301
-/admin/login.html        /admin/login         301
-/admin/appointments.html /admin/appointments  301
-/admin/lab-orders.html   /admin/lab-orders    301
-/admin/messages.html     /admin/messages      301
-/admin/callbacks.html    /admin/callbacks     301
-/admin/wellness.html     /admin/wellness      301
-/admin/settings.html     /admin/settings      301
-/admin/profile.html      /admin/profile       301
-
-# Pretty URLs fallback
-/*    /:splat.html    200
+# No redirects needed - Netlify's pretty_urls handles .html extension removal
