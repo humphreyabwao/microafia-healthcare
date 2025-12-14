@@ -2,8 +2,17 @@
 [build]
   publish = "."
 
+# Pretty URLs - serve .html files without extension
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  force = false
+
 # Headers for static assets
 [[headers]]
   for = "/*"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
