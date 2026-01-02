@@ -92,6 +92,23 @@
     font-size: 0.9rem;
     cursor: pointer;
     transition: all 0.3s;
+    text-decoration: none;
+    color: inherit;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.filter-btn.dna-link {
+    background: linear-gradient(135deg, var(--lab-primary) 0%, var(--lab-primary-dark) 100%);
+    border-color: var(--lab-primary);
+    color: #fff;
+}
+
+.filter-btn.dna-link:hover {
+    background: var(--lab-primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(6, 78, 59, 0.3);
 }
 
 .filter-btn:hover {
@@ -600,6 +617,91 @@
     background: var(--lab-primary-dark);
 }
 
+/* DNA Promo Banner - Minimal & Clean */
+.dna-promo-banner {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+    padding: 20px 25px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+}
+
+.dna-promo-icon {
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.dna-promo-icon i {
+    font-size: 1.5rem;
+    color: #fff;
+}
+
+.dna-promo-info {
+    flex: 1;
+}
+
+.dna-promo-info h3 {
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0 0 8px;
+}
+
+.dna-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.dna-features span {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.dna-features span i {
+    font-size: 0.7rem;
+    color: #fbbf24;
+}
+
+.dna-promo-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #fff;
+    color: #dc2626;
+    padding: 12px 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all 0.3s;
+}
+
+.dna-promo-btn:hover {
+    background: #1f2937;
+    color: #fff;
+    transform: translateX(5px);
+}
+
+.dna-promo-btn i {
+    transition: transform 0.3s;
+}
+
+.dna-promo-btn:hover i {
+    transform: translateX(3px);
+}
+
 /* Responsive */
 @media (max-width: 991px) {
     .lab-hero {
@@ -690,4 +792,35 @@
     .category-header h2 {
         font-size: 1rem;
     }
-}
+
+    /* DNA Promo Banner Mobile */
+    .dna-promo-banner {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+        gap: 15px;
+    }
+
+    .dna-promo-icon {
+        width: 45px;
+        height: 45px;
+    }
+
+    .dna-promo-info h3 {
+        font-size: 1rem;
+    }
+
+    .dna-features {
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .dna-features span {
+        font-size: 0.75rem;
+    }
+
+    .dna-promo-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 12px 20px;
+    }
