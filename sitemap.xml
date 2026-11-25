@@ -3,7 +3,7 @@
     <!-- Homepage -->
     <url>
         <loc>https://www.microafiahealthcare.co.ke/</loc>
-        <lastmod>2024-12-13</lastmod>
+        <lastmod>2026-11-25</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
     </url>
@@ -11,7 +11,13 @@
     <!-- Lab Services - Best DNA Hospital in Kenya -->
     <url>
         <loc>https://www.microafiahealthcare.co.ke/lab-services</loc>
-        <lastmod>2024-12-13</lastmod>
+        <lastmod>2026-11-25</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>https://www.microafiahealthcare.co.ke/dna-services</loc>
+        <lastmod>2026-11-25</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
     </url>
@@ -19,7 +25,13 @@
     <!-- Imaging Services -->
     <url>
         <loc>https://www.microafiahealthcare.co.ke/imaging-services</loc>
-        <lastmod>2024-12-13</lastmod>
+        <lastmod>2026-11-25</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://www.microafiahealthcare.co.ke/pharmacy</loc>
+        <lastmod>2026-11-25</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
@@ -27,7 +39,7 @@
     <!-- Book Appointment -->
     <url>
         <loc>https://www.microafiahealthcare.co.ke/book-appointment</loc>
-        <lastmod>2024-12-13</lastmod>
+        <lastmod>2026-11-25</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -35,7 +47,13 @@
     <!-- Wellness Packages -->
     <url>
         <loc>https://www.microafiahealthcare.co.ke/book-wellness</loc>
-        <lastmod>2024-12-13</lastmod>
+        <lastmod>2026-11-25</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.microafiahealthcare.co.ke/bloodline-apply</loc>
+        <lastmod>2026-11-25</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>

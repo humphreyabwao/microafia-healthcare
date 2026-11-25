@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const urlParams = new URLSearchParams(window.location.search);
     const packageParam = urlParams.get('package');
     if (packageParam) {
-        const radio = document.querySelector(`input[name="package"][value="${packageParam}"]`);
+        const radio = Array.from(document.querySelectorAll('input[name="package"]')).find(input => input.value === packageParam);
         if (radio) {
             radio.checked = true;
             radio.closest('.package-card').classList.add('selected');
@@ -43,12 +43,6 @@ document.addEventListener('DOMContentLoaded', function() {
         dateInput.min = tomorrow.toISOString().split('T')[0];
         dateInput.max = maxDate.toISOString().split('T')[0];
 
-        dateInput.addEventListener('change', function() {
-            if (new Date(this.value).getDay() === 0) {
-                alert('We are closed on Sundays. Please select another day.');
-                this.value = '';
-            }
-        });
     }
 
     // ==================== FORM SUBMISSION ====================

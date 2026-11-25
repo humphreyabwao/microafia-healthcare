@@ -1,0 +1,118 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function staffRecord() { return get(/databases/$(database)/documents/admin_users/$(request.auth.uid)).data; }
+    function isStaff() {
+      return signedIn() && exists(/databases/$(database)/documents/admin_users/$(request.auth.uid)) &&
+        staffRecord().get('status', '') == 'active';
+    }
+    function isAdmin() {
+      return signedIn() && (request.auth.token.get('admin', false) == true ||
+        (isStaff() && staffRecord().get('role', '') in ['admin', 'super_admin']));
+    }
+    function can(module, action) {
+      return isAdmin() || (isStaff() && (
+        (action == 'view' && module in staffRecord().get('modules', [])) ||
+        staffRecord().get('permissions', {}).get(module, {}).get(action, false) == true
+      ));
+    }
+    function text(value, maximum) { return value is string && value.size() > 0 && value.size() <= maximum; }
+    function optionalText(d, key, maximum) { return d.get(key, '') is string && d.get(key, '').size() <= maximum; }
+    function newRequest(d, statuses) {
+      return d.createdAt == request.time && d.status in statuses &&
+        text(d.phone, 32) && optionalText(d, 'email', 254) && optionalText(d, 'notes', 5000);
+    }
+    function moduleFor(collection) {
+      return {'appointments': 'appointments', 'lab_orders': 'lab-orders',
+        'wellness_bookings': 'wellness', 'pharmacy_orders': 'pharmacy',
+        'bloodline_applications': 'bloodline', 'contact_messages': 'messages',
+        'messages': 'messages', 'callback_requests': 'callbacks', 'callbacks': 'callbacks'
+      }.get(collection, '');
+    }
+    function publicCreate(collection, d) {
+      return (
+        collection == 'appointments' && newRequest(d, ['pending']) &&
+        text(d.firstName, 200) && text(d.lastName, 200) && text(d.get('service', ''), 200) &&
+        d.keys().hasOnly(['firstName','lastName','phone','email','dob','gender','service','serviceName',
+          'preferredDate','preferredTime','symptoms','isNewPatient','createdAt','status'])
+      ) || (
+        collection == 'lab_orders' && newRequest(d, ['pending']) && text(d.customerName, 200) &&
+        d.tests is list && d.tests.size() <= 100 && d.total is number && d.total >= 0 &&
+        d.keys().hasOnly(['customerName','phone','email','notes','tests','total','prescription','pricingStatus','createdAt','status',
+          'collectionMethod','location','consent','category'])
+      ) || (
+        collection == 'wellness_bookings' && newRequest(d, ['pending']) && text(d.fullName, 200) &&
+        d.get('package', '') in ['women','men','family'] &&
+        d.keys().hasOnly(['package','packageName','packagePrice','fullName','phone','email','members',
+          'preferredDate','preferredTime','preferredTimeSlot','notes','createdAt','status'])
+      ) || (
+        collection == 'pharmacy_orders' && newRequest(d, ['pending']) && text(d.customerName, 200) &&
+        text(d.deliveryAddress, 2000) && d.items is list && d.items.size() <= 100 &&
+        d.subtotal is number && d.subtotal >= 0 &&
+        d.keys().hasOnly(['customerName','phone','email','deliveryAddress','landmark','paymentPreference',
+          'notes','requestType','pricingStatus','items','itemCount','subtotal','prescription','createdAt','status'])
+      ) || (
+        collection == 'bloodline_applications' && newRequest(d, ['new']) && text(d.fullName, 200) &&
+        text(d.story, 5000) && d.consentTest == true && d.consentShow == true &&
+        d.keys().hasOnly(['fullName','phone','email','location','testType','people','story',
+          'consentTest','consentShow','status','source','createdAt'])
+      ) || (
+        collection == 'contact_messages' && newRequest(d, ['unread']) && text(d.name, 200) && text(d.message, 5000) &&
+        d.keys().hasOnly(['name','phone','email','service','message','createdAt','status'])
+      ) || (
+        collection == 'callback_requests' && newRequest(d, ['pending']) && text(d.name, 200) &&
+        d.keys().hasOnly(['name','phone','createdAt','status'])
+      );
+    }
+
+    match /admin_users/{uid} {
+      allow get: if (signedIn() && request.auth.uid == uid) || can('users', 'view');
+      allow list: if can('users', 'view');
+      allow create, delete: if isAdmin();
+      allow update: if isAdmin() || (isStaff() && request.auth.uid == uid &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          'firstName','lastName','name','email','phone','bio','avatar','lastLogin','updatedAt','settings','activityLog'
+        ]));
+    }
+    match /pharmacy_products/{id} {
+      allow read: if resource.data.active == true || can('pharmacy', 'view');
+      allow create, update: if can('pharmacy', 'edit');
+      allow delete: if can('pharmacy', 'delete');
+    }
+    // Public website content edited from the admin (e.g. the Bloodline Show video)
+    match /site_content/{id} {
+      allow read: if true;
+      allow create, update: if (id == 'bloodline' && can('bloodline', 'edit') &&
+        request.resource.data.keys().hasOnly(['videoId', 'title', 'episode', 'updatedAt', 'updatedBy']) &&
+        request.resource.data.videoId is string && request.resource.data.videoId.matches('^[A-Za-z0-9_-]{11}$') &&
+        optionalText(request.resource.data, 'title', 200) && optionalText(request.resource.data, 'episode', 60) &&
+        optionalText(request.resource.data, 'updatedBy', 200) && request.resource.data.updatedAt == request.time) ||
+        // Pharmacy stock rules: "out of stock below N", "low stock below M"
+        (id == 'pharmacy' && can('pharmacy', 'edit') &&
+        request.resource.data.keys().hasOnly(['outOfStockBelow', 'lowStockBelow', 'updatedAt', 'updatedBy']) &&
+        request.resource.data.outOfStockBelow is int && request.resource.data.outOfStockBelow >= 0 &&
+        request.resource.data.outOfStockBelow <= 10000 &&
+        request.resource.data.lowStockBelow is int && request.resource.data.lowStockBelow >= request.resource.data.outOfStockBelow &&
+        request.resource.data.lowStockBelow <= 10000 &&
+        optionalText(request.resource.data, 'updatedBy', 200) && request.resource.data.updatedAt == request.time);
+      allow delete: if false;
+    }
+    match /settings/{id} {
+      allow read: if isStaff() || isAdmin();
+      allow write: if can('settings', 'edit');
+    }
+    match /reminders/{id} {
+      allow read: if can('dashboard', 'view');
+      allow create, update: if can('dashboard', 'edit');
+      allow delete: if can('dashboard', 'delete');
+    }
+    match /{collection}/{id} {
+      allow create: if (moduleFor(collection) != '' && can(moduleFor(collection), 'edit')) || publicCreate(collection, request.resource.data);
+      allow read: if moduleFor(collection) != '' && can(moduleFor(collection), 'view');
+      allow update: if moduleFor(collection) != '' && can(moduleFor(collection), 'edit');
+      allow delete: if moduleFor(collection) != '' && can(moduleFor(collection), 'delete');
+    }
+    match /{document=**} { allow read, write: if false; }
+  }
+}

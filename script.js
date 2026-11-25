@@ -159,64 +159,130 @@ document.addEventListener('DOMContentLoaded', function() {
     const mobileDropdownToggle = document.querySelectorAll('.mobile-dropdown-toggle');
     
     // ========================================
-    // Mobile Dropdown Toggle
+    // Mobile navigation
     // ========================================
-    mobileDropdownToggle.forEach(toggle => {
-        toggle.addEventListener('click', function(e) {
-            e.preventDefault();
-            const parent = this.parentElement;
-            parent.classList.toggle('active');
-        });
+    mobileMenu.id = 'mobile-site-menu';
+    mobileMenu.setAttribute('role', 'navigation');
+    mobileMenu.setAttribute('aria-label', 'Mobile navigation');
+    mobileMenu.setAttribute('aria-hidden', 'true');
+    mobileMenu.inert = true;
+    menuToggle.setAttribute('aria-controls', mobileMenu.id);
+    menuToggle.setAttribute('aria-expanded', 'false');
+    menuToggle.setAttribute('aria-label', 'Open menu');
+    document.querySelector('.upper-nav .btn-signin')?.setAttribute('aria-label', 'Staff sign in');
+
+    const menuHeading = document.createElement('div');
+    menuHeading.className = 'mobile-menu-heading';
+    menuHeading.textContent = 'Explore Microafia';
+    mobileMenu.prepend(menuHeading);
+    const menuActions = document.createElement('div');
+    menuActions.className = 'mobile-menu-actions';
+    menuActions.innerHTML = '<a class="mobile-book-link" href="/book-appointment">Book a consultation <i class="fas fa-arrow-right" aria-hidden="true"></i></a><a class="mobile-call-link" href="tel:+254740250696"><i class="fas fa-phone-alt" aria-hidden="true"></i> Call us</a>';
+    mobileMenu.appendChild(menuActions);
+
+    const menuIcons = ['fa-house', 'fa-heart-pulse', 'fa-stethoscope', 'fa-user-doctor', 'fa-leaf', 'fa-location-dot'];
+    mobileMenu.querySelectorAll('.mobile-menu-list > li').forEach((item, index) => {
+        const icon = document.createElement('i');
+        icon.className = `fas ${menuIcons[index] || 'fa-circle'} mobile-menu-icon`;
+        icon.setAttribute('aria-hidden', 'true');
+        item.querySelector(':scope > a').prepend(icon);
     });
-    
-    // Close dropdown when clicking on submenu link
-    const mobileSubMenuLinks = document.querySelectorAll('.mobile-dropdown-menu li a');
-    mobileSubMenuLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            menuToggle.classList.remove('active');
-            mobileMenu.classList.remove('active');
-            document.body.style.overflow = '';
-        });
-    });
-    
-    // ========================================
-    // Mobile Menu Toggle
-    // ========================================
-    function toggleMobileMenu() {
-        menuToggle.classList.toggle('active');
-        mobileMenu.classList.toggle('active');
-        
-        // Prevent body scroll when menu is open
-        if (mobileMenu.classList.contains('active')) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = '';
-        }
+
+    const menuBackdrop = document.createElement('div');
+    menuBackdrop.className = 'mobile-menu-backdrop';
+    menuBackdrop.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(menuBackdrop);
+    let menuPreviousOverflow = '';
+    let menuCloseTimer;
+
+    function setMobileMenu(open, restoreFocus = false) {
+        if (open === mobileMenu.classList.contains('active')) return;
+        if (open) menuPreviousOverflow = document.body.style.overflow;
+        menuToggle.classList.toggle('active', open);
+        mobileMenu.classList.toggle('active', open);
+        clearTimeout(menuCloseTimer);
+        if (open) header.classList.add('menu-open');
+        else menuCloseTimer = setTimeout(() => {
+            header.classList.remove('menu-open');
+            mobileDropdownToggle.forEach(toggle => setMobileDropdown(toggle, false));
+        }, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 420);
+        menuBackdrop.classList.toggle('active', open);
+        menuToggle.setAttribute('aria-expanded', String(open));
+        menuToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+        mobileMenu.setAttribute('aria-hidden', String(!open));
+        mobileMenu.inert = !open;
+        document.body.style.overflow = open ? 'hidden' : menuPreviousOverflow;
+        if (restoreFocus) menuToggle.focus();
     }
-    
-    menuToggle.addEventListener('click', toggleMobileMenu);
-    
-    // Close mobile menu when clicking on a link
-    mobileMenuLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            menuToggle.classList.remove('active');
-            mobileMenu.classList.remove('active');
-            document.body.style.overflow = '';
+
+    function setMobileDropdown(toggle, open) {
+        const parent = toggle.parentElement;
+        const submenu = parent.querySelector('.mobile-dropdown-menu');
+        if (open) submenu.style.setProperty('--submenu-height', `${submenu.scrollHeight}px`);
+        parent.classList.toggle('active', open);
+        toggle.setAttribute('aria-expanded', String(open));
+        submenu.inert = !open;
+    }
+
+    mobileDropdownToggle.forEach((toggle, index) => {
+        const submenu = toggle.parentElement.querySelector('.mobile-dropdown-menu');
+        submenu.id = `mobile-submenu-${index}`;
+        submenu.inert = true;
+        toggle.setAttribute('aria-controls', submenu.id);
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('role', 'button');
+        toggle.addEventListener('click', event => {
+            event.preventDefault();
+            const open = !toggle.parentElement.classList.contains('active');
+            mobileDropdownToggle.forEach(other => setMobileDropdown(other, other === toggle && open));
+        });
+        toggle.addEventListener('keydown', event => {
+            if (event.key === ' ') { event.preventDefault(); toggle.click(); }
         });
     });
-    
+
+    menuToggle.addEventListener('click', () => setMobileMenu(!mobileMenu.classList.contains('active')));
+    menuBackdrop.addEventListener('click', () => setMobileMenu(false));
+    mobileMenu.querySelectorAll('a:not(.mobile-dropdown-toggle)').forEach(link => {
+        link.addEventListener('click', () => setMobileMenu(false));
+    });
+    document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && mobileMenu.classList.contains('active')) {
+            event.preventDefault();
+            setMobileMenu(false, true);
+        }
+    });
+
     // ========================================
     // Header Scroll Effect
     // ========================================
+    // Collapse the mobile contact tier without shifting page content.
+    // Different show/hide thresholds prevent flicker near the top.
+    let scrollTicking = false;
+
     function handleScroll() {
-        if (window.scrollY > 50) {
+        const y = window.scrollY;
+        const mobile = window.innerWidth <= 991;
+        if (y > (mobile ? 48 : 80)) {
             header.classList.add('scrolled');
-        } else {
+        } else if (y < 20) {
             header.classList.remove('scrolled');
         }
+        if (mobile) {
+            document.documentElement.style.setProperty('--nav-offset', header.classList.contains('scrolled') ? '60px' : '100px');
+        } else {
+            document.documentElement.style.removeProperty('--nav-offset');
+        }
+        scrollTicking = false;
     }
-    
-    window.addEventListener('scroll', handleScroll);
+
+    window.addEventListener('scroll', () => {
+        if (!scrollTicking) {
+            scrollTicking = true;
+            requestAnimationFrame(handleScroll);
+        }
+    }, { passive: true });
+    handleScroll(); // correct state if the page loads mid-scroll
     
     // ========================================
     // Active Navigation Link
@@ -274,11 +340,10 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('resize', function() {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(function() {
+            handleScroll();
             // Close mobile menu on resize to desktop
             if (window.innerWidth > 991) {
-                menuToggle.classList.remove('active');
-                mobileMenu.classList.remove('active');
-                document.body.style.overflow = '';
+                setMobileMenu(false);
             }
         }, 250);
     });
@@ -289,9 +354,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('click', function(e) {
         if (!menuToggle.contains(e.target) && !mobileMenu.contains(e.target)) {
             if (mobileMenu.classList.contains('active')) {
-                menuToggle.classList.remove('active');
-                mobileMenu.classList.remove('active');
-                document.body.style.overflow = '';
+                setMobileMenu(false);
             }
         }
     });
@@ -302,14 +365,9 @@ document.addEventListener('DOMContentLoaded', function() {
     function animateOnLoad() {
         const heroContent = document.querySelector('.hero-content');
         if (heroContent) {
-            heroContent.style.opacity = '0';
-            heroContent.style.transform = 'translateY(30px)';
-            
-            setTimeout(() => {
-                heroContent.style.transition = 'all 0.8s ease';
-                heroContent.style.opacity = '1';
-                heroContent.style.transform = 'translateY(0)';
-            }, 100);
+            // Keep the primary heading and booking actions visible immediately.
+            heroContent.style.opacity = '1';
+            heroContent.style.transform = 'none';
         }
     }
     
@@ -342,6 +400,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
+    // Each photo has its own heading, text and button (.hero-copy, same order)
+    const heroCopies = document.querySelectorAll('[data-hero-copy]');
+
     function showSlide(index) {
         heroSlides.forEach(slide => slide.classList.remove('active'));
         if (heroSlides[index]) {
@@ -349,19 +410,34 @@ document.addEventListener('DOMContentLoaded', function() {
             heroSlides[index].classList.add('active');
             preloadNextSlide(index);
         }
+        heroCopies.forEach((copy, i) => {
+            const active = i === index;
+            copy.classList.toggle('is-active', active);
+            copy.toggleAttribute('aria-hidden', !active);
+            copy.querySelectorAll('a, button').forEach(el => {
+                if (active) el.removeAttribute('tabindex'); else el.setAttribute('tabindex', '-1');
+            });
+        });
         currentSlide = index;
     }
-    
+
     function nextSlide() {
         const next = (currentSlide + 1) % heroSlides.length;
         showSlide(next);
     }
-    
-    // Start slideshow - change image every 5 seconds
-    if (heroSlides.length > 1) {
+
+    // Start slideshow - a new photo and message every 6 seconds.
+    // Paused while the tab is hidden; stays on the first slide for reduced motion.
+    const heroReduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let heroTimer = null;
+    const startHero = () => { if (!heroTimer) heroTimer = setInterval(nextSlide, 6000); };
+    const stopHero = () => { clearInterval(heroTimer); heroTimer = null; };
+
+    if (heroSlides.length > 1 && !heroReduceMotion) {
         // Preload second slide after a short delay
         setTimeout(() => preloadNextSlide(0), 1000);
-        setInterval(nextSlide, 5000);
+        startHero();
+        document.addEventListener('visibilitychange', () => (document.hidden ? stopHero() : startHero()));
     }
     
     // ========================================
@@ -416,43 +492,53 @@ document.addEventListener('DOMContentLoaded', function() {
     // ========================================
     // Stats Counter Animation
     // ========================================
-    const statNumbers = document.querySelectorAll('.stat-number[data-count]');
-    let statsAnimated = false;
-    
+    // Any element with data-count counts up from 0 when it scrolls into view.
+    // Optional: data-suffix="+", data-prefix="", data-decimals="2".
+    const counters = document.querySelectorAll('[data-count]');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function formatCount(value, decimals) {
+        return value.toLocaleString('en-US', {
+            minimumFractionDigits: decimals,
+            maximumFractionDigits: decimals
+        });
+    }
+
+    function renderCount(el, value) {
+        const decimals = parseInt(el.dataset.decimals || '0', 10);
+        el.textContent = (el.dataset.prefix || '') + formatCount(value, decimals) + (el.dataset.suffix || '');
+    }
+
     function animateCounter(el) {
-        const target = parseInt(el.getAttribute('data-count'));
-        const suffix = el.getAttribute('data-suffix') || '';
-        const duration = 2000;
-        const steps = 60;
-        const increment = target / steps;
-        let current = 0;
-        const stepTime = duration / steps;
-        
-        const timer = setInterval(() => {
-            current += increment;
-            if (current >= target) {
-                current = target;
-                clearInterval(timer);
-            }
-            el.textContent = Math.floor(current) + suffix;
-        }, stepTime);
-    }
-    
-    function checkStatsInView() {
-        const statsSection = document.querySelector('.about-stats');
-        if (statsSection && !statsAnimated) {
-            const rect = statsSection.getBoundingClientRect();
-            const windowHeight = window.innerHeight;
-            
-            if (rect.top < windowHeight - 100) {
-                statsAnimated = true;
-                statNumbers.forEach(stat => animateCounter(stat));
-            }
+        const target = parseFloat(el.dataset.count);
+        const duration = target >= 1000 ? 2200 : 1800;
+        let start = null;
+
+        function tick(now) {
+            if (start === null) start = now;
+            const progress = Math.min(Math.max((now - start) / duration, 0), 1);
+            const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+            renderCount(el, target * eased);
+            if (progress < 1) requestAnimationFrame(tick);
         }
+        requestAnimationFrame(tick);
     }
-    
-    window.addEventListener('scroll', checkStatsInView);
-    checkStatsInView(); // Check on load
+
+    if (counters.length && 'IntersectionObserver' in window && !reduceMotion) {
+        const counterObserver = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounter(entry.target);
+                    obs.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.4 });
+
+        counters.forEach(el => {
+            renderCount(el, 0);
+            counterObserver.observe(el);
+        });
+    }
     
     // ========================================
     // Callback Modal
@@ -573,95 +659,75 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // ========================================
-    // Reviews Carousel (Mobile)
+    // Reviews wall (endless vertical scroll)
     // ========================================
-    const reviewsGrid = document.querySelector('.reviews-grid');
-    const reviewCards = document.querySelectorAll('.review-card');
-    let currentReview = 0;
-    let reviewInterval;
-    
-    function initReviewsCarousel() {
-        if (window.innerWidth <= 767 && reviewCards.length > 0) {
-            // Add dots navigation if not exists
-            let dotsContainer = document.querySelector('.reviews-dots');
-            if (!dotsContainer) {
-                dotsContainer = document.createElement('div');
-                dotsContainer.className = 'reviews-dots';
-                reviewCards.forEach((_, index) => {
-                    const dot = document.createElement('span');
-                    dot.className = 'reviews-dot' + (index === 0 ? ' active' : '');
-                    dot.addEventListener('click', () => goToReview(index));
-                    dotsContainer.appendChild(dot);
-                });
-                reviewsGrid.parentNode.appendChild(dotsContainer);
+    // Distributes the review cards into columns (2 on desktop, 1 on phones),
+    // repeats them until each column is taller than the wall, then duplicates
+    // the set so a CSS translateY(-50%) loop is seamless.
+    const rvWall = document.querySelector('[data-rv-wall]');
+    const rvReduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (rvWall && !rvReduceMotion) {
+        const rvCards = Array.from(rvWall.querySelectorAll('.rv-source .review-card'));
+        let rvCols = 0;
+
+        function buildReviewWall() {
+            const cols = window.innerWidth <= 767 ? 1 : 2;
+            if (cols === rvCols) return;
+            rvCols = cols;
+
+            rvWall.querySelectorAll('.rv-col').forEach(c => c.remove());
+            rvWall.style.setProperty('--rv-cols', cols);
+            rvWall.classList.add('is-live');
+            const wallHeight = rvWall.clientHeight;
+
+            for (let c = 0; c < cols; c++) {
+                const mine = rvCards.filter((_, i) => i % cols === c);
+                const col = document.createElement('div');
+                col.className = 'rv-col';
+                const track = document.createElement('div');
+                track.className = 'rv-track';
+                const group = document.createElement('div');
+                group.className = 'rv-group';
+                track.appendChild(group);
+                col.appendChild(track);
+                rvWall.appendChild(col);
+
+                // Fill one group until it is at least as tall as the wall
+                let pass = 0;
+                do {
+                    mine.forEach(card => {
+                        const copy = card.cloneNode(true);
+                        if (pass > 0) copy.setAttribute('aria-hidden', 'true');
+                        group.appendChild(copy);
+                    });
+                    pass++;
+                } while (group.offsetHeight < wallHeight && pass < 10);
+
+                // Second identical group makes the loop seamless
+                const twin = group.cloneNode(true);
+                twin.setAttribute('aria-hidden', 'true');
+                track.appendChild(twin);
+
+                // Constant reading speed: ~22px/s, a little slower on the 2nd column
+                const speed = c % 2 ? 18 : 22;
+                track.style.setProperty('--rv-dur', (group.offsetHeight / speed).toFixed(1) + 's');
             }
-            
-            // Set initial state
-            reviewCards.forEach((card, index) => {
-                card.classList.remove('active', 'prev');
-                if (index === 0) card.classList.add('active');
-            });
-            
-            // Start auto-slide
-            startReviewSlider();
-        } else {
-            // Reset for desktop
-            stopReviewSlider();
-            reviewCards.forEach(card => {
-                card.classList.remove('active', 'prev');
-            });
-            const dotsContainer = document.querySelector('.reviews-dots');
-            if (dotsContainer) dotsContainer.style.display = 'none';
         }
-    }
-    
-    function goToReview(index) {
-        // Remove active from current
-        reviewCards[currentReview].classList.remove('active');
-        
-        // Update current index
-        currentReview = index;
-        
-        // Add active to new review
-        reviewCards[currentReview].classList.add('active');
-        
-        // Update dots
-        const dots = document.querySelectorAll('.reviews-dot');
-        dots.forEach((dot, i) => {
-            dot.classList.toggle('active', i === currentReview);
-        });
-        
-        // Reset interval
-        stopReviewSlider();
-        startReviewSlider();
-    }
-    
-    function nextReview() {
-        const prevIndex = currentReview;
-        currentReview = (currentReview + 1) % reviewCards.length;
-        
-        // Simple fade transition
-        reviewCards[prevIndex].classList.remove('active');
-        reviewCards[currentReview].classList.add('active');
-        
-        // Update dots
-        const dots = document.querySelectorAll('.reviews-dot');
-        dots.forEach((dot, i) => {
-            dot.classList.toggle('active', i === currentReview);
+
+        buildReviewWall();
+        let rvResize;
+        window.addEventListener('resize', () => {
+            clearTimeout(rvResize);
+            rvResize = setTimeout(buildReviewWall, 200);
         });
     }
-    
-    function startReviewSlider() {
-        reviewInterval = setInterval(nextReview, 7000);
-    }
-    
-    function stopReviewSlider() {
-        clearInterval(reviewInterval);
-    }
-    
-    // Initialize on load and resize
-    initReviewsCarousel();
-    window.addEventListener('resize', initReviewsCarousel);
+
+
+    // Keep the footer copyright year current
+    document.querySelectorAll('[data-year]').forEach(el => {
+        el.textContent = new Date().getFullYear();
+    });
 
     // ==================== //
     // Scroll to Top Button //

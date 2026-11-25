@@ -1,0 +1,17 @@
+# Local Firebase emulator output
+.firebase/
+firebase-debug.log
+storage-debug.log
+ui-debug.log
+__pycache__/
+firestore-debug.log
+*-debug.log
+.env
+.env.*
+!.env.example
+**/node_modules/
+functions/.secret.local
+**/service-account*.json
+
+# Cloud Functions dependencies
+functions/node_modules/

@@ -1,222 +1,202 @@
 /* ========================================
-   Admin Login JavaScript - Secure
+   Admin login
+   Signs in, confirms the staff record right here (so any problem is shown on
+   this form instead of a silent bounce), then opens the dashboard instantly
+   using the verified profile. The dashboard re-checks it with the server.
    ======================================== */
 
-// DOM Elements
 const loginForm = document.getElementById('loginForm');
 const emailInput = document.getElementById('email');
 const passwordInput = document.getElementById('password');
 const togglePassword = document.getElementById('togglePassword');
 const loginBtn = document.getElementById('loginBtn');
 const errorMessage = document.getElementById('errorMessage');
-const loadingOverlay = document.getElementById('loadingOverlay');
 const forgotPassword = document.getElementById('forgotPassword');
 
-// Security: Rate limiting
+// Shared with admin/admin.js
+const PROFILE_CACHE_KEY = 'mf_admin_profile';
+const LOGIN_NOTICE_KEY = 'mf_login_notice';
+const DASHBOARD = '/admin/';
+const CHECK_TIMEOUT = 5000;   // then hand over to the dashboard, which retries and explains
+
+// Client-side throttle (Firebase also rate-limits on the server)
 let loginAttempts = 0;
 let lockoutTime = null;
 const MAX_ATTEMPTS = 5;
-const LOCKOUT_DURATION = 5 * 60 * 1000; // 5 minutes
+const LOCKOUT_DURATION = 5 * 60 * 1000;
+let busy = false;
 
-// Check if already logged in
-firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-        window.location.href = '/admin/';
-    }
-});
-
-// Toggle Password Visibility
-if (togglePassword) {
-    togglePassword.addEventListener('click', () => {
-        const type = passwordInput.type === 'password' ? 'text' : 'password';
-        passwordInput.type = type;
-        togglePassword.innerHTML = `<i class="fas fa-${type === 'password' ? 'eye' : 'eye-slash'}"></i>`;
-    });
-}
-
-// Show Error
+// ---------- UI ----------
 function showError(message) {
     errorMessage.textContent = message;
     errorMessage.classList.add('show');
 }
+function hideError() { errorMessage.classList.remove('show'); }
 
-// Hide Error
-function hideError() {
-    errorMessage.classList.remove('show');
+function setBusy(on, label = 'Signing in…') {
+    busy = on;
+    loginBtn.disabled = on;
+    loginBtn.setAttribute('aria-busy', String(on));
+    loginBtn.innerHTML = on ? `<span class="btn-spinner" aria-hidden="true"></span>${label}` : 'Sign in';
 }
 
-// Show Loading
-function showLoading() {
-    loadingOverlay.classList.add('show');
-    loginBtn.disabled = true;
+togglePassword?.addEventListener('click', () => {
+    const show = passwordInput.type === 'password';
+    passwordInput.type = show ? 'text' : 'password';
+    togglePassword.setAttribute('aria-pressed', String(show));
+    togglePassword.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+    togglePassword.innerHTML = `<i class="fas fa-${show ? 'eye-slash' : 'eye'}"></i>`;
+});
+
+// A message left by the dashboard when it ended a session (e.g. no staff record)
+try {
+    const notice = sessionStorage.getItem(LOGIN_NOTICE_KEY);
+    if (notice) { showError(notice); sessionStorage.removeItem(LOGIN_NOTICE_KEY); }
+} catch (_) { /* storage blocked */ }
+
+// ---------- staff check ----------
+const readCache = () => { try { return JSON.parse(sessionStorage.getItem(PROFILE_CACHE_KEY) || 'null'); } catch (_) { return null; } };
+function writeCache(p) {
+    try {
+        const { id, name, firstName, role, status, modules, permissions } = p;
+        sessionStorage.setItem(PROFILE_CACHE_KEY, JSON.stringify({ id, name, firstName, role, status, modules, permissions }));
+    } catch (_) { /* storage full or blocked */ }
 }
 
-// Hide Loading
-function hideLoading() {
-    loadingOverlay.classList.remove('show');
-    loginBtn.disabled = false;
+function withTimeout(promise, ms) {
+    let timer;
+    return Promise.race([
+        promise,
+        new Promise((_, reject) => { timer = setTimeout(() => reject(Object.assign(new Error('timeout'), { code: 'timeout' })), ms); })
+    ]).finally(() => clearTimeout(timer));
 }
 
-// Check if locked out
+async function refuse(message) {
+    try { sessionStorage.removeItem(PROFILE_CACHE_KEY); } catch (_) { /* ignore */ }
+    await firebase.auth().signOut().catch(() => {});
+    setBusy(false);
+    showError(message);
+    passwordInput.value = '';
+    passwordInput.focus();
+}
+
+const openDashboard = () => window.location.replace(DASHBOARD);
+
+async function continueAs(user) {
+    const cached = readCache();
+    if (cached && cached.id === user.uid && cached.status === 'active') return openDashboard();
+    if (typeof db === 'undefined') return openDashboard();   // dashboard will check
+
+    setBusy(true, 'Opening dashboard…');
+    try {
+        const doc = await withTimeout(db.collection('admin_users').doc(user.uid).get(), CHECK_TIMEOUT);
+        if (doc.exists) {
+            const profile = { id: doc.id, ...doc.data() };
+            if (profile.status !== 'active') return refuse('Your staff account is inactive. Please contact an administrator.');
+            writeCache(profile);
+            return openDashboard();
+        }
+        const token = await user.getIdTokenResult();
+        if (token.claims.admin === true) return openDashboard();   // first admin: dashboard creates the record
+        return refuse('This account is not set up for the staff dashboard. Ask an administrator to add you in User Management.');
+    } catch (error) {
+        if (error.code === 'permission-denied') {
+            return refuse('Your staff access could not be verified. Ask an administrator to check your staff account.');
+        }
+        // Slow or offline: don't hold the person here; the dashboard retries and explains.
+        console.warn('Staff check on login did not finish:', error.code || error.message);
+        return openDashboard();
+    }
+}
+
+// Already signed in (e.g. reopened tab): go straight through
+firebase.auth().onAuthStateChanged(user => {
+    if (user && !busy) void continueAs(user);
+});
+
+// ---------- sign in ----------
 function isLockedOut() {
     if (lockoutTime && Date.now() < lockoutTime) {
-        const remainingTime = Math.ceil((lockoutTime - Date.now()) / 1000 / 60);
-        showError(`Too many failed attempts. Try again in ${remainingTime} minute(s).`);
+        const minutes = Math.ceil((lockoutTime - Date.now()) / 60000);
+        showError(`Too many failed attempts. Try again in ${minutes} minute${minutes === 1 ? '' : 's'}.`);
         return true;
     }
-    if (lockoutTime && Date.now() >= lockoutTime) {
-        lockoutTime = null;
-        loginAttempts = 0;
-    }
+    if (lockoutTime) { lockoutTime = null; loginAttempts = 0; }
     return false;
 }
 
-// Sanitize input
-function sanitizeInput(input) {
-    return input.trim().replace(/[<>]/g, '');
-}
+const isValidEmail = email => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-// Validate email format
-function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-}
+loginForm?.addEventListener('submit', async e => {
+    e.preventDefault();
+    if (busy) return;
+    hideError();
+    if (isLockedOut()) return;
 
-// Login Form Submit
-if (loginForm) {
-    loginForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        hideError();
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+    if (!email || !password) return showError('Enter your email and password.');
+    if (!isValidEmail(email)) { emailInput.focus(); return showError('Enter a valid email address.'); }
 
-        // Check lockout
-        if (isLockedOut()) return;
-
-        const email = sanitizeInput(emailInput.value);
-        const password = passwordInput.value;
-
-        // Validation
-        if (!email || !password) {
-            showError('Please fill in all fields');
-            return;
+    setBusy(true);
+    try {
+        // Session persistence: signed out when the browser closes
+        await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
+        const { user } = await firebase.auth().signInWithEmailAndPassword(email, password);
+        loginAttempts = 0;
+        lockoutTime = null;
+        try { sessionStorage.setItem('loginTime', Date.now().toString()); } catch (_) { /* ignore */ }
+        await continueAs(user);
+    } catch (error) {
+        setBusy(false);
+        loginAttempts++;
+        if (loginAttempts >= MAX_ATTEMPTS) {
+            lockoutTime = Date.now() + LOCKOUT_DURATION;
+            return showError('Too many failed attempts. Please try again in 5 minutes.');
         }
-
-        if (!isValidEmail(email)) {
-            showError('Please enter a valid email address');
-            return;
-        }
-
-        if (password.length < 6) {
-            showError('Password must be at least 6 characters');
-            return;
-        }
-
-        showLoading();
-
-        try {
-            // Set session persistence (expires when browser closes)
-            await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
-            
-            // Sign in with Firebase
-            const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
-            
-            // Reset attempts on success
-            loginAttempts = 0;
-            lockoutTime = null;
-
-            // Store login timestamp
-            sessionStorage.setItem('loginTime', Date.now().toString());
-
-            // Redirect to dashboard
-            window.location.href = '/admin/';
-
-        } catch (error) {
-            hideLoading();
-            loginAttempts++;
-
-            // Check if should lockout
-            if (loginAttempts >= MAX_ATTEMPTS) {
-                lockoutTime = Date.now() + LOCKOUT_DURATION;
-                showError('Too many failed attempts. Please try again in 5 minutes.');
-                return;
-            }
-
-            // Handle errors (generic messages for security)
-            switch (error.code) {
-                case 'auth/user-not-found':
-                case 'auth/wrong-password':
-                case 'auth/invalid-credential':
-                    showError('Invalid email or password');
-                    break;
-                case 'auth/invalid-email':
-                    showError('Invalid email address');
-                    break;
-                case 'auth/too-many-requests':
-                    showError('Too many failed attempts. Please try again later.');
-                    break;
-                case 'auth/user-disabled':
-                    showError('This account has been disabled');
-                    break;
-                case 'auth/network-request-failed':
-                    showError('Network error. Please check your connection.');
-                    break;
-                default:
-                    showError('Login failed. Please try again.');
-            }
-        }
-    });
-}
-
-// Forgot Password
-if (forgotPassword) {
-    forgotPassword.addEventListener('click', async (e) => {
-        e.preventDefault();
-        
-        const email = sanitizeInput(emailInput.value);
-        
-        if (!email) {
-            showError('Please enter your email address first');
-            return;
-        }
-
-        if (!isValidEmail(email)) {
-            showError('Please enter a valid email address');
-            return;
-        }
-
-        showLoading();
-
-        try {
-            await firebase.auth().sendPasswordResetEmail(email);
-            hideLoading();
-            hideError();
-            alert('If an account exists with this email, a password reset link has been sent.');
-        } catch (error) {
-            hideLoading();
-            // Generic message for security
-            alert('If an account exists with this email, a password reset link has been sent.');
-        }
-    });
-}
-
-// Prevent form resubmission on refresh
-if (window.history.replaceState) {
-    window.history.replaceState(null, null, window.location.href);
-}
-
-// Clear password on page unload
-window.addEventListener('beforeunload', () => {
-    if (passwordInput) passwordInput.value = '';
-});
-
-// Disable autocomplete for password
-if (passwordInput) {
-    passwordInput.setAttribute('autocomplete', 'new-password');
-}
-
-// Enter key on email moves to password
-emailInput?.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-        e.preventDefault();
-        passwordInput.focus();
+        const messages = {
+            'auth/user-not-found': 'Incorrect email or password.',
+            'auth/wrong-password': 'Incorrect email or password.',
+            'auth/invalid-credential': 'Incorrect email or password.',
+            'auth/invalid-login-credentials': 'Incorrect email or password.',
+            'auth/invalid-email': 'Enter a valid email address.',
+            'auth/too-many-requests': 'Too many attempts. Please wait a few minutes and try again.',
+            'auth/user-disabled': 'This account has been disabled.',
+            'auth/network-request-failed': 'No connection. Check your internet and try again.'
+        };
+        showError(messages[error.code] || 'Sign-in failed. Please try again.');
+        passwordInput.select();
     }
 });
+
+// ---------- forgot password ----------
+forgotPassword?.addEventListener('click', async e => {
+    e.preventDefault();
+    const email = emailInput.value.trim();
+    if (!isValidEmail(email)) {
+        emailInput.focus();
+        return showError('Enter your email above first, then choose "Forgot password?".');
+    }
+    hideError();
+    try { await firebase.auth().sendPasswordResetEmail(email); } catch (_) { /* same message either way */ }
+    errorMessage.classList.add('show', 'is-info');
+    errorMessage.textContent = `If ${email} has a staff account, a password reset link is on its way.`;
+});
+emailInput?.addEventListener('input', () => errorMessage.classList.remove('is-info'));
+
+// ---------- warm the cache ----------
+// While the person types, fetch the dashboard files so the redirect opens instantly.
+function prefetchDashboard() {
+    ['/admin/', '/admin/admin.css', '/admin/dashboard.css', '/admin/security.js', '/admin/admin.js', '/admin/dashboard.js']
+        .forEach(href => {
+            const link = document.createElement('link');
+            link.rel = 'prefetch';
+            link.href = href;
+            document.head.appendChild(link);
+        });
+}
+if ('requestIdleCallback' in window) requestIdleCallback(prefetchDashboard, { timeout: 2000 });
+else setTimeout(prefetchDashboard, 800);
+
+// Don't keep the password in the field when leaving
+window.addEventListener('pagehide', () => { if (passwordInput) passwordInput.value = ''; });

@@ -1,0 +1,88 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function owns(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    // Custom claims are assigned by a trusted Firebase Admin SDK, never clients.
+    function staffFor(kind) {
+      return signedIn() && (
+        request.auth.token.get('admin', false) == true ||
+        (kind == 'lab' && request.auth.token.get('labUploads', false) == true) ||
+        (kind == 'pharmacy' && request.auth.token.get('pharmacyUploads', false) == true)
+      );
+    }
+
+    // Staff record managed in Admin > User Management (Firestore admin_users)
+    function staffRecord() {
+      return firestore.get(/databases/(default)/documents/admin_users/$(request.auth.uid)).data;
+    }
+
+    function pharmacyEditor() {
+      return firestore.exists(/databases/(default)/documents/admin_users/$(request.auth.uid)) &&
+        staffRecord().get('status', '') == 'active' && (
+          staffRecord().get('role', '') in ['admin', 'super_admin'] ||
+          staffRecord().get('permissions', {}).get('pharmacy', {}).get('edit', false) == true
+        );
+    }
+
+    function productStaff() {
+      return signedIn() && (
+        request.auth.token.get('admin', false) == true ||
+        request.auth.token.get('pharmacyProducts', false) == true ||
+        pharmacyEditor()
+      );
+    }
+
+    function validDocument(file) {
+      return request.resource.size > 0 && request.resource.size <= 5 * 1024 * 1024 && (
+        (request.resource.contentType == 'application/pdf' && file.matches('.*\\.pdf')) ||
+        (request.resource.contentType == 'image/jpeg' && file.matches('.*\\.(jpg|jpeg)')) ||
+        (request.resource.contentType == 'image/png' && file.matches('.*\\.png'))
+      );
+    }
+
+    // Patient uploads: each visitor can access only their own upload folder.
+    match /prescriptions/{kind}/{uid}/{file} {
+      allow create: if resource == null && kind in ['lab', 'pharmacy'] && owns(uid) && validDocument(file) &&
+        request.resource.metadata.ownerUid == uid && request.resource.metadata.purpose == kind;
+      allow get: if kind in ['lab', 'pharmacy'] && (owns(uid) || staffFor(kind));
+      allow delete: if kind in ['lab', 'pharmacy'] && (owns(uid) || staffFor(kind));
+      allow update, list: if false;
+    }
+
+    // Existing lab and pharmacy files remain available to authorized staff.
+    // All new uploads must use the owner-scoped paths above.
+    match /prescriptions/{file} {
+      allow get, delete: if staffFor('lab');
+      allow create, update, list: if false;
+    }
+    match /prescriptions/pharmacy/{file} {
+      allow get, delete: if staffFor('pharmacy');
+      allow create, update, list: if false;
+    }
+
+    // Catalogue photographs are public. Staff alone can create/delete them.
+    match /pharmacy/products/{file} {
+      allow get: if true;
+      allow create: if resource == null && productStaff() && request.resource.size > 0 &&
+        request.resource.size <= 3 * 1024 * 1024 && (
+          (request.resource.contentType == 'image/jpeg' && file.matches('.*\\.(jpg|jpeg)')) ||
+          (request.resource.contentType == 'image/png' && file.matches('.*\\.png')) ||
+          (request.resource.contentType == 'image/webp' && file.matches('.*\\.webp')) ||
+          (request.resource.contentType == 'image/gif' && file.matches('.*\\.gif'))
+        );
+      allow delete: if productStaff();
+      allow update, list: if false;
+    }
+
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

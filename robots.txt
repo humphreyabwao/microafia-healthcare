@@ -1,15 +1,6 @@
-# Microafia Healthcare - Robots.txt
-# https://www.microafiahealthcare.co.ke/robots.txt
-
+# Public pages can be rendered by search engines. Admin pages carry noindex.
 User-agent: *
 Allow: /
+Disallow: /api/
 
-# Disallow admin pages from indexing
-Disallow: /admin/
-Disallow: /firebase-config.js
-
-# Sitemap location
 Sitemap: https://www.microafiahealthcare.co.ke/sitemap.xml
-
-# Crawl-delay for polite crawling
-Crawl-delay: 1

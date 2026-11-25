@@ -1,1067 +1,400 @@
-/* DNA Services Page Styles */
+/* ==========================================================
+   DNA & Paternity Testing
+   Shared hero / form / sidebar styles live in styles.css (section 17).
+========================================================== */
 
-/* Variables */
-:root {
-    --dna-primary: #064e3b;
-    --dna-primary-dark: #053d2f;
-    --dna-primary-light: #086e54;
-    --dna-accent: #10b981;
-}
-
-/* Hero Section */
-.dna-hero {
-    background: linear-gradient(135deg, rgba(6, 78, 59, 0.35) 0%, rgba(5, 61, 47, 0.4) 100%),
-                url('images/lab servcies.jpg') center/cover no-repeat;
-    color: #fff;
-    padding: 120px 0 80px;
-    text-align: center;
-    margin-top: 130px;
-    position: relative;
-}
-
-.dna-hero::before {
-    content: none;
-}
-
-.dna-hero .hero-content {
-    max-width: 750px;
-    margin: 0 auto;
-    position: relative;
-    z-index: 1;
-}
-
-.dna-hero .section-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    padding: 10px 24px;
-    border-radius: 50px;
-    font-size: 0.95rem;
-    margin-bottom: 25px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    font-weight: 500;
-    letter-spacing: 0.5px;
-}
-
-.dna-hero h1 {
-    font-size: 3rem;
-    font-weight: 700;
-    margin-bottom: 20px;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
-    letter-spacing: -0.5px;
-    line-height: 1.2;
-}
-
-.dna-hero p {
-    font-size: 1.15rem;
-    opacity: 1;
-    margin-bottom: 35px;
-    line-height: 1.7;
-    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
-    color: rgba(255, 255, 255, 0.95);
-}
-
-.btn-hero {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    background: #fff;
-    color: var(--dna-primary);
-    padding: 16px 35px;
-    font-size: 1.05rem;
-    font-weight: 600;
-    border-radius: 50px;
-    text-decoration: none;
-    transition: all 0.3s;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-}
-
-.btn-hero:hover {
-    background: var(--dna-accent);
-    color: #fff;
-    transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-}
-
-/* Info Banner */
+/* Quick facts strip */
 .info-banner {
-    background: var(--dna-primary);
-    padding: 20px 0;
+    background: var(--bg-light);
+    padding-top: clamp(28px, 4vw, 40px);
 }
 
 .info-scroll {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
 }
 
 .info-item {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    column-gap: 12px;
     align-items: center;
-    text-align: center;
-    color: #fff;
-    flex: 1;
+    padding: 20px 22px;
 }
 
+.info-item + .info-item { border-left: var(--border); }
+
 .info-item i {
-    font-size: 1.5rem;
-    color: var(--dna-accent);
-    margin-bottom: 8px;
+    grid-row: span 2;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+    background: var(--brand-mint-soft);
+    color: var(--brand-700);
 }
 
 .info-item h4 {
-    margin: 0;
-    font-size: 0.95rem;
-    font-weight: 600;
+    font-size: 0.98rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    line-height: 1.2;
 }
 
 .info-item p {
-    margin: 4px 0 0;
     font-size: 0.8rem;
-    opacity: 0.8;
+    color: var(--text-light);
 }
 
-/* DNA Services Section */
+/* Test cards */
 .dna-services-section {
-    padding: 80px 0;
-    background: #f8f9fa;
+    background: var(--bg-light);
+    padding: clamp(48px, 7vw, 80px) 0;
 }
 
-.section-header {
-    text-align: center;
-    margin-bottom: 50px;
-}
-
-.section-header h2 {
-    font-size: 2rem;
-    color: var(--dna-primary);
-    margin-bottom: 10px;
-}
-
-.section-header p {
-    color: #666;
-    font-size: 1.1rem;
-}
-
-/* DNA Cards Grid */
 .dna-cards-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
+    gap: 20px;
 }
 
 .dna-card {
-    background: #fff;
-    border-radius: 0;
-    overflow: hidden;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s;
+    position: relative;
     display: flex;
     flex-direction: column;
-    position: relative;
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
 }
 
 .dna-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
 }
 
-.dna-card.featured {
-    border: 2px solid var(--dna-accent);
-}
+.dna-card.featured { box-shadow: 0 0 0 2px var(--danger), var(--shadow-md); }
 
 .featured-badge {
     position: absolute;
-    top: 15px;
-    right: 15px;
-    background: var(--dna-accent);
-    color: #fff;
-    padding: 5px 12px;
-    font-size: 0.7rem;
+    top: 18px;
+    right: 18px;
+    padding: 4px 10px;
+    border-radius: var(--radius-pill);
+    background: var(--danger);
+    color: var(--white);
+    font-size: 0.66rem;
     font-weight: 700;
-    border-radius: 0;
+    letter-spacing: 0.5px;
     text-transform: uppercase;
 }
 
-.card-header {
-    background: linear-gradient(135deg, var(--dna-primary) 0%, var(--dna-primary-dark) 100%);
-    padding: 25px 20px;
-    text-align: center;
-    color: #fff;
-}
+.card-header { padding: 24px 24px 0; }
 
 .card-icon {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 5px;
-    font-size: 2.5rem;
-    margin-bottom: 15px;
+    gap: 2px;
+    min-width: 48px;
+    height: 48px;
+    padding: 0 10px;
+    margin-bottom: 14px;
+    border-radius: 14px;
+    background: var(--brand-mint-soft);
+    color: var(--brand-700);
+    font-size: 1.05rem;
 }
 
-.card-icon i {
-    opacity: 0.9;
-}
+.card-icon.siblings { background: #eff6ff; color: #2563eb; }
+.card-icon.grandparent { background: #fef3c7; color: #b45309; }
+.card-icon.avuncular { background: #f5f3ff; color: #7c3aed; }
+.card-icon.nipp { background: #fef2f2; color: var(--danger); }
 
 .card-header h3 {
-    margin: 0;
-    font-size: 1.2rem;
-    font-weight: 600;
+    font-size: 1.12rem;
+    font-weight: 700;
+    color: var(--text-dark);
 }
 
 .card-subtitle {
     display: block;
-    font-size: 0.85rem;
-    opacity: 0.8;
-    margin-top: 5px;
+    margin-top: 2px;
+    font-size: 0.8rem;
+    color: var(--text-light);
 }
 
 .card-body {
-    padding: 25px 20px;
     flex: 1;
+    padding: 10px 24px 18px;
 }
 
 .card-description {
-    color: #666;
-    font-size: 0.95rem;
-    margin-bottom: 20px;
+    font-size: 0.9rem;
     line-height: 1.6;
-}
-
-.card-features {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+    color: var(--text-medium);
+    margin-bottom: 14px;
 }
 
 .card-features li {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 10px;
-    padding: 8px 0;
-    color: #555;
-    font-size: 0.9rem;
+    padding: 5px 0;
+    font-size: 0.86rem;
+    color: var(--text-dark);
 }
 
-.card-features li i {
-    color: var(--dna-accent);
-    font-size: 0.8rem;
+.card-features i {
+    margin-top: 4px;
+    font-size: 0.7rem;
+    color: var(--brand-700);
 }
 
 .special-note {
-    margin-top: 15px;
-    padding: 12px;
-    background: #fef3c7;
-    border-radius: 0;
     display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    font-size: 0.85rem;
-    color: #92400e;
-}
-
-.special-note i {
-    margin-top: 2px;
+    gap: 8px;
+    margin-top: 12px;
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    background: #fef2f2;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: #991b1b;
 }
 
 .card-footer {
-    padding: 20px;
-    border-top: 1px solid #f0f0f0;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 15px;
+    gap: 12px;
+    padding: 16px 24px 22px;
+    border-top: var(--border);
 }
 
 .card-price {
     display: flex;
     flex-direction: column;
+    line-height: 1.2;
 }
 
-.price-label {
-    font-size: 0.75rem;
-    color: #999;
+.card-price .price-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
     text-transform: uppercase;
+    color: var(--text-light);
 }
 
-.price-value {
-    font-size: 1.3rem;
+.card-price .price-value {
+    font-size: 1.25rem;
     font-weight: 700;
-    color: var(--dna-primary);
+    color: var(--text-dark);
 }
 
 .btn-order-now {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: var(--dna-primary);
-    color: #fff;
-    padding: 12px 20px;
-    font-size: 0.9rem;
+    min-height: 38px;
+    padding: 0 14px;
+    border-radius: var(--radius-btn);
+    background: var(--primary-color);
+    color: var(--white);
+    font-size: 13.5px;
     font-weight: 600;
-    border-radius: 0;
-    text-decoration: none;
-    transition: all 0.3s;
+    white-space: nowrap;
 }
 
-.btn-order-now:hover {
-    background: var(--dna-primary-dark);
-    transform: translateY(-2px);
-}
+.btn-order-now:hover { background: var(--primary-dark); }
 
-/* How It Works Section */
+/* How it works */
 .how-it-works {
-    padding: 60px 0;
-    background: #f8fafc;
+    background: var(--white);
+    padding: clamp(48px, 7vw, 80px) 0;
 }
 
-.how-it-works .section-header {
-    margin-bottom: 40px;
-}
-
-.how-it-works .section-header h2 {
-    font-size: 1.75rem;
-    color: var(--dna-primary);
-    margin-bottom: 8px;
-}
-
-.how-it-works .section-header p {
-    color: #666;
-    font-size: 1rem;
-}
-
-/* Steps Timeline - Desktop */
 .steps-timeline {
     display: flex;
     align-items: flex-start;
-    justify-content: center;
-    gap: 0;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
 .step-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
     flex: 1;
-    max-width: 220px;
+    text-align: center;
 }
 
 .step-number {
-    width: 45px;
-    height: 45px;
-    background: linear-gradient(135deg, var(--dna-primary) 0%, var(--dna-primary-dark) 100%);
-    color: #fff;
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    margin: 0 auto 14px;
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
+    background: var(--brand-900);
+    color: var(--white);
     font-size: 1.1rem;
-    margin-bottom: 15px;
-    box-shadow: 0 4px 15px rgba(6, 78, 59, 0.3);
+    font-weight: 700;
+    box-shadow: 0 0 0 6px var(--brand-mint-soft);
 }
 
 .step-content h4 {
-    margin: 0 0 8px;
-    color: var(--dna-primary);
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 4px;
 }
 
 .step-content p {
-    color: #666;
+    max-width: 200px;
+    margin: 0 auto;
     font-size: 0.85rem;
-    margin: 0;
-    line-height: 1.5;
+    line-height: 1.55;
+    color: var(--text-medium);
 }
 
 .step-connector {
-    width: 50px;
+    flex: 0 0 48px;
     height: 2px;
-    background: linear-gradient(90deg, var(--dna-primary), var(--dna-accent));
-    margin-top: 22px;
-    flex-shrink: 0;
+    margin-top: 26px;
+    background: var(--gray-200);
 }
 
-/* Sample Info Section */
+/* Sample collection info */
 .sample-info-section {
-    padding: 60px 0;
-    background: #f0fdf4;
+    background: var(--white);
+    padding: 0 0 clamp(48px, 7vw, 80px);
 }
 
-.sample-info-content h2 {
-    color: var(--dna-primary);
-    margin-bottom: 30px;
+.sample-info-content > h2 {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
-    font-size: 1.5rem;
+    margin-bottom: 28px;
+    font-size: clamp(1.4rem, 2.8vw, 1.9rem);
+    font-weight: 700;
+    color: var(--text-dark);
 }
+
+.sample-info-content > h2 i { color: var(--brand-700); font-size: 0.8em; }
 
 .info-cards {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 25px;
+    gap: 18px;
 }
 
 .info-card {
-    background: #fff;
-    padding: 25px;
-    border-radius: 0;
-    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+    padding: 22px;
+    border-radius: var(--radius-lg);
+    background: var(--bg-light);
 }
 
 .info-card h4 {
-    color: var(--dna-primary);
-    margin: 0 0 15px;
     display: flex;
     align-items: center;
     gap: 10px;
-    font-size: 1.1rem;
-}
-
-.info-card p {
-    color: #666;
-    margin: 0;
-    line-height: 1.7;
-}
-
-.info-card ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.info-card ul li {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 0;
-    color: #555;
-}
-
-.info-card ul li i {
-    color: var(--dna-accent);
-}
-
-/* Order Section */
-.order-section {
-    padding: 80px 0;
-    background: #fff;
-}
-
-.order-layout {
-    display: grid;
-    grid-template-columns: 1fr 350px;
-    gap: 40px;
-    align-items: start;
-}
-
-.order-form-container {
-    background: #fff;
-    border-radius: 0;
-    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.08);
-    overflow: hidden;
-}
-
-.order-form-container .form-header {
-    background: linear-gradient(135deg, var(--dna-primary) 0%, var(--dna-primary-dark) 100%);
-    padding: 30px;
-    color: #fff;
-}
-
-.order-form-container .form-header h2 {
-    margin: 0 0 10px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 1.5rem;
-}
-
-.order-form-container .form-header p {
-    margin: 0;
-    opacity: 0.9;
-}
-
-.dna-order-form {
-    padding: 30px;
-}
-
-.form-section {
-    margin-bottom: 30px;
-}
-
-.form-section h3 {
-    color: var(--dna-primary);
-    font-size: 1.1rem;
-    margin: 0 0 20px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #f0f0f0;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 600;
-    color: #333;
-    font-size: 0.95rem;
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea {
-    width: 100%;
-    padding: 14px 16px;
-    border: 2px solid #e0e0e0;
-    border-radius: 0;
+    margin-bottom: 10px;
     font-size: 1rem;
-    transition: all 0.3s;
-    font-family: inherit;
+    font-weight: 700;
+    color: var(--text-dark);
 }
 
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-    outline: none;
-    border-color: var(--dna-primary);
-    box-shadow: 0 0 0 3px rgba(6, 78, 59, 0.1);
+.info-card h4 i { color: var(--brand-700); }
+
+.info-card p,
+.info-card li {
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: var(--text-medium);
 }
 
-.form-group textarea {
-    resize: vertical;
-    min-height: 100px;
-}
-
-/* Selected Test Display */
-.selected-test-display {
-    background: #f0fdf4;
-    padding: 15px 20px;
-    border-radius: 0;
+.info-card li {
     display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-top: 15px;
+    gap: 8px;
+    padding: 3px 0;
 }
 
-.selected-test-display i {
-    color: var(--dna-accent);
-    font-size: 1.2rem;
+.info-card li i {
+    margin-top: 4px;
+    font-size: 0.75rem;
+    color: var(--brand-700);
+}
+
+/* Order form */
+.order-section {
+    background: var(--bg-light);
+    padding: clamp(48px, 7vw, 80px) 0;
+    scroll-margin-top: 70px;
+}
+
+.selected-test-display {
+    display: none;            /* dna-services.js shows it once a test is chosen */
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: var(--radius-sm);
+    background: var(--brand-mint-soft);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-dark);
 }
 
 .selected-test-display .test-price {
-    margin-left: auto;
     font-weight: 700;
-    color: var(--dna-primary);
+    color: var(--brand-700);
+    white-space: nowrap;
 }
 
-/* Radio Group */
-.radio-group {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
+.trust-card { background: var(--brand-mint-soft); box-shadow: none; }
 
-.radio-option {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 15px;
-    border: 2px solid #e0e0e0;
-    border-radius: 0;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.radio-option:hover {
-    border-color: var(--dna-primary-light);
-    background: #f8f9fa;
-}
-
-.radio-option input {
-    display: none;
-}
-
-.radio-option input:checked + .radio-mark {
-    border-color: var(--dna-primary);
-    background: var(--dna-primary);
-}
-
-.radio-option input:checked + .radio-mark::after {
-    transform: scale(1);
-}
-
-.radio-option input:checked ~ .radio-text {
-    color: var(--dna-primary);
-}
-
-.radio-mark {
-    width: 20px;
-    height: 20px;
-    min-width: 20px;
-    border: 2px solid #ccc;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 2px;
-    transition: all 0.3s;
-}
-
-.radio-mark::after {
-    content: '';
-    width: 8px;
-    height: 8px;
-    background: #fff;
-    border-radius: 50%;
-    transform: scale(0);
-    transition: transform 0.2s;
-}
-
-.radio-text {
-    flex: 1;
-}
-
-.radio-text strong {
-    display: block;
-    margin-bottom: 3px;
-}
-
-.radio-text small {
-    color: #666;
-    font-size: 0.85rem;
-}
-
-/* Checkbox */
-.checkbox-group {
-    margin-bottom: 20px;
-}
-
-.checkbox-label {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    cursor: pointer;
-    font-size: 0.95rem;
-    color: #555;
-}
-
-.checkbox-label input {
-    display: none;
-}
-
-.checkbox-label .checkmark {
-    width: 22px;
-    height: 22px;
-    min-width: 22px;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s;
-}
-
-.checkbox-label input:checked + .checkmark {
-    background: var(--dna-primary);
-    border-color: var(--dna-primary);
-}
-
-.checkbox-label input:checked + .checkmark::after {
-    content: '\f00c';
-    font-family: 'Font Awesome 6 Free';
-    font-weight: 900;
-    color: #fff;
-    font-size: 12px;
-}
-
-/* Submit Button */
-.btn-submit {
-    width: 100%;
-    padding: 16px;
-    background: var(--dna-primary);
-    color: #fff;
-    border: none;
-    border-radius: 0;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    transition: all 0.3s;
-}
-
-.btn-submit:hover {
-    background: var(--dna-primary-dark);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 20px rgba(6, 78, 59, 0.3);
-}
-
-/* Order Sidebar */
-.order-sidebar {
-    position: sticky;
-    top: 150px;
-}
-
-.sidebar-card {
-    background: #fff;
-    border-radius: 0;
-    padding: 25px;
-    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
-    margin-bottom: 20px;
-}
-
-.sidebar-card h3 {
-    margin: 0 0 15px;
-    color: var(--dna-primary);
-    font-size: 1.1rem;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.sidebar-card p {
-    color: #666;
-    margin: 0 0 15px;
-    font-size: 0.95rem;
-}
-
-.phone-link,
-.whatsapp-link {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 15px;
-    border-radius: 0;
-    text-decoration: none;
-    font-weight: 600;
-    margin-bottom: 10px;
-    transition: all 0.3s;
-}
-
-.phone-link {
-    background: var(--dna-primary);
-    color: #fff;
-}
-
-.phone-link:hover {
-    background: var(--dna-primary-dark);
-}
-
-.whatsapp-link {
-    background: #25d366;
-    color: #fff;
-}
-
-.whatsapp-link:hover {
-    background: #1da851;
-}
-
-.trust-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.trust-list li {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 0;
-    color: #555;
-    font-size: 0.9rem;
-    border-bottom: 1px solid #f0f0f0;
-}
-
-.trust-list li:last-child {
-    border-bottom: none;
-}
-
-.trust-list li i {
-    color: var(--dna-accent);
-}
-
-.hours-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.hours-list li {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 0;
-    font-size: 0.9rem;
-    border-bottom: 1px solid #f0f0f0;
-}
-
-.hours-list li:last-child {
-    border-bottom: none;
-}
-
-/* Responsive Styles */
-@media (max-width: 1200px) {
-    .dna-cards-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
+/* Responsive */
 @media (max-width: 991px) {
-    .dna-hero {
-        margin-top: 80px;
-        padding: 90px 0 60px;
-    }
+    .dna-cards-grid { grid-template-columns: repeat(2, 1fr); }
 
-    .dna-hero h1 {
-        font-size: 2.4rem;
-    }
+    .info-scroll { grid-template-columns: repeat(2, 1fr); }
 
-    .dna-hero p {
-        font-size: 1.05rem;
-    }
+    .info-item:nth-child(3) { border-left: none; }
+    .info-item:nth-child(n+3) { border-top: var(--border); }
 
-    .info-scroll {
-        gap: 15px;
-    }
-
-    .info-item i {
-        font-size: 1.25rem;
-    }
-
-    .info-item h4 {
-        font-size: 0.85rem;
-    }
-
-    .info-item p {
-        font-size: 0.7rem;
-    }
-
-    .steps-timeline {
-        flex-wrap: wrap;
-        gap: 20px;
-    }
-
-    .step-item {
-        max-width: none;
-        width: calc(50% - 40px);
-    }
-
-    .step-connector {
-        display: none;
-    }
-
-    .info-cards {
-        grid-template-columns: 1fr;
-    }
-
-    .order-layout {
-        grid-template-columns: 1fr;
-    }
-
-    .order-sidebar {
-        position: relative;
-        top: 0;
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
-    }
-
-    .sidebar-card {
-        margin-bottom: 0;
-    }
+    .info-cards { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 767px) {
-    .dna-hero {
-        margin-top: 70px;
-        padding: 70px 0 50px;
-    }
-
-    .dna-hero h1 {
-        font-size: 2rem;
-        text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.4);
-    }
-
-    .dna-hero p {
-        font-size: 1rem;
-    }
-
-    .dna-hero .section-tag {
-        font-size: 0.85rem;
-        padding: 8px 18px;
-    }
-
-    .btn-hero {
-        padding: 14px 28px;
-        font-size: 1rem;
-    }
-
-    /* Info Banner Mobile - Horizontal */
-    .info-scroll {
-        display: flex;
-        overflow-x: auto;
-        gap: 0;
-        padding: 5px 0;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-    }
-
-    .info-scroll::-webkit-scrollbar {
-        display: none;
-    }
-
-    .info-item {
-        flex: 0 0 auto;
-        min-width: 85px;
-        padding: 0 10px;
-        border-right: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .info-item:last-child {
-        border-right: none;
-    }
-
-    .info-item i {
-        font-size: 1.1rem;
-        margin-bottom: 5px;
-    }
-
-    .info-item h4 {
-        font-size: 0.75rem;
-        white-space: nowrap;
-    }
-
-    .info-item p {
-        font-size: 0.65rem;
-    }
-
-    .dna-cards-grid {
-        grid-template-columns: 1fr;
-    }
-
-    /* Mobile Steps - Horizontal Scroll */
     .steps-timeline {
-        display: flex;
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        gap: 0;
-        padding: 10px 0 20px;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-    }
-
-    .steps-timeline::-webkit-scrollbar {
-        display: none;
-    }
-
-    .step-item {
-        flex: 0 0 auto;
-        width: 140px;
-        min-width: 140px;
-    }
-
-    .step-number {
-        width: 36px;
-        height: 36px;
-        font-size: 0.95rem;
-        margin-bottom: 10px;
-    }
-
-    .step-content h4 {
-        font-size: 0.85rem;
-        margin-bottom: 5px;
-    }
-
-    .step-content p {
-        font-size: 0.75rem;
-        line-height: 1.4;
-    }
-
-    .step-connector {
-        display: block;
-        width: 25px;
-        min-width: 25px;
-        height: 2px;
-        margin-top: 18px;
-    }
-
-    .step-item::after {
-        display: none;
-    }
-
-    .form-row {
-        grid-template-columns: 1fr;
-        gap: 0;
-    }
-
-    .order-sidebar {
-        grid-template-columns: 1fr;
-    }
-
-    .card-footer {
         flex-direction: column;
         align-items: stretch;
-        text-align: center;
+        gap: 18px;
     }
 
-    .card-price {
-        margin-bottom: 15px;
+    .step-connector { display: none; }
+
+    .step-item {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        text-align: left;
     }
 
-    .btn-order-now {
-        justify-content: center;
-    }
+    .step-number { margin: 0; flex-shrink: 0; }
+
+    .step-content p { max-width: none; margin: 0; }
 }
 
 @media (max-width: 575px) {
-    .dna-hero {
-        padding: 60px 0 45px;
-    }
+    .dna-cards-grid { grid-template-columns: 1fr; }
 
-    .dna-hero h1 {
-        font-size: 1.7rem;
-        line-height: 1.3;
-    }
+    .info-scroll { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
-    .dna-hero p {
-        font-size: 0.95rem;
-        line-height: 1.6;
-    }
-
-    .section-header h2 {
-        font-size: 1.5rem;
-    }
-
-    .dna-order-form {
-        padding: 20px;
-    }
-
-    .order-form-container .form-header {
-        padding: 20px;
-    }
-
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-        padding: 12px 14px;
-    }
+    .info-item { min-width: 0; grid-template-columns: minmax(0, 1fr); row-gap: 6px; padding: 12px; }
+    .info-item i { grid-row: auto; }
 }

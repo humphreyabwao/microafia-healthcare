@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pharmacy - Microafia Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://firestore.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="/admin/admin.css">
+    <link rel="stylesheet" href="/admin/lab-orders.css">
+    <link rel="stylesheet" href="/admin/pharmacy.css">
+    <link rel="stylesheet" href="/admin/modules.css">
+    <meta name="robots" content="noindex, nofollow, noarchive">
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div class="permissions-loading" id="permissionsLoading">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="/images/optimized/logo-f4248e8a92-320.webp" alt="Microafia" class="sidebar-logo" width="320" height="114" decoding="async">
+        </div>
+        <nav class="sidebar-nav">
+            <ul class="nav-list">
+                <li class="nav-item"><a href="/admin/" class="nav-link"><i class="fas fa-th-large"></i><span>Dashboard</span></a></li>
+                <li class="nav-item"><a href="/admin/appointments.html" class="nav-link"><i class="fas fa-calendar-check"></i><span>Appointments</span></a></li>
+                <li class="nav-item"><a href="/admin/lab-orders.html" class="nav-link"><i class="fas fa-flask"></i><span>Lab Orders</span></a></li>
+                <li class="nav-item"><a href="/admin/pharmacy.html" class="nav-link active"><i class="fas fa-prescription-bottle-medical"></i><span>Pharmacy</span></a></li>
+                <li class="nav-item"><a href="/admin/bloodline.html" class="nav-link"><i class="fas fa-dna"></i><span>Bloodline Show</span></a></li>
+                <li class="nav-item"><a href="/admin/wellness.html" class="nav-link"><i class="fas fa-heart-pulse"></i><span>Wellness Bookings</span></a></li>
+                <li class="nav-item"><a href="/admin/messages.html" class="nav-link"><i class="fas fa-envelope"></i><span>Messages</span></a></li>
+                <li class="nav-item"><a href="/admin/callbacks.html" class="nav-link"><i class="fas fa-phone-alt"></i><span>Callback Requests</span></a></li>
+            </ul>
+            <div class="nav-divider"></div>
+            <ul class="nav-list">
+                <li class="nav-item"><a href="/admin/users.html" class="nav-link"><i class="fas fa-users"></i><span>User Management</span></a></li>
+                <li class="nav-item"><a href="/admin/settings.html" class="nav-link"><i class="fas fa-cog"></i><span>Settings</span></a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="/" class="back-to-site"><i class="fas fa-external-link-alt"></i><span>View Website</span></a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-wrapper" id="mainWrapper">
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+                <h1 class="page-title">Pharmacy</h1>
+            </div>
+            <div class="topbar-right">
+                <div class="topbar-item notification-dropdown">
+                    <button class="topbar-btn" id="notifBtn"><i class="fas fa-bell"></i><span class="badge" id="notifCount">0</span></button>
+                    <div class="notification-panel" id="notificationPanel">
+                        <div class="notif-header">
+                            <h3>Notifications</h3>
+                            <button class="mark-all-read" id="markAllRead">Mark all read</button>
+                        </div>
+                        <div class="notif-tabs">
+                            <button class="notif-tab active" data-tab="all">All</button>
+                            <button class="notif-tab" data-tab="appointments">Appointments</button>
+                            <button class="notif-tab" data-tab="messages">Messages</button>
+                            <button class="notif-tab" data-tab="reminders">Reminders</button>
+                        </div>
+                        <div class="notif-list" id="notifList">
+                            <div class="notif-loading">Loading notifications...</div>
+                        </div>
+                        <div class="notif-footer">
+                            <a href="#" id="viewAllNotifs">View All Notifications</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="topbar-item profile-dropdown">
+                    <button class="profile-btn" id="profileBtn">
+                        <div class="profile-avatar"><i class="fas fa-user"></i></div>
+                        <span class="profile-name">Admin</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="dropdown-menu" id="profileMenu">
+                        <a href="/admin/profile.html" class="dropdown-item"><i class="fas fa-user-circle"></i><span>My Profile</span></a>
+                        <a href="/admin/settings.html" class="dropdown-item"><i class="fas fa-cog"></i><span>Settings</span></a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item logout" id="logoutBtn"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <!-- Mini Stats -->
+            <div class="mini-stats">
+                <div class="mini-stat">
+                    <span class="mini-stat-count" id="productCount">0</span>
+                    <span class="mini-stat-label">Products</span>
+                </div>
+                <div class="mini-stat pending">
+                    <span class="mini-stat-count" id="pendingCount">0</span>
+                    <span class="mini-stat-label">New Orders</span>
+                </div>
+                <div class="mini-stat">
+                    <span class="mini-stat-count" id="deliveryCount">0</span>
+                    <span class="mini-stat-label">Out for Delivery</span>
+                </div>
+                <div class="mini-stat completed">
+                    <span class="mini-stat-count" id="deliveredCount">0</span>
+                    <span class="mini-stat-label">Delivered</span>
+                </div>
+                <div class="mini-stat ph-mini-stock">
+                    <span class="mini-stat-count" id="lowStockCount">0</span>
+                    <span class="mini-stat-label">Low / out of stock</span>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="ph-tabs" role="tablist">
+                <button class="ph-tab is-active" role="tab" data-tab="orders"><i class="fas fa-truck"></i> Delivery Orders</button>
+                <button class="ph-tab" role="tab" data-tab="products"><i class="fas fa-pills"></i> Products</button>
+            </div>
+
+            <!-- ORDERS TAB -->
+            <section class="ph-panel" data-panel="orders">
+                <div class="filter-bar">
+                    <div class="filter-group">
+                        <select id="orderStatusFilter" class="filter-select">
+                            <option value="all">All Status</option>
+                            <option value="pending">New</option>
+                            <option value="confirmed">Confirmed</option>
+                            <option value="out_for_delivery">Out for delivery</option>
+                            <option value="delivered">Delivered</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="orderSearch" placeholder="Search name, phone, address, product...">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-card">
+                    <div class="table-responsive" id="ordersTableWrap">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Customer</th>
+                                    <th>Delivery Address</th>
+                                    <th>Items</th>
+                                    <th>Subtotal</th>
+                                    <th>Rx</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordersTableBody">
+                                <tr><td colspan="7" class="loading-row"><i class="fas fa-spinner fa-spin"></i> Loading orders...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="empty-state" id="ordersEmpty" style="display: none;">
+                        <i class="fas fa-truck"></i>
+                        <h3>No delivery orders found</h3>
+                        <p>Orders placed on the pharmacy page will appear here</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PRODUCTS TAB -->
+            <section class="ph-panel" data-panel="products" hidden>
+                <div class="filter-bar">
+                    <div class="filter-group">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="productSearch" placeholder="Search products...">
+                        </div>
+                    </div>
+                    <div class="filter-group">
+                        <select id="stockFilter" class="filter-select" aria-label="Filter by stock">
+                            <option value="all">All stock levels</option>
+                            <option value="in">In stock</option>
+                            <option value="low">Low stock</option>
+                            <option value="out">Out of stock</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <button class="btn btn-primary" id="addProductBtn"><i class="fas fa-plus"></i> Add Product</button>
+                    </div>
+                </div>
+
+                <form class="ph-stock-rules" id="stockRulesForm" novalidate>
+                    <div class="ph-stock-rules-text">
+                        <strong>Stock rules</strong>
+                        <span>Used for every product with a quantity, on the website and here.</span>
+                    </div>
+                    <label class="ph-rule">Out of stock when fewer than
+                        <input type="number" id="ruleOut" min="0" max="10000" step="1" inputmode="numeric" required> left</label>
+                    <label class="ph-rule">Low stock when fewer than
+                        <input type="number" id="ruleLow" min="0" max="10000" step="1" inputmode="numeric" required> left</label>
+                    <button type="submit" class="btn btn-secondary" id="saveStockRules" data-action="edit">Save rules</button>
+                    <span class="ph-rule-meta" id="stockRulesMeta" aria-live="polite"></span>
+                </form>
+
+                <div class="table-card">
+                    <div class="table-responsive" id="productsTableWrap">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Stock</th>
+                                    <th>Visible</th>
+                                    <th>Featured</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="productsTableBody">
+                                <tr><td colspan="7" class="loading-row"><i class="fas fa-spinner fa-spin"></i> Loading products...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="empty-state" id="productsEmpty" style="display: none;">
+                        <i class="fas fa-pills"></i>
+                        <h3>No products yet</h3>
+                        <p>Click "Add Product" to list your first item on the pharmacy page</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Product Modal -->
+    <div class="modal-overlay" id="productModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="productModalTitle"><i class="fas fa-pills"></i> Add Product</h2>
+                <button class="modal-close" onclick="closeModal('productModal')">&times;</button>
+            </div>
+            <form class="modal-body" id="productForm" novalidate>
+                <input type="hidden" id="productId">
+                <div class="ph-form-grid">
+                    <div class="form-group ph-span-2">
+                        <label for="pName">Product name *</label>
+                        <input type="text" id="pName" required placeholder="e.g. Paracetamol 500mg (20 tablets)">
+                    </div>
+                    <div class="form-group">
+                        <label for="pCategory">Category *</label>
+                        <select id="pCategory" required>
+                            <option value="">Choose a category</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="pPrice">Price (KSh) *</label>
+                        <input type="number" id="pPrice" min="0" step="1" required placeholder="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="pStockQty">Stock quantity</label>
+                        <input type="number" id="pStockQty" min="0" max="100000" step="1" inputmode="numeric" placeholder="Leave blank to not track">
+                    </div>
+                    <div class="form-group">
+                        <label>Stock status</label>
+                        <p class="ph-stock-preview" id="pStockPreview">&mdash;</p>
+                    </div>
+                    <div class="form-group ph-span-2">
+                        <label for="pDescription">Short description</label>
+                        <textarea id="pDescription" rows="2" placeholder="Strength, pack size, what it is for..."></textarea>
+                    </div>
+                    <div class="form-group ph-span-2">
+                        <label>Product photo</label>
+                        <div class="ph-image-field">
+                            <div class="ph-image-preview" id="pImagePreview"><i class="fas fa-image"></i></div>
+                            <div>
+                                <label class="btn btn-secondary ph-file-btn" for="pImage"><i class="fas fa-upload"></i> Choose photo</label>
+                                <input type="file" id="pImage" accept=".jpg,.jpeg,.png,.webp,.gif,image/jpeg,image/png,image/webp,image/gif" hidden>
+                                <p class="ph-hint">JPG, PNG or WebP, max 3MB. A plain background looks best.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ph-span-2 ph-switches">
+                        <label class="ph-switch" title="Switch off to mark as out of stock, whatever the quantity"><input type="checkbox" id="pInStock" checked><span></span> Available for sale</label>
+                        <label class="ph-switch"><input type="checkbox" id="pActive" checked><span></span> Visible on website</label>
+                        <label class="ph-switch"><input type="checkbox" id="pRx"><span></span> Requires prescription</label>
+                        <label class="ph-switch ph-switch--star"><input type="checkbox" id="pFeatured"><span></span> Featured on homepage (max 5)</label>
+                    </div>
+                </div>
+            </form>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('productModal')">Cancel</button>
+                <button class="btn btn-primary" id="saveProductBtn" onclick="saveProduct()"><i class="fas fa-save"></i> Save Product</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order View Modal -->
+    <div class="modal-overlay" id="viewModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2><i class="fas fa-truck"></i> Delivery Order</h2>
+                <button class="modal-close" onclick="closeModal('viewModal')">&times;</button>
+            </div>
+            <div class="modal-body" id="viewModalBody"></div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('viewModal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal-overlay" id="deleteModal">
+        <div class="modal modal-sm">
+            <div class="modal-header">
+                <h2><i class="fas fa-exclamation-triangle"></i> Confirm Delete</h2>
+                <button class="modal-close" onclick="closeModal('deleteModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="deleteMessage">Are you sure? This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('deleteModal')">Cancel</button>
+                <button class="btn btn-danger" onclick="confirmDelete()">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script defer src="https://www.gstatic.com/firebasejs/13.4.0/firebase-app-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/13.4.0/firebase-firestore-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/13.4.0/firebase-auth-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/13.4.0/firebase-storage-compat.js"></script>
+    <script defer src="/firebase-config.js"></script>
+    <script defer src="/url-helper.js"></script>
+    <script defer src="/admin/security.js"></script>
+    <script defer src="/admin/admin.js"></script>
+    <script defer src="/stock.js"></script>
+    <script defer src="/admin/pharmacy.js"></script>
+    <script defer src="/admin/module-tools.js"></script>
+</body>
+</html>

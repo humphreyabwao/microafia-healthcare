@@ -66,7 +66,7 @@ function initProfile(user) {
             
             // Update department badge
             if (displayDept && data.department) {
-                displayDept.innerHTML = `<i class="fas fa-building"></i> ${data.department}`;
+                displayDept.innerHTML = `<i class="fas fa-building"></i> ${escapeAdminHTML(data.department)}`;
                 displayDept.style.display = 'inline-flex';
             }
             
@@ -110,20 +110,10 @@ function initProfile(user) {
                 loadActivityLog(data.activityLog);
             }
         } else {
-            // Create profile document if doesn't exist
-            userRef.set({
-                email: user.email,
-                firstName: '',
-                lastName: '',
-                role: 'viewer',
-                status: 'active',
-                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                activityLog: [{
-                    action: 'account_created',
-                    timestamp: new Date().toISOString(),
-                    details: 'Account was created'
-                }]
-            });
+            // Staff records are provisioned by an authorized administrator.
+            // The shared auth gate handles a missing record; do not race it
+            // with a browser-side role/profile creation.
+            return;
         }
         
         // Hide loading overlay

@@ -73,35 +73,35 @@ function renderAppointments() {
         const serviceName = apt.serviceName || apt.service || '-';
         
         return `
-            <tr data-id="${apt.id}">
-                <td><strong>${fullName}</strong></td>
-                <td>${apt.phone || '-'}</td>
-                <td><span class="service-badge ${serviceClass}">${serviceName}</span></td>
-                <td>${apt.preferredDate || '-'}</td>
-                <td>${apt.preferredTime || '-'}</td>
+            <tr data-id="${escapeAdminHTML(apt.id)}">
+                <td><strong>${escapeAdminHTML(fullName)}</strong></td>
+                <td>${escapeAdminHTML(apt.phone || '-')}</td>
+                <td><span class="service-badge ${escapeAdminHTML(serviceClass)}">${escapeAdminHTML(serviceName)}</span></td>
+                <td>${escapeAdminHTML(apt.preferredDate || '-')}</td>
+                <td>${escapeAdminHTML(apt.preferredTime || '-')}</td>
                 <td>
-                    <div class="status-dropdown" onclick="toggleStatusDropdown(event, '${apt.id}')">
-                        <span class="status-badge ${status}">${formatStatus(status)}</span>
+                    <div class="status-dropdown" onclick="toggleStatusDropdown(event, '${escapeAdminJSArgument(apt.id)}')">
+                        <span class="status-badge ${escapeAdminHTML(status)}">${escapeAdminHTML(formatStatus(status))}</span>
                         <div class="status-options">
-                            <button class="status-option ${status === 'pending' ? 'active' : ''}" onclick="updateStatus(event, '${apt.id}', 'pending')">Pending</button>
-                            <button class="status-option ${status === 'reviewed' ? 'active' : ''}" onclick="updateStatus(event, '${apt.id}', 'reviewed')">Reviewed</button>
-                            <button class="status-option ${status === 'in-progress' ? 'active' : ''}" onclick="updateStatus(event, '${apt.id}', 'in-progress')">In Progress</button>
-                            <button class="status-option ${status === 'completed' ? 'active' : ''}" onclick="updateStatus(event, '${apt.id}', 'completed')">Completed</button>
+                            <button class="status-option ${status === 'pending' ? 'active' : ''}" onclick="updateStatus(event, '${escapeAdminJSArgument(apt.id)}', 'pending')">Pending</button>
+                            <button class="status-option ${status === 'reviewed' ? 'active' : ''}" onclick="updateStatus(event, '${escapeAdminJSArgument(apt.id)}', 'reviewed')">Reviewed</button>
+                            <button class="status-option ${status === 'in-progress' ? 'active' : ''}" onclick="updateStatus(event, '${escapeAdminJSArgument(apt.id)}', 'in-progress')">In Progress</button>
+                            <button class="status-option ${status === 'completed' ? 'active' : ''}" onclick="updateStatus(event, '${escapeAdminJSArgument(apt.id)}', 'completed')">Completed</button>
                         </div>
                     </div>
                 </td>
                 <td>
                     <div class="action-buttons">
-                        <button class="action-btn view" title="View Details" onclick="viewAppointment('${apt.id}')">
+                        <button class="action-btn view" title="View Details" onclick="viewAppointment('${escapeAdminJSArgument(apt.id)}')">
                             <i class="fas fa-eye"></i>
                         </button>
-                        <button class="action-btn note ${hasNotes ? 'has-notes' : ''}" title="Add Note" onclick="openNoteModal('${apt.id}')">
+                        <button class="action-btn note ${hasNotes ? 'has-notes' : ''}" title="Add Note" onclick="openNoteModal('${escapeAdminJSArgument(apt.id)}')">
                             <i class="fas fa-sticky-note"></i>
                         </button>
-                        <button class="action-btn complete" title="Mark Complete" onclick="markComplete('${apt.id}')">
+                        <button class="action-btn complete" title="Mark Complete" onclick="markComplete('${escapeAdminJSArgument(apt.id)}')">
                             <i class="fas fa-check"></i>
                         </button>
-                        <button class="action-btn delete" title="Delete" onclick="openDeleteModal('${apt.id}')">
+                        <button class="action-btn delete" title="Delete" onclick="openDeleteModal('${escapeAdminJSArgument(apt.id)}')">
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>
@@ -164,7 +164,7 @@ async function updateStatus(event, id, newStatus) {
             status: newStatus,
             updatedAt: firebase.firestore.FieldValue.serverTimestamp()
         });
-        showToast(`Status updated to ${formatStatus(newStatus)}`, 'success');
+        showToast(`Status updated to ${escapeAdminHTML(formatStatus(newStatus))}`, 'success');
     } catch (error) {
         console.error('Error updating status:', error);
         showToast('Error updating status', 'error');
@@ -196,8 +196,8 @@ function viewAppointment(id) {
     const notesHtml = apt.notes && apt.notes.length > 0 
         ? apt.notes.map(n => `
             <div class="note-item">
-                <div class="note-text">${n.text}</div>
-                <div class="note-date">${n.date}</div>
+                <div class="note-text">${escapeAdminHTML(n.text)}</div>
+                <div class="note-date">${escapeAdminHTML(n.date)}</div>
             </div>
         `).join('')
         : '<p style="color: var(--gray-400); font-size: 0.85rem;">No notes added</p>';
@@ -205,47 +205,47 @@ function viewAppointment(id) {
     modalBody.innerHTML = `
         <div class="detail-row">
             <span class="detail-label">Patient Name</span>
-            <span class="detail-value">${fullName}</span>
+            <span class="detail-value">${escapeAdminHTML(fullName)}</span>
         </div>
         <div class="detail-row">
             <span class="detail-label">Phone</span>
-            <span class="detail-value">${apt.phone || '-'}</span>
+            <span class="detail-value">${escapeAdminHTML(apt.phone || '-')}</span>
         </div>
         <div class="detail-row">
             <span class="detail-label">Email</span>
-            <span class="detail-value">${apt.email || '-'}</span>
+            <span class="detail-value">${escapeAdminHTML(apt.email || '-')}</span>
         </div>
         <div class="detail-row">
             <span class="detail-label">Date of Birth</span>
-            <span class="detail-value">${apt.dob || '-'}</span>
+            <span class="detail-value">${escapeAdminHTML(apt.dob || '-')}</span>
         </div>
         <div class="detail-row">
             <span class="detail-label">Gender</span>
-            <span class="detail-value">${apt.gender || '-'}</span>
+            <span class="detail-value">${escapeAdminHTML(apt.gender || '-')}</span>
         </div>
         <div class="detail-row">
             <span class="detail-label">Service</span>
-            <span class="detail-value">${apt.serviceName || apt.service || '-'}</span>
+            <span class="detail-value">${escapeAdminHTML(apt.serviceName || apt.service || '-')}</span>
         </div>
         <div class="detail-row">
             <span class="detail-label">Preferred Date</span>
-            <span class="detail-value">${apt.preferredDate || '-'}</span>
+            <span class="detail-value">${escapeAdminHTML(apt.preferredDate || '-')}</span>
         </div>
         <div class="detail-row">
             <span class="detail-label">Preferred Time</span>
-            <span class="detail-value">${apt.preferredTime || '-'}</span>
+            <span class="detail-value">${escapeAdminHTML(apt.preferredTime || '-')}</span>
         </div>
         <div class="detail-row">
             <span class="detail-label">Status</span>
-            <span class="detail-value"><span class="status-badge ${apt.status || 'pending'}">${formatStatus(apt.status || 'pending')}</span></span>
+            <span class="detail-value"><span class="status-badge ${escapeAdminHTML(apt.status || 'pending')}">${escapeAdminHTML(formatStatus(apt.status || 'pending'))}</span></span>
         </div>
         <div class="detail-row">
             <span class="detail-label">Symptoms</span>
-            <span class="detail-value">${apt.symptoms || '-'}</span>
+            <span class="detail-value">${escapeAdminHTML(apt.symptoms || '-')}</span>
         </div>
         <div class="detail-row">
             <span class="detail-label">New Patient</span>
-            <span class="detail-value">${apt.isNewPatient ? 'Yes' : 'No'}</span>
+            <span class="detail-value">${escapeAdminHTML(apt.isNewPatient ? 'Yes' : 'No')}</span>
         </div>
         <div class="detail-row">
             <span class="detail-label">Created</span>
@@ -274,8 +274,8 @@ function openNoteModal(id) {
             <div class="notes-title">Previous Notes</div>
             ${apt.notes.map(n => `
                 <div class="note-item">
-                    <div class="note-text">${n.text}</div>
-                    <div class="note-date">${n.date}</div>
+                    <div class="note-text">${escapeAdminHTML(n.text)}</div>
+                    <div class="note-date">${escapeAdminHTML(n.date)}</div>
                 </div>
             `).join('')}
         `;

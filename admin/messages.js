@@ -101,21 +101,21 @@ function renderMessages() {
                     <div class="sender-info">
                         <span class="sender-name">
                             ${isUnread ? '<span class="unread-dot"></span>' : ''}
-                            ${msg.name || 'N/A'}
+                            ${escapeAdminHTML(msg.name || 'N/A')}
                         </span>
-                        <span class="sender-email">${msg.email || ''}</span>
+                        <span class="sender-email">${escapeAdminHTML(msg.email || '')}</span>
                     </div>
                 </td>
-                <td>${msg.phone || 'N/A'}</td>
+                <td>${escapeAdminHTML(msg.phone || 'N/A')}</td>
                 <td>
-                    <span class="service-badge">${msg.service || 'General'}</span>
+                    <span class="service-badge">${escapeAdminHTML(msg.service || 'General')}</span>
                 </td>
                 <td>
-                    <span class="message-preview">${messagePreview || 'No message'}</span>
+                    <span class="message-preview">${escapeAdminHTML(messagePreview || 'No message')}</span>
                 </td>
                 <td class="date-cell">${createdAt}</td>
                 <td>
-                    <select class="status-select" onchange="updateStatus('${msg.id}', this.value)">
+                    <select class="status-select" onchange="updateStatus('${escapeAdminJSArgument(msg.id)}', this.value)">
                         <option value="unread" ${status === 'unread' ? 'selected' : ''}>Unread</option>
                         <option value="read" ${status === 'read' ? 'selected' : ''}>Read</option>
                         <option value="replied" ${status === 'replied' ? 'selected' : ''}>Replied</option>
@@ -123,16 +123,16 @@ function renderMessages() {
                 </td>
                 <td>
                     <div class="action-buttons">
-                        <button class="btn-action btn-view" onclick="viewMessage('${msg.id}')" title="View Message">
+                        <button class="btn-action btn-view" onclick="viewMessage('${escapeAdminJSArgument(msg.id)}')" title="View Message">
                             <i class="fas fa-eye"></i>
                         </button>
-                        <button class="btn-action btn-note" onclick="openNoteModal('${msg.id}')" title="Add Note">
+                        <button class="btn-action btn-note" onclick="openNoteModal('${escapeAdminJSArgument(msg.id)}')" title="Add Note">
                             <i class="fas fa-sticky-note"></i>
                         </button>
-                        <button class="btn-action btn-reply" onclick="replyEmail('${msg.email}')" title="Reply via Email">
+                        <button class="btn-action btn-reply" onclick="replyEmail('${escapeAdminJSArgument(msg.email)}')" title="Reply via Email">
                             <i class="fas fa-reply"></i>
                         </button>
-                        <button class="btn-action btn-delete" onclick="openDeleteModal('${msg.id}')" title="Delete">
+                        <button class="btn-action btn-delete" onclick="openDeleteModal('${escapeAdminJSArgument(msg.id)}')" title="Delete">
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>
@@ -173,19 +173,19 @@ function viewMessage(msgId) {
     document.getElementById('viewModalBody').innerHTML = `
         <div class="detail-row">
             <span class="detail-label">From</span>
-            <span class="detail-value">${msg.name || 'N/A'}</span>
+            <span class="detail-value">${escapeAdminHTML(msg.name || 'N/A')}</span>
         </div>
         <div class="detail-row">
             <span class="detail-label">Email</span>
-            <span class="detail-value">${msg.email || 'N/A'}</span>
+            <span class="detail-value">${escapeAdminHTML(msg.email || 'N/A')}</span>
         </div>
         <div class="detail-row">
             <span class="detail-label">Phone</span>
-            <span class="detail-value">${msg.phone || 'N/A'}</span>
+            <span class="detail-value">${escapeAdminHTML(msg.phone || 'N/A')}</span>
         </div>
         <div class="detail-row">
             <span class="detail-label">Service</span>
-            <span class="detail-value"><span class="service-badge">${msg.service || 'General'}</span></span>
+            <span class="detail-value"><span class="service-badge">${escapeAdminHTML(msg.service || 'General')}</span></span>
         </div>
         <div class="detail-row">
             <span class="detail-label">Received</span>
@@ -193,16 +193,16 @@ function viewMessage(msgId) {
         </div>
         <div class="detail-row">
             <span class="detail-label">Status</span>
-            <span class="detail-value"><span class="status-badge ${status}">${status}</span></span>
+            <span class="detail-value"><span class="status-badge ${escapeAdminHTML(status)}">${escapeAdminHTML(status)}</span></span>
         </div>
         <div class="detail-row" style="flex-direction: column;">
             <span class="detail-label" style="margin-bottom: 8px;">Message</span>
-            <div class="message-content">${msg.message || 'No message content'}</div>
+            <div class="message-content">${escapeAdminHTML(msg.message || 'No message content')}</div>
         </div>
         ${msg.adminNotes ? `
         <div class="detail-row">
             <span class="detail-label">Admin Notes</span>
-            <span class="detail-value">${msg.adminNotes}</span>
+            <span class="detail-value">${escapeAdminHTML(msg.adminNotes)}</span>
         </div>
         ` : ''}
     `;
@@ -228,7 +228,7 @@ function openNoteModal(msgId) {
     if (msg.adminNotes) {
         existingNotes.innerHTML = `
             <div class="existing-note">
-                <div class="existing-note-text">${msg.adminNotes}</div>
+                <div class="existing-note-text">${escapeAdminHTML(msg.adminNotes)}</div>
                 <div class="existing-note-date">Previous note</div>
             </div>
         `;

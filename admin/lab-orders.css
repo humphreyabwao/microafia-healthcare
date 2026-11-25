@@ -649,3 +649,18 @@
         width: 100%;
     }
 }
+
+/* Order type tag (imaging / DNA requests share this table) */
+.order-kind {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 1px 8px;
+    border-radius: 999px;
+    background: #ecfdf5;
+    color: #047857;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    vertical-align: middle;
+}
+.order-kind--dna { background: #eff6ff; color: #1d4ed8; }

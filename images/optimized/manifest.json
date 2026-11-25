@@ -1,0 +1,277 @@
+{
+  "consultataion.jpeg": {
+    "originalBytes": 258000,
+    "variants": [
+      {
+        "src": "images/optimized/consultataion-bd32a62f94-640.webp",
+        "width": 640,
+        "height": 388,
+        "bytes": 17232
+      },
+      {
+        "src": "images/optimized/consultataion-bd32a62f94-1024.webp",
+        "width": 1024,
+        "height": 622,
+        "bytes": 34960
+      },
+      {
+        "src": "images/optimized/consultataion-bd32a62f94-1440.webp",
+        "width": 1440,
+        "height": 874,
+        "bytes": 59114
+      }
+    ]
+  },
+  "dental clinic.jpg": {
+    "originalBytes": 113793,
+    "variants": [
+      {
+        "src": "images/optimized/dental-clinic-07d2bda7dd-640.webp",
+        "width": 640,
+        "height": 329,
+        "bytes": 31366
+      },
+      {
+        "src": "images/optimized/dental-clinic-07d2bda7dd-1024.webp",
+        "width": 1024,
+        "height": 526,
+        "bytes": 62610
+      },
+      {
+        "src": "images/optimized/dental-clinic-07d2bda7dd-1440.webp",
+        "width": 1440,
+        "height": 740,
+        "bytes": 102162
+      }
+    ]
+  },
+  "Doctor .jpg": {
+    "originalBytes": 1929107,
+    "variants": [
+      {
+        "src": "images/optimized/doctor-aa93dde978-640.webp",
+        "width": 640,
+        "height": 360,
+        "bytes": 27884
+      },
+      {
+        "src": "images/optimized/doctor-aa93dde978-1024.webp",
+        "width": 1024,
+        "height": 576,
+        "bytes": 53044
+      },
+      {
+        "src": "images/optimized/doctor-aa93dde978-1440.webp",
+        "width": 1440,
+        "height": 810,
+        "bytes": 98800
+      }
+    ]
+  },
+  "general Treatment.jpg": {
+    "originalBytes": 32567,
+    "variants": [
+      {
+        "src": "images/optimized/general-treatment-429426cd10-640.webp",
+        "width": 640,
+        "height": 386,
+        "bytes": 15282
+      },
+      {
+        "src": "images/optimized/general-treatment-429426cd10-730.webp",
+        "width": 730,
+        "height": 440,
+        "bytes": 18036
+      }
+    ]
+  },
+  "Image 1.jpeg": {
+    "originalBytes": 122661,
+    "variants": [
+      {
+        "src": "images/optimized/image-1-8f0014c9a9-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 35526
+      },
+      {
+        "src": "images/optimized/image-1-8f0014c9a9-1024.webp",
+        "width": 1024,
+        "height": 1024,
+        "bytes": 63592
+      },
+      {
+        "src": "images/optimized/image-1-8f0014c9a9-1280.webp",
+        "width": 1280,
+        "height": 1280,
+        "bytes": 86024
+      }
+    ]
+  },
+  "lab servcies.jpg": {
+    "originalBytes": 265682,
+    "variants": [
+      {
+        "src": "images/optimized/lab-servcies-c15cef95a3-640.webp",
+        "width": 640,
+        "height": 384,
+        "bytes": 42976
+      },
+      {
+        "src": "images/optimized/lab-servcies-c15cef95a3-1000.webp",
+        "width": 1000,
+        "height": 600,
+        "bytes": 88212
+      }
+    ]
+  },
+  "lab-team.jpg": {
+    "originalBytes": 135036,
+    "variants": [
+      {
+        "src": "images/optimized/lab-team-301fe2e9e2-640.webp",
+        "width": 640,
+        "height": 360,
+        "bytes": 28130
+      },
+      {
+        "src": "images/optimized/lab-team-301fe2e9e2-1024.webp",
+        "width": 1024,
+        "height": 576,
+        "bytes": 52542
+      },
+      {
+        "src": "images/optimized/lab-team-301fe2e9e2-1400.webp",
+        "width": 1400,
+        "height": 788,
+        "bytes": 92218
+      }
+    ]
+  },
+  "Logo.png": {
+    "originalBytes": 146285,
+    "variants": [
+      {
+        "src": "images/optimized/logo-f4248e8a92-320.webp",
+        "width": 320,
+        "height": 114,
+        "bytes": 25136
+      }
+    ]
+  },
+  "ultrasound.jpg": {
+    "originalBytes": 382488,
+    "variants": [
+      {
+        "src": "images/optimized/ultrasound-72d5b89ef5-640.webp",
+        "width": 640,
+        "height": 364,
+        "bytes": 24120
+      },
+      {
+        "src": "images/optimized/ultrasound-72d5b89ef5-1024.webp",
+        "width": 1024,
+        "height": 582,
+        "bytes": 46026
+      },
+      {
+        "src": "images/optimized/ultrasound-72d5b89ef5-1440.webp",
+        "width": 1440,
+        "height": 818,
+        "bytes": 73592
+      }
+    ]
+  },
+  "wellness-family.jpg": {
+    "originalBytes": 258000,
+    "variants": [
+      {
+        "src": "images/optimized/consultataion-bd32a62f94-640.webp",
+        "width": 640,
+        "height": 388,
+        "bytes": 17232
+      },
+      {
+        "src": "images/optimized/consultataion-bd32a62f94-1024.webp",
+        "width": 1024,
+        "height": 622,
+        "bytes": 34960
+      },
+      {
+        "src": "images/optimized/consultataion-bd32a62f94-1440.webp",
+        "width": 1440,
+        "height": 874,
+        "bytes": 59114
+      }
+    ]
+  },
+  "wellness-men.jpg": {
+    "originalBytes": 135036,
+    "variants": [
+      {
+        "src": "images/optimized/lab-team-301fe2e9e2-640.webp",
+        "width": 640,
+        "height": 360,
+        "bytes": 28130
+      },
+      {
+        "src": "images/optimized/lab-team-301fe2e9e2-1024.webp",
+        "width": 1024,
+        "height": 576,
+        "bytes": 52542
+      },
+      {
+        "src": "images/optimized/lab-team-301fe2e9e2-1400.webp",
+        "width": 1400,
+        "height": 788,
+        "bytes": 92218
+      }
+    ]
+  },
+  "wellness-women.jpg": {
+    "originalBytes": 382488,
+    "variants": [
+      {
+        "src": "images/optimized/ultrasound-72d5b89ef5-640.webp",
+        "width": 640,
+        "height": 364,
+        "bytes": 24120
+      },
+      {
+        "src": "images/optimized/ultrasound-72d5b89ef5-1024.webp",
+        "width": 1024,
+        "height": 582,
+        "bytes": 46026
+      },
+      {
+        "src": "images/optimized/ultrasound-72d5b89ef5-1440.webp",
+        "width": 1440,
+        "height": 818,
+        "bytes": 73592
+      }
+    ]
+  },
+  "about-consultation.png": {
+    "originalBytes": 2103242,
+    "variants": [
+      {
+        "src": "images/optimized/about-consultation-3e6b74b045-640.webp",
+        "width": 640,
+        "height": 640,
+        "bytes": 41542
+      },
+      {
+        "src": "images/optimized/about-consultation-3e6b74b045-1024.webp",
+        "width": 1024,
+        "height": 1024,
+        "bytes": 81636
+      },
+      {
+        "src": "images/optimized/about-consultation-3e6b74b045-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 104828
+      }
+    ]
+  }
+}

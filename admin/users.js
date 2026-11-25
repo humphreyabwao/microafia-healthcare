@@ -31,13 +31,15 @@ let usersData = [];
    3. Add permission card in users.html modal
    4. Update modulePageMap in admin.js
    ======================================== */
-const allModules = ['dashboard', 'appointments', 'lab-orders', 'wellness', 'messages', 'callbacks', 'users', 'settings'];
+const allModules = ['dashboard', 'appointments', 'lab-orders', 'pharmacy', 'bloodline', 'wellness', 'messages', 'callbacks', 'users', 'settings'];
 
 // Module icons mapping (add new modules here too)
 const moduleIcons = {
     'dashboard': 'fa-th-large',
     'appointments': 'fa-calendar-check',
     'lab-orders': 'fa-flask',
+    'pharmacy': 'fa-prescription-bottle-medical',
+    'bloodline': 'fa-dna',
     'wellness': 'fa-heart-pulse',
     'messages': 'fa-envelope',
     'callbacks': 'fa-phone-alt',
@@ -140,7 +142,9 @@ async function syncExistingAuthUsers() {
     try {
         const userDoc = await db.collection('admin_users').doc(currentUser.uid).get();
         if (!userDoc.exists) {
-            // Create admin_users record for existing auth user with full permissions
+            const token = await currentUser.getIdTokenResult();
+            if (token.claims.admin !== true) return;
+            // Only a trusted administrator may bootstrap their staff record.
             const defaultPermissions = {};
             allModules.forEach(m => {
                 defaultPermissions[m] = { view: true, edit: true, delete: true };
@@ -212,10 +216,10 @@ function renderUsersTable(users) {
         const deptIcon = departmentIcons[user.department] || 'fa-building';
 
         return `
-            <tr data-id="${user.id}">
+            <tr data-id="${escapeAdminHTML(user.id)}">
                 <td>
                     <div class="user-info">
-                        <div class="user-avatar">${initials}</div>
+                        <div class="user-avatar">${escapeAdminHTML(initials)}</div>
                         <span>${escapeHtml(user.name || 'Unknown')}</span>
                     </div>
                 </td>
@@ -226,16 +230,16 @@ function renderUsersTable(users) {
                         ${deptLabel}
                     </span>
                 </td>
-                <td><span class="role-badge ${user.role || 'staff'}">${user.role || 'staff'}</span></td>
+                <td><span class="role-badge ${escapeAdminHTML(user.role || 'staff')}">${escapeAdminHTML(user.role || 'staff')}</span></td>
                 <td>
-                    <span class="status-badge ${user.status || 'active'}">${user.status || 'active'}</span>
+                    <span class="status-badge ${escapeAdminHTML(user.status || 'active')}">${escapeAdminHTML(user.status || 'active')}</span>
                 </td>
                 <td>
                     <div class="action-btns">
-                        <button class="action-btn edit" onclick="editUser('${user.id}')" title="Edit">
+                        <button class="action-btn edit" onclick="editUser('${escapeAdminJSArgument(user.id)}')" title="Edit">
                             <i class="fas fa-pen"></i>
                         </button>
-                        <button class="action-btn delete" onclick="openDeleteModal('${user.id}')" title="Delete">
+                        <button class="action-btn delete" onclick="openDeleteModal('${escapeAdminJSArgument(user.id)}')" title="Delete">
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>
@@ -402,33 +406,44 @@ async function saveUser() {
             await db.collection('admin_users').doc(userId).update(userData);
             showToast('User updated successfully');
         } else {
-            // Store current user credentials before creating new one
-            const currentUser = firebase.auth().currentUser;
-            const currentEmail = currentUser.email;
-            
-            // Create new user (this will sign them in automatically)
-            const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
-            
-            userData.uid = userCredential.user.uid;
+            // Create the login on a separate, memory-only Firebase app. Creating it on the
+            // main app would sign the admin out and sign the new person in, so the staff
+            // record below would be written as them and refused by the security rules,
+            // leaving a login with no staff record (they could never reach the dashboard).
+            const creator = firebase.apps.find(app => app.name === 'staff-creator') ||
+                firebase.initializeApp(firebaseConfig, 'staff-creator');
+            const creatorAuth = creator.auth();
+            await creatorAuth.setPersistence(firebase.auth.Auth.Persistence.NONE);
+            const userCredential = await creatorAuth.createUserWithEmailAndPassword(email, password);
+            const newUid = userCredential.user.uid;
+
+            userData.uid = newUid;
             userData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-            
-            await db.collection('admin_users').doc(userCredential.user.uid).set(userData);
-            
-            // Sign out the new user
-            await firebase.auth().signOut();
-            
-            showToast('User created! Please log back in.', false);
-            setTimeout(() => {
-                window.location.href = 'login.html';
-            }, 1500);
-            return;
+            try {
+                // Written by the signed-in admin, as the rules require
+                await db.collection('admin_users').doc(newUid).set(userData);
+            } catch (writeError) {
+                // Don't leave a login without a staff record behind; remove it so saving again works
+                try { await userCredential.user.delete(); } catch (_) { /* best effort */ }
+                writeError.staffRecordFailed = true;
+                throw writeError;
+            } finally {
+                await creatorAuth.signOut().catch(() => {});
+            }
+            showToast(`${name} can now sign in with ${email.toLowerCase()}`);
         }
 
         closeModal();
     } catch (error) {
         console.error('Error saving user:', error);
         let errorMsg = 'Error saving user';
-        if (error.code === 'auth/email-already-in-use') {
+        if (error.staffRecordFailed) {
+            errorMsg = error.code === 'permission-denied'
+                ? 'Only an admin can add staff accounts'
+                : 'Could not save the staff record. Check your connection and try again.';
+        } else if (error.code === 'permission-denied') {
+            errorMsg = 'Only an admin can add or change staff accounts';
+        } else if (error.code === 'auth/email-already-in-use') {
             errorMsg = 'Email already in use';
         } else if (error.code === 'auth/weak-password') {
             errorMsg = 'Password is too weak';

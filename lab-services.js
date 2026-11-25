@@ -14,6 +14,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // State
     let selectedTests = [];
     let uploadedFile = null;
+    let pendingFile = null;
+    let uploadTask = null;
+    let uploadVersion = 0;
+    let isUploading = false;
+    let isSubmitting = false;
+    const uploadBox = document.querySelector('.upload-box');
+    const uploadStatus = document.getElementById('labUploadStatus');
 
     // ==================== SEARCH ====================
     searchInput.addEventListener('input', function() {
@@ -59,8 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateOrderSummary() {
         if (selectedTests.length === 0) {
             selectedTestsContainer.innerHTML = '<p class="empty-cart">No tests selected</p>';
-            orderTotal.textContent = 'KSh 0';
-            btnOrder.disabled = true;
+            orderTotal.textContent = uploadedFile ? 'To be confirmed' : 'KSh 0';
         } else {
             let html = '';
             let total = 0;
@@ -75,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             selectedTestsContainer.innerHTML = html;
             orderTotal.textContent = `KSh ${total.toLocaleString()}`;
-            btnOrder.disabled = false;
+
 
             // Remove button handlers
             document.querySelectorAll('.remove-test').forEach(btn => {
@@ -90,71 +96,159 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             });
         }
+        btnOrder.disabled = isUploading || isSubmitting || Boolean(pendingFile) ||
+            (selectedTests.length === 0 && !uploadedFile);
+        uploadBox.setAttribute('aria-disabled', String(isUploading || isSubmitting));
+        labRequestFile.disabled = isUploading || isSubmitting;
     }
 
     // ==================== FILE UPLOAD ====================
-    labRequestFile.addEventListener('change', async function() {
-        const file = this.files[0];
-        if (!file) return;
+    function renderUploadStatus(message, { error = false, action, label, removable = false } = {}) {
+        uploadStatus.hidden = false;
+        uploadStatus.classList.toggle('is-error', error);
+        uploadStatus.replaceChildren();
+        const text = document.createElement('span');
+        text.className = 'upload-status-text';
+        text.textContent = message;
+        uploadStatus.appendChild(text);
+        if (action) {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'upload-action';
+            button.textContent = label;
+            button.addEventListener('click', action);
+            uploadStatus.appendChild(button);
+        }
+        if (removable) {
+            const remove = document.createElement('button');
+            remove.type = 'button';
+            remove.className = 'upload-action';
+            remove.textContent = 'Remove';
+            remove.addEventListener('click', clearUpload);
+            uploadStatus.appendChild(remove);
+        }
+    }
 
-        if (file.size > 5 * 1024 * 1024) {
-            alert('File size must be less than 5MB');
-            this.value = '';
+    async function deleteUpload(file) {
+        if (!file?.path) return;
+        try { await patientUploads.storage.ref(file.path).delete(); }
+        catch (error) { console.warn('Could not remove unused lab request:', error.code); }
+    }
+
+    function clearUpload() {
+        if (isSubmitting || document.getElementById('orderForm')) return;
+        uploadVersion++;
+        uploadTask?.cancel();
+        uploadTask = null;
+        isUploading = false;
+        const previous = uploadedFile;
+        uploadedFile = null;
+        pendingFile = null;
+        labRequestFile.value = '';
+        uploadStatus.hidden = true;
+        uploadStatus.replaceChildren();
+        updateOrderSummary();
+        void deleteUpload(previous);
+    }
+
+    async function uploadFile(file) {
+        if (!file || isUploading || isSubmitting || document.getElementById('orderForm')) return;
+        const types = { pdf: 'application/pdf', jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png' };
+        const extension = file.name.split('.').pop().toLowerCase();
+        const contentType = types[extension];
+        if (!contentType || (file.type && file.type !== contentType) || !file.size || file.size > 5 * 1024 * 1024) {
+            labRequestFile.value = '';
+            renderUploadStatus('Choose a non-empty PDF, JPG or PNG file no larger than 5 MB.' +
+                (uploadedFile ? ' Your previous file is still attached.' : ''), { error: true, removable: true });
             return;
         }
 
-        const uploadBox = this.closest('.upload-section');
-        
-        // Remove existing preview
-        uploadBox.querySelector('.file-preview')?.remove();
-
-        // Show uploading state
-        const preview = document.createElement('div');
-        preview.className = 'file-preview';
-        preview.innerHTML = `<i class="fas fa-spinner fa-spin"></i><span>Uploading ${file.name}...</span>`;
-        uploadBox.appendChild(preview);
-
+        const version = ++uploadVersion;
+        const previous = uploadedFile;
+        pendingFile = file;
+        isUploading = true;
+        updateOrderSummary();
+        renderUploadStatus(`Uploading ${file.name} ? 0%`, { action: clearUpload, label: 'Cancel' });
+        let completedFile = null;
         try {
-            // Upload to Firebase Storage
-            const fileName = `prescriptions/${Date.now()}_${file.name}`;
-            const storageRef = storage.ref(fileName);
-            const snapshot = await storageRef.put(file);
-            const downloadURL = await snapshot.ref.getDownloadURL();
-
-            uploadedFile = { name: file.name, url: downloadURL, path: fileName };
-
-            // Update preview
-            preview.innerHTML = `
-                <i class="fas fa-check-circle" style="color:#064e3b"></i>
-                <span>${file.name}</span>
-                <button class="remove-file" type="button"><i class="fas fa-times"></i></button>
-            `;
-
-            preview.querySelector('.remove-file').addEventListener('click', async function() {
-                try {
-                    await storage.ref(uploadedFile.path).delete();
-                } catch (e) { console.log('File already deleted'); }
-                labRequestFile.value = '';
-                uploadedFile = null;
-                preview.remove();
+            const user = await patientUploads.ensureUser();
+            if (version !== uploadVersion) return;
+            const uploadStorage = patientUploads.storage;
+            uploadStorage.setMaxUploadRetryTime(30000);
+            const path = `prescriptions/lab/${user.uid}/${crypto.randomUUID()}.${extension}`;
+            uploadTask = uploadStorage.ref(path).put(file, {
+                contentType, customMetadata: { ownerUid: user.uid, purpose: 'lab' }
             });
-
-            console.log('File uploaded:', downloadURL);
-
+            uploadTask.on('state_changed', snapshot => {
+                if (version !== uploadVersion) return;
+                const progress = Math.round(snapshot.bytesTransferred / snapshot.totalBytes * 100);
+                uploadStatus.querySelector('span').textContent = `Uploading ${file.name} ? ${progress}%`;
+            });
+            const snapshot = await uploadTask;
+            completedFile = { path };
+            const url = await snapshot.ref.getDownloadURL();
+            if (version !== uploadVersion) {
+                await deleteUpload(completedFile);
+                return;
+            }
+            uploadedFile = { name: file.name, url, path, ownerUid: user.uid };
+            pendingFile = null;
+            renderUploadStatus(`${file.name} attached. Place your order to send it to our team.`, { removable: true });
+            void deleteUpload(previous);
         } catch (error) {
-            console.error('Upload error:', error);
-            preview.innerHTML = `<i class="fas fa-exclamation-circle" style="color:#dc3545"></i><span>Upload failed. Try again.</span>`;
-            uploadedFile = null;
+            await deleteUpload(completedFile);
+            if (version !== uploadVersion) return;
+            uploadedFile = previous;
+            console.error('Lab request upload failed:', error.code || error.message);
+            const message = error.code === 'storage/unauthorized' || error.code === 'storage/unauthenticated'
+                ? 'The upload service could not accept this file. Please retry or call +254 740 250 696 for help.'
+                : 'Upload failed. Check your connection and try again, or call +254 740 250 696.';
+            renderUploadStatus(message, { error: true, action: () => uploadFile(file), label: 'Retry', removable: true });
+        } finally {
+            if (version === uploadVersion) {
+                uploadTask = null;
+                isUploading = false;
+                labRequestFile.value = '';
+                updateOrderSummary();
+            }
         }
+    }
+
+    labRequestFile.addEventListener('change', function() { void uploadFile(this.files[0]); });
+    uploadBox.addEventListener('click', event => {
+        if (isUploading || isSubmitting || document.getElementById('orderForm')) event.preventDefault();
+    });
+    uploadBox.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            if (!isUploading && !isSubmitting && !document.getElementById('orderForm')) labRequestFile.click();
+        }
+    });
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(name => {
+        uploadBox.addEventListener(name, event => {
+            event.preventDefault();
+            event.stopPropagation();
+            uploadBox.classList.toggle('is-dragover', name === 'dragenter' || name === 'dragover');
+            if (name === 'drop') {
+                const files = event.dataTransfer?.files;
+                if (files?.length === 1) void uploadFile(files[0]);
+                else if (!isUploading && !isSubmitting && !document.getElementById('orderForm')) {
+                    renderUploadStatus('Please upload one lab request at a time.', { error: true, removable: true });
+                }
+            }
+        });
     });
 
     // ==================== PLACE ORDER ====================
     btnOrder.addEventListener('click', function() {
-        showOrderModal();
+        if (!btnOrder.disabled) showOrderModal();
     });
 
     function showOrderModal() {
+        if (document.getElementById('orderForm')) return;
         const total = selectedTests.reduce((sum, t) => sum + t.price, 0);
+        const prescription = uploadedFile ? { ...uploadedFile } : null;
+        const totalLabel = selectedTests.length ? `KSh ${total.toLocaleString()}` : 'To be confirmed';
         let testsHtml = selectedTests.map(t => 
             `<div><span>${t.name}</span><span>KSh ${t.price.toLocaleString()}</span></div>`
         ).join('');
@@ -187,24 +281,26 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                         <div class="order-summary-modal">
                             <h4>Order Summary</h4>
-                            <div class="order-tests-list">${testsHtml}</div>
-                            <div class="modal-total"><span>Total:</span><span>KSh ${total.toLocaleString()}</span></div>
-                            ${uploadedFile ? `<p style="color:#064e3b;margin-top:10px;"><i class="fas fa-paperclip"></i> Prescription: ${uploadedFile.name}</p>` : ''}
+                            <div class="order-tests-list">${testsHtml || '<p>Tests will be confirmed from your lab request.</p>'}</div>
+                            <div class="modal-total"><span>${selectedTests.length ? 'Selected tests:' : 'Total:'}</span><span>${totalLabel}</span></div>
+                            ${prescription ? '<p class="order-prescription"></p><p>Any additional tests on your request will be priced by our team.</p>' : ''}
                         </div>
                         <button type="submit" class="btn-submit-order">
-                            <i class="fas fa-paper-plane"></i> Submit Order
+                            Submit Order
                         </button>
                     </form>
                 </div>
             </div>
         `;
 
+        if (prescription) modal.querySelector('.order-prescription').textContent = `Lab request: ${prescription.name}`;
         document.body.appendChild(modal);
         document.body.style.overflow = 'hidden';
         setTimeout(() => modal.classList.add('active'), 10);
 
         // Close handlers
         const closeModal = () => {
+            if (isSubmitting) return;
             modal.classList.remove('active');
             setTimeout(() => { modal.remove(); document.body.style.overflow = ''; }, 300);
         };
@@ -215,6 +311,9 @@ document.addEventListener('DOMContentLoaded', function() {
         modal.querySelector('#orderForm').addEventListener('submit', async function(e) {
             e.preventDefault();
 
+            if (isSubmitting || isUploading || pendingFile) return;
+            isSubmitting = true;
+            updateOrderSummary();
             const submitBtn = this.querySelector('.btn-submit-order');
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
             submitBtn.disabled = true;
@@ -227,7 +326,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 notes: formData.get('notes') || 'None',
                 tests: selectedTests.map(t => ({ name: t.name, price: t.price })),
                 total: total,
-                prescription: uploadedFile ? { name: uploadedFile.name, url: uploadedFile.url } : null
+                pricingStatus: prescription ? 'requires_review' : 'confirmed',
+                prescription
             };
 
             try {
@@ -239,6 +339,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
 
                 console.log('Lab order saved:', docRef.id);
+                isSubmitting = false;
                 closeModal();
                 showMessage('success', 'Order Received!', 'Your lab test order has been received. We will contact you shortly.');
                 
@@ -247,13 +348,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 selectedTests = [];
                 uploadedFile = null;
                 labRequestFile.value = '';
-                document.querySelector('.file-preview')?.remove();
+                pendingFile = null;
+                uploadStatus.hidden = true;
+                uploadStatus.replaceChildren();
                 updateOrderSummary();
 
             } catch (error) {
+                isSubmitting = false;
+                updateOrderSummary();
                 console.error('Error:', error);
                 showMessage('error', 'Submission Failed', 'Please try again or call us at +254 740 250 696');
-                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Order';
+                submitBtn.innerHTML = 'Submit Order';
                 submitBtn.disabled = false;
             }
         });

@@ -1,0 +1,132 @@
+/* Bloodline Show module - extends admin.css + lab-orders.css */
+
+.mini-stats { flex-wrap: wrap; }
+
+.bl-row-new { background: #fef2f2; }
+
+.bl-story-cell {
+    max-width: 320px;
+    font-size: 0.85rem;
+    color: #4b5563;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.bl-story-full {
+    white-space: pre-wrap;
+    line-height: 1.6;
+}
+
+.bl-yes { color: #047857; font-weight: 600; }
+
+/* Status badges */
+.status-badge.new { background: #fee2e2; color: #b91c1c; }
+.status-badge.contacted { background: #dbeafe; color: #1d4ed8; }
+.status-badge.shortlisted { background: #fef3c7; color: #b45309; }
+.status-badge.tested { background: #ede9fe; color: #6d28d9; }
+.status-badge.featured { background: #d1fae5; color: #047857; }
+.status-badge.declined { background: #f3f4f6; color: #6b7280; }
+
+/* ---------- Tabs: Applications / Show video ---------- */
+.blv-tabs {
+    display: inline-flex;
+    gap: 4px;
+    margin-bottom: 16px;
+    padding: 4px;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    background: #fff;
+}
+
+.blv-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 36px;
+    padding: 0 14px;
+    border: 0;
+    border-radius: 7px;
+    background: transparent;
+    color: #4b5563;
+    font: inherit;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.blv-tab:hover { color: #111827; }
+.blv-tab.is-active { background: var(--primary); color: #fff; }
+.blv-tab:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.blv-tab .fa-youtube { color: #dc2626; }
+.blv-tab.is-active .fa-youtube { color: #fff; }
+
+/* ---------- Show video panel ---------- */
+.blv-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(280px, 1fr);
+    gap: 16px;
+    align-items: start;
+    max-width: 1200px;
+}
+
+.blv-card {
+    padding: 22px 24px;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    background: #fff;
+}
+
+.blv-title { color: #111827; font-size: 17px; font-weight: 600; }
+.blv-sub { margin: 4px 0 18px; color: #6b7280; font-size: 13.5px; line-height: 1.55; }
+
+.blv-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+.blv-field span { color: #374151; font-size: 13px; font-weight: 600; }
+
+.blv-field input {
+    height: 42px;
+    padding: 0 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    color: #111827;
+    font: inherit;
+    font-size: 14px;
+}
+
+.blv-field input:focus { border-color: var(--primary); outline: 2px solid rgba(6, 78, 59, 0.15); }
+
+.blv-row { display: grid; grid-template-columns: minmax(120px, 0.6fr) minmax(0, 1.4fr); gap: 12px; }
+
+.blv-hint { min-height: 18px; margin: -6px 0 14px; color: #6b7280; font-size: 12.5px; }
+.blv-hint.is-ok { color: #047857; }
+.blv-hint.is-warn { color: #b45309; }
+
+.blv-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin-top: 4px; }
+.blv-link { color: var(--primary); font-size: 13.5px; font-weight: 600; text-decoration: none; }
+.blv-link:hover { text-decoration: underline; }
+.blv-meta { margin-top: 14px; color: #6b7280; font-size: 12.5px; }
+
+.blv-preview-label {
+    margin-bottom: 10px;
+    color: #6b7280;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.blv-thumb { overflow: hidden; aspect-ratio: 16 / 9; border-radius: 6px; background: #0b0f14; }
+.blv-thumb img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.blv-preview-ep { margin-top: 12px; color: #dc2626; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+.blv-preview-title { margin-top: 4px; color: #111827; font-size: 14px; font-weight: 600; }
+
+@media (max-width: 900px) {
+    .blv-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 560px) {
+    .blv-row { grid-template-columns: minmax(0, 1fr); }
+    .blv-tabs { display: flex; }
+    .blv-tab { flex: 1; justify-content: center; }
+}

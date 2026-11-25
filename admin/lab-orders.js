@@ -50,6 +50,19 @@ function updateMiniStats() {
     document.getElementById('completedCount').textContent = completed;
 }
 
+// Imaging and DNA requests share lab_orders; tag them so staff can tell them apart.
+const LAB_ORDER_KINDS = { imaging: 'Imaging', dna: 'DNA' };
+function labOrderKindTag(order) {
+    const label = LAB_ORDER_KINDS[order.category];
+    return label ? `<span class="order-kind order-kind--${escapeAdminHTML(order.category)}">${label}</span>` : '';
+}
+function labOrderVisit(order) {
+    if (order.collectionMethod === 'mobile') return `Mobile visit: ${order.location || 'location not given'}`;
+    if (order.collectionMethod === 'clinic') return 'At the clinic';
+    if (order.collectionMethod) return `${order.collectionMethod}${order.location ? ': ' + order.location : ''}`;
+    return '';
+}
+
 function renderLabOrders() {
     const tbody = document.getElementById('labOrdersTableBody');
     const emptyState = document.getElementById('emptyState');
@@ -91,18 +104,18 @@ function renderLabOrders() {
         let testsHTML = '';
         if (tests.length > 0) {
             const visibleTests = tests.slice(0, 2);
-            testsHTML = visibleTests.map(t => `<span class="test-badge">${t.name}</span>`).join('');
+            testsHTML = visibleTests.map(t => `<span class="test-badge">${escapeAdminHTML(t.name)}</span>`).join('');
             if (tests.length > 2) {
-                testsHTML += `<span class="tests-more" onclick="viewOrder('${order.id}')">+${tests.length - 2} more</span>`;
+                testsHTML += `<span class="tests-more" onclick="viewOrder('${escapeAdminJSArgument(order.id)}')">+${tests.length - 2} more</span>`;
             }
         } else {
-            testsHTML = '<span class="no-prescription">No tests</span>';
+            testsHTML = `<span class="no-prescription">${escapeAdminHTML(order.prescription ? 'See lab request' : 'No tests')}</span>`;
         }
         
         // Prescription link
         let prescriptionHTML = '';
         if (order.prescription && order.prescription.url) {
-            prescriptionHTML = `<a href="${order.prescription.url}" target="_blank" class="prescription-link"><i class="fas fa-file-medical"></i> View</a>`;
+            prescriptionHTML = `<a href="${escapeAdminHTML(safeAdminURL(order.prescription.url))}" target="_blank" class="prescription-link"><i class="fas fa-file-medical"></i> View</a>`;
         } else {
             prescriptionHTML = '<span class="no-prescription">None</span>';
         }
@@ -111,20 +124,20 @@ function renderLabOrders() {
             <tr>
                 <td>
                     <div class="customer-info">
-                        <span class="customer-name">${order.customerName || 'N/A'}</span>
-                        <span class="customer-email">${order.email || ''}</span>
+                        <span class="customer-name">${escapeAdminHTML(order.customerName || 'N/A')} ${labOrderKindTag(order)}</span>
+                        <span class="customer-email">${escapeAdminHTML(order.email || '')}</span>
                     </div>
                 </td>
-                <td>${order.phone || 'N/A'}</td>
-                <td>
+                <td>${escapeAdminHTML(order.phone || 'N/A')}</td>
+                <td data-export="${escapeAdminHTML(tests.map(t => t.name).filter(Boolean).join(', '))}">
                     <div class="tests-list">
                         ${testsHTML}
                     </div>
                 </td>
-                <td><span class="total-price">KSh ${total.toLocaleString()}</span></td>
+                <td><span class="total-price">${escapeAdminHTML(order.pricingStatus === 'requires_review' ? 'To be confirmed' : `KSh ${total.toLocaleString()}`)}</span></td>
                 <td>${prescriptionHTML}</td>
                 <td>
-                    <select class="status-select" onchange="updateStatus('${order.id}', this.value)">
+                    <select class="status-select" onchange="updateStatus('${escapeAdminJSArgument(order.id)}', this.value)">
                         <option value="pending" ${status === 'pending' ? 'selected' : ''}>Pending</option>
                         <option value="processing" ${status === 'processing' ? 'selected' : ''}>Processing</option>
                         <option value="ready" ${status === 'ready' ? 'selected' : ''}>Ready</option>
@@ -133,16 +146,16 @@ function renderLabOrders() {
                 </td>
                 <td>
                     <div class="action-buttons">
-                        <button class="btn-action btn-view" onclick="viewOrder('${order.id}')" title="View Details">
+                        <button class="btn-action btn-view" onclick="viewOrder('${escapeAdminJSArgument(order.id)}')" title="View Details">
                             <i class="fas fa-eye"></i>
                         </button>
-                        <button class="btn-action btn-note" onclick="openNoteModal('${order.id}')" title="Add Note">
+                        <button class="btn-action btn-note" onclick="openNoteModal('${escapeAdminJSArgument(order.id)}')" title="Add Note">
                             <i class="fas fa-sticky-note"></i>
                         </button>
-                        <button class="btn-action btn-complete" onclick="markComplete('${order.id}')" title="Mark Complete">
+                        <button class="btn-action btn-complete" onclick="markComplete('${escapeAdminJSArgument(order.id)}')" title="Mark Complete">
                             <i class="fas fa-check"></i>
                         </button>
-                        <button class="btn-action btn-delete" onclick="openDeleteModal('${order.id}')" title="Delete">
+                        <button class="btn-action btn-delete" onclick="openDeleteModal('${escapeAdminJSArgument(order.id)}')" title="Delete">
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>
@@ -178,33 +191,43 @@ function viewOrder(orderId) {
     if (tests.length > 0) {
         testsHTML = tests.map(t => `
             <div class="test-item">
-                <span class="test-item-name">${t.name}</span>
-                <span class="test-item-price">KSh ${(t.price || 0).toLocaleString()}</span>
+                <span class="test-item-name">${escapeAdminHTML(t.name)}</span>
+                <span class="test-item-price">KSh ${escapeAdminHTML((t.price || 0).toLocaleString())}</span>
             </div>
         `).join('');
     } else {
-        testsHTML = '<span style="color: #9ca3af;">No tests ordered</span>';
+        testsHTML = `<span style="color: #9ca3af;">${escapeAdminHTML(order.prescription ? 'See attached lab request' : 'No tests ordered')}</span>`;
     }
     
     // Prescription
     let prescriptionHTML = 'None';
     if (order.prescription && order.prescription.url) {
-        prescriptionHTML = `<a href="${order.prescription.url}" target="_blank" class="prescription-link"><i class="fas fa-file-medical"></i> ${order.prescription.name || 'View Prescription'}</a>`;
+        prescriptionHTML = `<a href="${escapeAdminHTML(safeAdminURL(order.prescription.url))}" target="_blank" class="prescription-link"><i class="fas fa-file-medical"></i> ${escapeLabRequestText(order.prescription.name || 'View Prescription')}</a>`;
     }
     
     document.getElementById('viewModalBody').innerHTML = `
         <div class="detail-row">
             <span class="detail-label">Customer</span>
-            <span class="detail-value">${order.customerName || 'N/A'}</span>
+            <span class="detail-value">${escapeAdminHTML(order.customerName || 'N/A')}</span>
         </div>
         <div class="detail-row">
             <span class="detail-label">Phone</span>
-            <span class="detail-value">${order.phone || 'N/A'}</span>
+            <span class="detail-value">${escapeAdminHTML(order.phone || 'N/A')}</span>
         </div>
         <div class="detail-row">
             <span class="detail-label">Email</span>
-            <span class="detail-value">${order.email || 'N/A'}</span>
+            <span class="detail-value">${escapeAdminHTML(order.email || 'N/A')}</span>
         </div>
+        ${LAB_ORDER_KINDS[order.category] ? `
+        <div class="detail-row">
+            <span class="detail-label">Type</span>
+            <span class="detail-value">${labOrderKindTag(order)}</span>
+        </div>` : ''}
+        ${labOrderVisit(order) ? `
+        <div class="detail-row">
+            <span class="detail-label">Visit</span>
+            <span class="detail-value">${escapeAdminHTML(labOrderVisit(order))}</span>
+        </div>` : ''}
         <div class="detail-row">
             <span class="detail-label">Tests</span>
             <div class="detail-value tests-detail">
@@ -213,7 +236,7 @@ function viewOrder(orderId) {
         </div>
         <div class="detail-row">
             <span class="detail-label">Total</span>
-            <span class="detail-value total-price">KSh ${total.toLocaleString()}</span>
+            <span class="detail-value total-price">${escapeAdminHTML(order.pricingStatus === 'requires_review' ? 'To be confirmed' : `KSh ${total.toLocaleString()}`)}</span>
         </div>
         <div class="detail-row">
             <span class="detail-label">Prescription</span>
@@ -221,11 +244,11 @@ function viewOrder(orderId) {
         </div>
         <div class="detail-row">
             <span class="detail-label">Customer Notes</span>
-            <span class="detail-value">${order.notes || 'None'}</span>
+            <span class="detail-value">${escapeAdminHTML(order.notes || 'None')}</span>
         </div>
         <div class="detail-row">
             <span class="detail-label">Status</span>
-            <span class="detail-value"><span class="status-badge ${status}">${status}</span></span>
+            <span class="detail-value"><span class="status-badge ${escapeAdminHTML(status)}">${escapeAdminHTML(status)}</span></span>
         </div>
         <div class="detail-row">
             <span class="detail-label">Order Date</span>
@@ -234,7 +257,7 @@ function viewOrder(orderId) {
         ${order.adminNotes ? `
         <div class="detail-row">
             <span class="detail-label">Admin Notes</span>
-            <span class="detail-value">${order.adminNotes}</span>
+            <span class="detail-value">${escapeAdminHTML(order.adminNotes)}</span>
         </div>
         ` : ''}
     `;
@@ -254,7 +277,7 @@ function openNoteModal(orderId) {
     if (order.adminNotes) {
         existingNotes.innerHTML = `
             <div class="existing-note">
-                <div class="existing-note-text">${order.adminNotes}</div>
+                <div class="existing-note-text">${escapeAdminHTML(order.adminNotes)}</div>
                 <div class="existing-note-date">Previous note</div>
             </div>
         `;
@@ -375,3 +398,9 @@ document.addEventListener('keydown', function(e) {
         });
     }
 });
+
+function escapeLabRequestText(value) {
+    const text = document.createElement('span');
+    text.textContent = value;
+    return text.innerHTML;
+}

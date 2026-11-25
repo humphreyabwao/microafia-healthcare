@@ -131,6 +131,26 @@ body.permissions-loaded .main-content {
     pointer-events: none;
 }
 
+.permissions-error {
+    width: min(100% - 40px, 480px);
+    text-align: center;
+    line-height: 1.6;
+}
+
+.permissions-error h1 { font-size: 1.4rem; margin-bottom: 12px; }
+.permissions-error p { color: var(--gray-600); margin-bottom: 20px; }
+.permissions-error button {
+    padding: 10px 16px;
+    margin: 4px;
+    border: 1px solid var(--primary);
+    border-radius: 6px;
+    background: var(--white);
+    color: var(--primary);
+    font: inherit;
+    cursor: pointer;
+}
+.permissions-error button:first-child { background: var(--primary); color: var(--white); }
+
 .permissions-loading .spinner {
     width: 40px;
     height: 40px;

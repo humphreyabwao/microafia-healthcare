@@ -1,687 +1,165 @@
-/* Book Wellness Page Styles */
+/* ==========================================================
+   Book Wellness Package
+   Shared hero / form / sidebar styles live in styles.css (section 17).
+========================================================== */
 
-/* Dark Green Color Theme - matching footer */
-:root {
-    --wellness-primary: #064e3b;
-    --wellness-primary-dark: #053d2f;
-    --wellness-primary-light: #086e54;
-    --women-color: #e91e63;
-    --men-color: #2196f3;
-    --family-color: #ff9800;
-}
+.wellness-form textarea { min-height: 110px; }
 
-/* Page Hero */
-.wellness-hero {
-    background: linear-gradient(135deg, rgba(6, 78, 59, 0.85) 0%, rgba(5, 61, 47, 0.85) 100%),
-                url('images/Doctor .jpg') center/cover no-repeat;
-    color: #fff;
-    padding: 80px 0;
-    text-align: left;
-    margin-top: 130px;
-}
-
-.wellness-hero h1 {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.wellness-hero p {
-    font-size: 1.1rem;
-    opacity: 0.9;
-}
-
-/* Main Layout */
-.wellness-main {
-    padding: 50px 0;
-    background: #f8f9fa;
-    min-height: calc(100vh - 300px);
-}
-
-.wellness-layout {
-    display: grid;
-    grid-template-columns: 1fr 350px;
-    gap: 40px;
-    align-items: start;
-}
-
-/* Form Container */
-.wellness-form-container {
-    background: #fff;
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
-}
-
-.form-header {
-    background: linear-gradient(135deg, var(--wellness-primary) 0%, var(--wellness-primary-dark) 100%);
-    color: #fff;
-    padding: 25px 30px;
-}
-
-.form-header h2 {
-    margin: 0 0 5px;
-    font-size: 1.5rem;
-}
-
-.form-header p {
-    margin: 0;
-    opacity: 0.9;
-    font-size: 0.95rem;
-}
-
-/* Form Sections */
-.wellness-form {
-    padding: 30px;
-}
-
-.form-section {
-    margin-bottom: 30px;
-    padding-bottom: 30px;
-    border-bottom: 1px solid #eee;
-}
-
-.form-section:last-of-type {
-    border-bottom: none;
-    margin-bottom: 0;
-    padding-bottom: 0;
-}
-
-.form-section h3 {
-    color: var(--wellness-primary);
-    font-size: 1.1rem;
-    margin: 0 0 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-/* Package Cards */
+/* Package picker */
 .package-cards {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
+    gap: 14px;
 }
 
 .package-card {
-    cursor: pointer;
     position: relative;
+    display: block;
+    cursor: pointer;
 }
 
-.package-card input[type="radio"] {
+.package-card > input {
     position: absolute;
     opacity: 0;
-    width: 0;
-    height: 0;
+    pointer-events: none;
 }
 
 .package-card-content {
-    border: 2px solid #e0e0e0;
-    padding: 20px 15px;
-    text-align: center;
-    transition: all 0.3s;
     position: relative;
-    background: #fff;
     height: 100%;
+    padding: 20px 18px;
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius);
+    background: var(--white);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
-.package-card:hover .package-card-content {
-    border-color: var(--wellness-primary);
+.package-card:hover .package-card-content { border-color: var(--gray-300); }
+
+.package-card.selected .package-card-content,
+.package-card:has(input:checked) .package-card-content {
+    border-color: var(--brand-700);
+    background: var(--brand-mint-soft);
+    box-shadow: var(--shadow-md);
 }
 
-.package-card input:checked + .package-card-content {
-    border-color: var(--wellness-primary);
-    background: rgba(6, 78, 59, 0.05);
+.package-card > input:focus-visible + .package-card-content {
+    outline: 2px solid var(--primary-light);
+    outline-offset: 2px;
 }
 
-.package-card input:checked + .package-card-content .check-mark {
-    display: flex;
+.package-icon {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    margin-bottom: 12px;
+    border-radius: 12px;
+    background: var(--brand-mint-soft);
+    color: var(--brand-700);
+    font-size: 1.1rem;
+}
+
+.package-icon.women { background: #fdf2f8; color: #db2777; }
+.package-icon.men { background: #eff6ff; color: #2563eb; }
+.package-icon.family { background: #f0fdf4; color: #047857; }
+
+.package-card-content h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 2px;
+}
+
+.package-price {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--brand-700);
+    margin-bottom: 12px;
+}
+
+.package-features li {
+    position: relative;
+    padding: 4px 0 4px 18px;
+    font-size: 0.8rem;
+    line-height: 1.45;
+    color: var(--text-medium);
+}
+
+.package-features li::before {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 11px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--brand-700);
 }
 
 .check-mark {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 24px;
-    height: 24px;
-    background: var(--wellness-primary);
-    color: #fff;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
+    top: 14px;
+    right: 14px;
+    display: grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--gray-300);
+    border-radius: 50%;
+    background: var(--white);
+    transition: var(--transition);
+}
+
+.package-card.selected .check-mark,
+.package-card:has(input:checked) .check-mark {
+    border-color: var(--brand-700);
+    background: var(--brand-700);
+}
+
+.package-card.selected .check-mark::after,
+.package-card:has(input:checked) .check-mark::after {
+    content: '\f00c';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    font-size: 0.6rem;
+    color: var(--white);
 }
 
 .popular-badge {
     position: absolute;
-    top: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--family-color);
-    color: #fff;
-    padding: 4px 12px;
-    font-size: 0.7rem;
-    font-weight: 600;
+    top: -11px;
+    left: 18px;
+    padding: 3px 10px;
+    border-radius: var(--radius-pill);
+    background: var(--brand-900);
+    color: var(--white);
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.4px;
     text-transform: uppercase;
 }
 
-.package-icon {
-    width: 60px;
-    height: 60px;
-    margin: 0 auto 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.8rem;
-    color: #fff;
+.terms-text { color: var(--text-medium); }
+
+/* Sidebar extras */
+.community-card {
+    background: #fffbeb;
+    box-shadow: none;
+    border: 1px solid #fde68a;
 }
 
-.package-icon.women {
-    background: var(--women-color);
-}
+.community-card h3 i { color: #d97706; }
 
-.package-icon.men {
-    background: var(--men-color);
-}
-
-.package-icon.family {
-    background: var(--family-color);
-}
-
-.package-card h4 {
-    margin: 0 0 8px;
-    font-size: 1rem;
-    color: #333;
-}
-
-.package-price {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--wellness-primary);
-    margin-bottom: 12px;
-}
-
-.package-features {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    font-size: 0.8rem;
-    color: #666;
-    text-align: left;
-}
-
-.package-features li {
-    padding: 4px 0;
-    border-bottom: 1px dashed #eee;
-}
-
-.package-features li:last-child {
-    border-bottom: none;
-}
-
-/* Form Fields */
-.form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 600;
-    color: #333;
-    font-size: 0.95rem;
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea {
-    width: 100%;
-    padding: 14px 16px;
-    border: 2px solid #e0e0e0;
-    border-radius: 0;
-    font-size: 1rem;
-    font-family: inherit;
-    transition: border-color 0.3s, box-shadow 0.3s;
-    background: #fff;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-    outline: none;
-    border-color: var(--wellness-primary);
-    box-shadow: 0 0 0 3px rgba(6, 78, 59, 0.1);
-}
-
-.form-group select {
-    cursor: pointer;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 16px center;
-    padding-right: 40px;
-}
-
-.form-group textarea {
-    resize: vertical;
-    min-height: 100px;
-}
-
-/* Checkbox */
-.checkbox-group {
-    margin-bottom: 20px;
-}
-
-.checkbox-label {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    font-size: 0.95rem;
-    color: #555;
-    flex-wrap: nowrap;
-    gap: 0;
-}
-
-.checkbox-label input[type="checkbox"] {
-    position: absolute;
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.checkbox-label .checkmark {
-    width: 22px;
-    min-width: 22px;
-    height: 22px;
-    border: 2px solid #ddd;
-    margin-right: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-    flex-shrink: 0;
-}
-
-.checkbox-label .terms-text {
-    white-space: nowrap;
-    font-size: 0.9rem;
-    display: inline;
-    line-height: 1.4;
-}
-
-.checkbox-label .terms-text a {
-    color: var(--wellness-primary);
-    text-decoration: underline;
-    margin: 0;
-    padding: 0;
-}
-
-.checkbox-label input:checked + .checkmark {
-    background: var(--wellness-primary);
-    border-color: var(--wellness-primary);
-}
-
-.checkbox-label .checkmark::after {
-    content: '\f00c';
-    font-family: 'Font Awesome 6 Free';
-    font-weight: 900;
-    color: #fff;
-    font-size: 12px;
-    display: none;
-}
-
-.checkbox-label input:checked + .checkmark::after {
-    display: block;
-}
-
-.checkbox-label a {
-    color: var(--wellness-primary);
-    text-decoration: underline;
-}
-
-/* Submit Button */
-.btn-submit {
-    width: 100%;
-    padding: 16px 30px;
-    background: var(--wellness-primary);
-    color: #fff;
-    border: none;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
-
-.btn-submit:hover {
-    background: var(--wellness-primary-dark);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 20px rgba(6, 78, 59, 0.3);
-}
-
-/* Sidebar */
-.wellness-sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.sidebar-card {
-    background: #fff;
-    padding: 25px;
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
-}
-
-.sidebar-card h3 {
-    color: var(--wellness-primary);
-    font-size: 1.1rem;
-    margin: 0 0 15px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-/* Benefits Card */
-.benefits-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.benefits-list li {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 0;
-    border-bottom: 1px dashed #eee;
-    font-size: 0.95rem;
-    color: #555;
-}
-
-.benefits-list li:last-child {
-    border-bottom: none;
-}
-
-.benefits-list li i {
-    color: var(--wellness-primary);
-}
-
-/* Hours Card */
-.hours-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.hours-list li {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px dashed #eee;
-    font-size: 0.95rem;
-}
-
-.hours-list li:last-child {
-    border-bottom: none;
-}
-
-.hours-list li.highlight {
-    background: rgba(6, 78, 59, 0.1);
-    margin: 10px -25px -25px;
-    padding: 15px 25px;
-    font-weight: 600;
-    color: var(--wellness-primary);
-}
-
-/* Contact Card */
-.contact-card p {
-    color: #666;
-    font-size: 0.9rem;
-    margin-bottom: 15px;
-}
-
-.phone-link,
-.whatsapp-link {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 15px;
-    margin-bottom: 10px;
-    text-decoration: none;
-    font-weight: 600;
-    transition: all 0.3s;
-}
-
-.phone-link {
-    background: var(--wellness-primary);
-    color: #fff;
-}
-
-.phone-link:hover {
-    background: var(--wellness-primary-dark);
-}
-
-.whatsapp-link {
-    background: #25d366;
-    color: #fff;
-    margin-bottom: 0;
-}
-
-.whatsapp-link:hover {
-    background: #1fb855;
-}
-
-/* Community Card */
 .community-card p {
-    color: #666;
-    font-size: 0.9rem;
-    margin-bottom: 15px;
+    font-size: 0.88rem;
     line-height: 1.6;
+    color: #78350f;
+    margin-bottom: 10px;
 }
 
-.learn-more-link {
-    color: var(--wellness-primary);
-    text-decoration: none;
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.learn-more-link:hover {
-    text-decoration: underline;
-}
-
-/* Responsive */
-@media (max-width: 991px) {
-    .wellness-hero {
-        margin-top: 80px;
-    }
-
-    .wellness-layout {
-        grid-template-columns: 1fr;
-    }
-
-    .wellness-sidebar {
-        order: -1;
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .package-cards {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
+.community-card .learn-more-link { color: #b45309; }
 
 @media (max-width: 767px) {
-    .wellness-hero {
-        margin-top: 70px;
-        padding: 60px 0;
-    }
-
-    .wellness-hero h1 {
-        font-size: 1.8rem;
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .wellness-main {
-        padding: 20px 0;
-    }
-
-    .wellness-form-container {
-        margin: 0;
-        box-shadow: none;
-    }
-
-    .wellness-form {
-        padding: 15px;
-    }
-
-    .form-header {
-        padding: 20px 15px;
-    }
-
-    .form-row {
-        grid-template-columns: 1fr;
-        gap: 0;
-    }
-
-    .package-cards {
-        grid-template-columns: 1fr;
-        gap: 12px;
-        margin: 0 -5px;
-    }
-
-    .package-card-content {
-        padding: 15px 12px;
-    }
-
-    .wellness-sidebar {
-        grid-template-columns: 1fr;
-        gap: 0;
-    }
-
-    .sidebar-card {
-        box-shadow: none;
-        border-bottom: 1px solid #eee;
-    }
-}
-
-@media (max-width: 575px) {
-    .wellness-hero {
-        padding: 50px 0;
-    }
-
-    .wellness-hero h1 {
-        font-size: 1.5rem;
-    }
-
-    .wellness-main {
-        padding: 15px 0;
-    }
-
-    .wellness-form-container {
-        margin: 0;
-    }
-
-    .wellness-form {
-        padding: 10px;
-    }
-
-    .form-header {
-        padding: 20px 15px;
-    }
-
-    .form-header h2 {
-        font-size: 1.2rem;
-    }
-
-    .form-section {
-        margin-bottom: 20px;
-        padding-bottom: 20px;
-    }
-
-    .form-section h3 {
-        font-size: 1rem;
-    }
-
-    .package-cards {
-        margin: 0;
-        gap: 10px;
-    }
-
-    .package-card-content {
-        padding: 12px 10px;
-    }
-
-    .package-icon {
-        width: 50px;
-        height: 50px;
-        font-size: 1.5rem;
-    }
-
-    .package-card h4 {
-        font-size: 0.95rem;
-    }
-
-    .package-price {
-        font-size: 1.1rem;
-    }
-
-    .package-features {
-        font-size: 0.75rem;
-    }
-
-    .sidebar-card {
-        padding: 15px;
-    }
-
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-        padding: 12px;
-        font-size: 0.95rem;
-    }
-
-    .btn-submit {
-        padding: 14px 20px;
-        font-size: 1rem;
-    }
-
-    /* Checkbox responsive */
-    .checkbox-group {
-        margin-bottom: 15px;
-    }
-
-    .checkbox-label {
-        align-items: center;
-        gap: 0;
-    }
-
-    .checkbox-label .checkmark {
-        width: 18px;
-        min-width: 18px;
-        height: 18px;
-        margin-right: 6px;
-    }
-
-    .checkbox-label .terms-text {
-        font-size: 0.75rem;
-        white-space: nowrap;
-        letter-spacing: -0.2px;
-    }
-
-    .checkbox-label .terms-text a {
-        font-size: 0.75rem;
-    }
+    .package-cards { grid-template-columns: 1fr; }
 }

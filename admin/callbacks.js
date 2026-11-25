@@ -92,20 +92,20 @@ function renderCallbacks() {
                 <td>
                     <span class="name-cell">
                         ${isPending ? '<span class="pending-dot"></span>' : ''}
-                        ${callback.name || 'N/A'}
+                        ${escapeAdminHTML(callback.name || 'N/A')}
                     </span>
                 </td>
                 <td>
                     <div class="phone-cell">
-                        <a href="tel:${phone}">${phone}</a>
-                        <a href="tel:${phone}" class="call-btn" title="Call Now">
+                        <a href="tel:${escapeAdminHTML(phone)}">${escapeAdminHTML(phone)}</a>
+                        <a href="tel:${escapeAdminHTML(phone)}" class="call-btn" title="Call Now">
                             <i class="fas fa-phone"></i>
                         </a>
                     </div>
                 </td>
                 <td class="date-cell">${createdAt}</td>
                 <td>
-                    <select class="status-select" onchange="updateStatus('${callback.id}', this.value)">
+                    <select class="status-select" onchange="updateStatus('${escapeAdminJSArgument(callback.id)}', this.value)">
                         <option value="pending" ${status === 'pending' ? 'selected' : ''}>Pending</option>
                         <option value="called" ${status === 'called' ? 'selected' : ''}>Called</option>
                         <option value="completed" ${status === 'completed' ? 'selected' : ''}>Completed</option>
@@ -113,16 +113,16 @@ function renderCallbacks() {
                 </td>
                 <td>
                     <div class="action-buttons">
-                        <a href="tel:${phone}" class="btn-action btn-call" title="Call Now">
+                        <a href="tel:${escapeAdminHTML(phone)}" class="btn-action btn-call" title="Call Now">
                             <i class="fas fa-phone"></i>
                         </a>
-                        <button class="btn-action btn-note" onclick="openNoteModal('${callback.id}')" title="Add Note">
+                        <button class="btn-action btn-note" onclick="openNoteModal('${escapeAdminJSArgument(callback.id)}')" title="Add Note">
                             <i class="fas fa-sticky-note"></i>
                         </button>
-                        <button class="btn-action btn-complete" onclick="markComplete('${callback.id}')" title="Mark Complete">
+                        <button class="btn-action btn-complete" onclick="markComplete('${escapeAdminJSArgument(callback.id)}')" title="Mark Complete">
                             <i class="fas fa-check"></i>
                         </button>
-                        <button class="btn-action btn-delete" onclick="openDeleteModal('${callback.id}')" title="Delete">
+                        <button class="btn-action btn-delete" onclick="openDeleteModal('${escapeAdminJSArgument(callback.id)}')" title="Delete">
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>
@@ -169,7 +169,7 @@ function openNoteModal(callbackId) {
     if (callback.adminNotes) {
         existingNotes.innerHTML = `
             <div class="existing-note">
-                <div class="existing-note-text">${callback.adminNotes}</div>
+                <div class="existing-note-text">${escapeAdminHTML(callback.adminNotes)}</div>
                 <div class="existing-note-date">Previous note</div>
             </div>
         `;

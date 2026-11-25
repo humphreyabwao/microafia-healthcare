@@ -6,9 +6,14 @@
     <title>Admin Dashboard - Microafia Healthcare</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://firestore.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="/admin/admin.css">
+    <link rel="stylesheet" href="/admin/dashboard.css">
+    <meta name="robots" content="noindex, nofollow, noarchive">
 </head>
 <body>
     <!-- Loading Overlay -->
@@ -19,7 +24,7 @@
     <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <img src="/images/Logo.png" alt="Microafia" class="sidebar-logo">
+            <img src="/images/optimized/logo-f4248e8a92-320.webp" alt="Microafia" class="sidebar-logo" width="320" height="114" decoding="async">
         </div>
 
         <nav class="sidebar-nav">
@@ -40,6 +45,18 @@
                     <a href="/admin/lab-orders.html" class="nav-link">
                         <i class="fas fa-flask"></i>
                         <span>Lab Orders</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/pharmacy.html" class="nav-link">
+                        <i class="fas fa-prescription-bottle-medical"></i>
+                        <span>Pharmacy</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/bloodline.html" class="nav-link">
+                        <i class="fas fa-dna"></i>
+                        <span>Bloodline Show</span>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -162,162 +179,87 @@
         </header>
 
         <!-- Dashboard Content -->
-        <main class="main-content">
-            <!-- Stats Cards -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon appointments">
-                        <i class="fas fa-calendar-check"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3 id="appointmentsCount">0</h3>
-                        <p>Appointments</p>
-                        <span class="stat-label">Today</span>
-                    </div>
+        <main class="main-content db">
+            <div class="db-head">
+                <div>
+                    <p class="db-eyebrow" id="dbToday">&nbsp;</p>
+                    <h2 class="db-title" id="dbGreeting">Overview</h2>
                 </div>
-
-                <div class="stat-card">
-                    <div class="stat-icon lab-orders">
-                        <i class="fas fa-flask"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3 id="labOrdersCount">0</h3>
-                        <p>Lab Orders</p>
-                        <span class="stat-label">Today</span>
-                    </div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="stat-icon wellness">
-                        <i class="fas fa-heart-pulse"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3 id="wellnessCount">0</h3>
-                        <p>Wellness Bookings</p>
-                        <span class="stat-label">Today</span>
-                    </div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="stat-icon messages">
-                        <i class="fas fa-envelope"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3 id="messagesCount">0</h3>
-                        <p>Messages</p>
-                        <span class="stat-label">Unread</span>
+                <div class="db-controls">
+                    <div class="db-range" role="group" aria-label="Date range">
+                        <button type="button" data-range="7" aria-pressed="false">7 days</button>
+                        <button type="button" data-range="30" aria-pressed="true">30 days</button>
+                        <button type="button" data-range="90" aria-pressed="false">90 days</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Recent Activity -->
-            <div class="dashboard-grid">
-                <!-- Recent Appointments -->
-                <div class="dashboard-card">
-                    <div class="card-header">
-                        <h2><i class="fas fa-calendar-check"></i> Recent Appointments</h2>
-                        <a href="/admin/appointments.html" class="view-all">View All</a>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>Patient</th>
-                                        <th>Service</th>
-                                        <th>Date</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="recentAppointments">
-                                    <tr>
-                                        <td colspan="4" class="loading">Loading...</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+            <p class="db-section-note" id="dbRangeNote">Last 30 days</p>
+            <section class="db-kpis" id="dbKpis" aria-label="Key figures"></section>
 
-                <!-- Recent Lab Orders -->
-                <div class="dashboard-card">
-                    <div class="card-header">
-                        <h2><i class="fas fa-flask"></i> Recent Lab Orders</h2>
-                        <a href="/admin/lab-orders.html" class="view-all">View All</a>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>Customer</th>
-                                        <th>Tests</th>
-                                        <th>Total</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="recentLabOrders">
-                                    <tr>
-                                        <td colspan="4" class="loading">Loading...</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <section class="db-row db-row--main">
+                <article class="db-card db-card--wide">
+                    <header class="db-card-head">
+                        <div><h3 id="lineTitle">Requests per day</h3><p>Every booking, order and enquiry, by channel. Click a channel to show or hide it.</p></div>
+                    </header>
+                    <div class="db-legend" id="lineLegend"></div>
+                    <div class="db-chart" id="lineChart"></div>
+                </article>
+                <article class="db-card">
+                    <header class="db-card-head">
+                        <div><h3>Request mix</h3><p>Share of requests by channel</p></div>
+                    </header>
+                    <div class="db-chart" id="donutChart"></div>
+                </article>
+            </section>
 
-            <!-- Recent Messages & Callbacks -->
-            <div class="dashboard-grid">
-                <!-- Recent Messages -->
-                <div class="dashboard-card">
-                    <div class="card-header">
-                        <h2><i class="fas fa-envelope"></i> Recent Messages</h2>
-                        <a href="/admin/messages.html" class="view-all">View All</a>
-                    </div>
-                    <div class="card-body">
-                        <div class="messages-list" id="recentMessages">
-                            <div class="loading">Loading...</div>
-                        </div>
-                    </div>
-                </div>
+            <section class="db-row db-row--three">
+                <article class="db-card">
+                    <header class="db-card-head">
+                        <div><h3>Order value</h3><p id="valueSub">Per day &middot; lab + pharmacy, KSh</p></div>
+                    </header>
+                    <div class="db-chart" id="valueChart"></div>
+                </article>
+                <article class="db-card">
+                    <header class="db-card-head">
+                        <div><h3>Request status</h3><p>Where this period's requests stand</p></div>
+                    </header>
+                    <div class="db-chart" id="statusChart"></div>
+                </article>
+                <article class="db-card">
+                    <header class="db-card-head">
+                        <div><h3>Top lab tests</h3><p>Most ordered this period</p></div>
+                        <a href="/admin/lab-orders.html" class="db-link">Lab orders</a>
+                    </header>
+                    <div class="db-chart" id="testsChart"></div>
+                </article>
+            </section>
 
-                <!-- Recent Wellness Bookings -->
-                <div class="dashboard-card">
-                    <div class="card-header">
-                        <h2><i class="fas fa-heart-pulse"></i> Recent Wellness Bookings</h2>
-                        <a href="/admin/wellness.html" class="view-all">View All</a>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>Customer</th>
-                                        <th>Package</th>
-                                        <th>Date</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="recentWellness">
-                                    <tr>
-                                        <td colspan="4" class="loading">Loading...</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <section class="db-row db-row--split">
+                <article class="db-card db-card--wide">
+                    <header class="db-card-head">
+                        <div><h3>Recent activity</h3><p>Latest requests across the clinic</p></div>
+                    </header>
+                    <ul class="db-activity" id="activityList"><li class="db-empty">Loading&hellip;</li></ul>
+                </article>
+                <article class="db-card">
+                    <header class="db-card-head">
+                        <div><h3>Needs attention</h3><p>Open items waiting for the team</p></div>
+                    </header>
+                    <ul class="db-attention" id="attentionList"><li class="db-empty">Loading&hellip;</li></ul>
+                </article>
+            </section>
         </main>
     </div>
 
     <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-    <script src="/firebase-config.js"></script>
-    <script src="/url-helper.js"></script>
-    <script src="/admin/admin.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/13.4.0/firebase-app-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/13.4.0/firebase-firestore-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/13.4.0/firebase-auth-compat.js"></script>
+    <script defer src="/firebase-config.js"></script>
+    <script defer src="/url-helper.js"></script>
+    <script defer src="/admin/security.js"></script>
+    <script defer src="/admin/admin.js"></script>
+    <script defer src="/admin/dashboard.js"></script>
 </body>
 </html>

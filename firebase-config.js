@@ -10,8 +10,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-const storage = firebase.storage();
-
-console.log('Firebase connected!');
+const firebaseApp = typeof firebase !== 'undefined' ? firebase.initializeApp(firebaseConfig) : null;
+const db = firebaseApp && typeof firebase.firestore === 'function' ? firebase.firestore() : undefined;
+// Pages without uploads intentionally omit the Storage SDK.
+const storage = firebaseApp && typeof firebase.storage === 'function' ? firebase.storage() : null;

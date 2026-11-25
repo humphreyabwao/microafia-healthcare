@@ -103,28 +103,28 @@ function renderWellnessBookings() {
             <tr>
                 <td>
                     <div class="customer-info">
-                        <span class="customer-name">${booking.fullName || 'N/A'}</span>
-                        <span class="customer-email">${booking.email || ''}</span>
+                        <span class="customer-name">${escapeAdminHTML(booking.fullName || 'N/A')}</span>
+                        <span class="customer-email">${escapeAdminHTML(booking.email || '')}</span>
                     </div>
                 </td>
-                <td>${booking.phone || 'N/A'}</td>
+                <td>${escapeAdminHTML(booking.phone || 'N/A')}</td>
                 <td>
-                    <span class="package-badge ${pkg}">${packageName}</span>
+                    <span class="package-badge ${escapeAdminHTML(pkg)}">${escapeAdminHTML(packageName)}</span>
                     <span class="package-price">KSh ${packagePrice.toLocaleString()}</span>
                 </td>
                 <td>
                     <div class="datetime-info">
-                        <span class="datetime-date">${booking.preferredDate || 'N/A'}</span>
-                        <span class="datetime-time">${booking.preferredTimeSlot || booking.preferredTime || ''}</span>
+                        <span class="datetime-date">${escapeAdminHTML(booking.preferredDate || 'N/A')}</span>
+                        <span class="datetime-time">${escapeAdminHTML(booking.preferredTimeSlot || booking.preferredTime || '')}</span>
                     </div>
                 </td>
                 <td>
                     <span class="members-badge">
-                        <i class="fas fa-users"></i> ${members}
+                        <i class="fas fa-users"></i> ${escapeAdminHTML(members)}
                     </span>
                 </td>
                 <td>
-                    <select class="status-select" onchange="updateStatus('${booking.id}', this.value)">
+                    <select class="status-select" onchange="updateStatus('${escapeAdminJSArgument(booking.id)}', this.value)">
                         <option value="pending" ${status === 'pending' ? 'selected' : ''}>Pending</option>
                         <option value="confirmed" ${status === 'confirmed' ? 'selected' : ''}>Confirmed</option>
                         <option value="completed" ${status === 'completed' ? 'selected' : ''}>Completed</option>
@@ -132,16 +132,16 @@ function renderWellnessBookings() {
                 </td>
                 <td>
                     <div class="action-buttons">
-                        <button class="btn-action btn-view" onclick="viewBooking('${booking.id}')" title="View Details">
+                        <button class="btn-action btn-view" onclick="viewBooking('${escapeAdminJSArgument(booking.id)}')" title="View Details">
                             <i class="fas fa-eye"></i>
                         </button>
-                        <button class="btn-action btn-note" onclick="openNoteModal('${booking.id}')" title="Add Note">
+                        <button class="btn-action btn-note" onclick="openNoteModal('${escapeAdminJSArgument(booking.id)}')" title="Add Note">
                             <i class="fas fa-sticky-note"></i>
                         </button>
-                        <button class="btn-action btn-complete" onclick="markComplete('${booking.id}')" title="Mark Complete">
+                        <button class="btn-action btn-complete" onclick="markComplete('${escapeAdminJSArgument(booking.id)}')" title="Mark Complete">
                             <i class="fas fa-check"></i>
                         </button>
-                        <button class="btn-action btn-delete" onclick="openDeleteModal('${booking.id}')" title="Delete">
+                        <button class="btn-action btn-delete" onclick="openDeleteModal('${escapeAdminJSArgument(booking.id)}')" title="Delete">
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>
@@ -173,45 +173,45 @@ function viewBooking(bookingId) {
     document.getElementById('viewModalBody').innerHTML = `
         <div class="detail-row">
             <span class="detail-label">Full Name</span>
-            <span class="detail-value">${booking.fullName || 'N/A'}</span>
+            <span class="detail-value">${escapeAdminHTML(booking.fullName || 'N/A')}</span>
         </div>
         <div class="detail-row">
             <span class="detail-label">Phone</span>
-            <span class="detail-value">${booking.phone || 'N/A'}</span>
+            <span class="detail-value">${escapeAdminHTML(booking.phone || 'N/A')}</span>
         </div>
         <div class="detail-row">
             <span class="detail-label">Email</span>
-            <span class="detail-value">${booking.email || 'N/A'}</span>
+            <span class="detail-value">${escapeAdminHTML(booking.email || 'N/A')}</span>
         </div>
         <div class="detail-row">
             <span class="detail-label">Package</span>
             <span class="detail-value">
-                <span class="package-badge ${booking.package || 'basic'}">${booking.packageName || 'Basic Checkup'}</span>
+                <span class="package-badge ${escapeAdminHTML(booking.package || 'basic')}">${escapeAdminHTML(booking.packageName || 'Basic Checkup')}</span>
             </span>
         </div>
         <div class="detail-row">
             <span class="detail-label">Price</span>
-            <span class="detail-value" style="font-weight: 600; color: #064e3b;">KSh ${(booking.packagePrice || 0).toLocaleString()}</span>
+            <span class="detail-value" style="font-weight: 600; color: #064e3b;">KSh ${escapeAdminHTML((booking.packagePrice || 0).toLocaleString())}</span>
         </div>
         <div class="detail-row">
             <span class="detail-label">Preferred Date</span>
-            <span class="detail-value">${booking.preferredDate || 'N/A'}</span>
+            <span class="detail-value">${escapeAdminHTML(booking.preferredDate || 'N/A')}</span>
         </div>
         <div class="detail-row">
             <span class="detail-label">Preferred Time</span>
-            <span class="detail-value">${booking.preferredTimeSlot || booking.preferredTime || 'N/A'}</span>
+            <span class="detail-value">${escapeAdminHTML(booking.preferredTimeSlot || booking.preferredTime || 'N/A')}</span>
         </div>
         <div class="detail-row">
             <span class="detail-label">Members</span>
-            <span class="detail-value">${booking.members || '1'}</span>
+            <span class="detail-value">${escapeAdminHTML(booking.members || '1')}</span>
         </div>
         <div class="detail-row">
             <span class="detail-label">Customer Notes</span>
-            <span class="detail-value">${booking.notes || 'None'}</span>
+            <span class="detail-value">${escapeAdminHTML(booking.notes || 'None')}</span>
         </div>
         <div class="detail-row">
             <span class="detail-label">Status</span>
-            <span class="detail-value"><span class="status-badge ${status}">${status}</span></span>
+            <span class="detail-value"><span class="status-badge ${escapeAdminHTML(status)}">${escapeAdminHTML(status)}</span></span>
         </div>
         <div class="detail-row">
             <span class="detail-label">Booked On</span>
@@ -220,7 +220,7 @@ function viewBooking(bookingId) {
         ${booking.adminNotes ? `
         <div class="detail-row">
             <span class="detail-label">Admin Notes</span>
-            <span class="detail-value">${booking.adminNotes}</span>
+            <span class="detail-value">${escapeAdminHTML(booking.adminNotes)}</span>
         </div>
         ` : ''}
     `;
@@ -240,7 +240,7 @@ function openNoteModal(bookingId) {
     if (booking.adminNotes) {
         existingNotes.innerHTML = `
             <div class="existing-note">
-                <div class="existing-note-text">${booking.adminNotes}</div>
+                <div class="existing-note-text">${escapeAdminHTML(booking.adminNotes)}</div>
                 <div class="existing-note-date">Previous note</div>
             </div>
         `;

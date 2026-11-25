@@ -1,0 +1,10 @@
+functions/
+scripts/
+tests/
+.git/
+.firebase/
+**/*.rules
+**/*.py
+**/*.log
+README.md
+firebase.json

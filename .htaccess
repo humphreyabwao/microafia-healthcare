@@ -5,6 +5,12 @@
 RewriteEngine On
 RewriteBase /
 
+# Block development artifacts and configuration; Firebase web config stays public.
+RewriteRule ^(?:functions|scripts|tests|\.git|\.firebase)(?:/|$) - [F,L]
+<FilesMatch "(^\.|\.(?:rules|py|md|log)$|^(?:firebase|vercel)\.json$|^netlify\.toml$|^package(?:-lock)?\.json$)">
+    Require all denied
+</FilesMatch>
+
 # Force HTTPS (uncomment when SSL is enabled)
 # RewriteCond %{HTTPS} off
 # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
@@ -49,8 +55,8 @@ RewriteRule ^([^/]+)/?$ $1.html [L]
 # Security Headers
 <IfModule mod_headers.c>
     Header set X-Content-Type-Options "nosniff"
-    Header set X-Frame-Options "SAMEORIGIN"
-    Header set X-XSS-Protection "1; mode=block"
+    Header set X-Frame-Options "DENY"
+    Header set Content-Security-Policy "object-src 'none'; base-uri 'self'; frame-ancestors 'none'"
     Header set Referrer-Policy "strict-origin-when-cross-origin"
 </IfModule>
 
@@ -76,4 +82,10 @@ RewriteRule ^([^/]+)/?$ $1.html [L]
 Options -Indexes
 
 # Custom Error Pages
-ErrorDocument 404 /index.html
+ErrorDocument 404 /404.html
+
+<IfModule mod_headers.c>
+    <FilesMatch "\.(?:html|css|js)$">
+        Header set Cache-Control "public, max-age=0, must-revalidate"
+    </FilesMatch>
+</IfModule>
