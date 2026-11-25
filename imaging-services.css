@@ -433,8 +433,8 @@
     .im-bar:not([hidden]) { display: flex; }
     /* keep the chat launcher, WhatsApp and scroll-top buttons clear of the bar */
     body:has(.im-bar:not([hidden])) .cb-root,
-    body:has(.im-bar:not([hidden])) .scroll-to-top { bottom: 84px; }
-    body:has(.im-bar:not([hidden])) .floating-whatsapp { bottom: 152px; }
+    body:has(.im-bar:not([hidden])) .floating-whatsapp { bottom: 84px; }
+    body:has(.im-bar:not([hidden])) .scroll-to-top { bottom: 152px; }
 }
 
 @media (max-width: 575px) {

@@ -2,8 +2,9 @@
    Floating customer-care chatbot (chatbot.js)
 ========================================================== */
 
-/* The chat launcher takes the bottom-right corner; WhatsApp moves above it */
-.floating-whatsapp { bottom: 96px; }
+/* The chat launcher takes the bottom-right corner; scroll-to-top sits above it
+   (centred on the 60px launcher). WhatsApp has the bottom-left corner. */
+.scroll-to-top { right: 31px; bottom: 96px; }
 
 .cb-root {
     position: fixed;
@@ -335,9 +336,10 @@
 /* Pharmacy mobile cart bar: keep the floating buttons clear of it */
 @media (max-width: 767px) {
     .cb-root { right: 16px; bottom: 16px; }
-    .floating-whatsapp { bottom: 84px; }
-    body:has(.ph-cartbar:not([hidden])) .cb-root { bottom: 84px; }
-    body:has(.ph-cartbar:not([hidden])) .floating-whatsapp { bottom: 152px; }
+    .scroll-to-top { right: 22px; bottom: 84px; }
+    body:has(.ph-cartbar:not([hidden])) .cb-root,
+    body:has(.ph-cartbar:not([hidden])) .floating-whatsapp { bottom: 84px; }
+    body:has(.ph-cartbar:not([hidden])) .scroll-to-top { bottom: 152px; }
     .cb-launcher { width: 54px; height: 54px; font-size: 1.3rem; }
     .cb-teaser { bottom: 66px; }
 }

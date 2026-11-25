@@ -3617,9 +3617,11 @@ a.ct-method:hover { background: rgba(255, 255, 255, 0.12); }
 /* ----------------------------------------
    15. Floating buttons
 ---------------------------------------- */
+/* WhatsApp: bottom-left, where nothing covers it.
+   Scroll-to-top: bottom-right, stacked above the chat launcher (chatbot.css). */
 .floating-whatsapp {
     position: fixed;
-    right: 24px;
+    left: 24px;
     bottom: 24px;
     z-index: 1000;
     display: grid;
@@ -3640,7 +3642,7 @@ a.ct-method:hover { background: rgba(255, 255, 255, 0.12); }
 
 .whatsapp-tooltip {
     position: absolute;
-    right: 68px;
+    left: 68px;
     padding: 7px 12px;
     border-radius: var(--radius-sm);
     background: var(--text-dark);
@@ -3650,7 +3652,7 @@ a.ct-method:hover { background: rgba(255, 255, 255, 0.12); }
     white-space: nowrap;
     opacity: 0;
     visibility: hidden;
-    transform: translateX(6px);
+    transform: translateX(-6px);
     transition: var(--transition);
 }
 
@@ -3662,7 +3664,7 @@ a.ct-method:hover { background: rgba(255, 255, 255, 0.12); }
 
 .scroll-to-top {
     position: fixed;
-    left: 24px;
+    right: 24px;
     bottom: 24px;
     z-index: 1000;
     display: grid;
@@ -3787,7 +3789,7 @@ a.ct-method:hover { background: rgba(255, 255, 255, 0.12); }
     .hero-cta .btn { flex: 1 1 200px; }
 
     .floating-whatsapp {
-        right: 16px;
+        left: 16px;
         bottom: 16px;
         width: 52px;
         height: 52px;
@@ -3797,7 +3799,7 @@ a.ct-method:hover { background: rgba(255, 255, 255, 0.12); }
     .whatsapp-tooltip { display: none; }
 
     .scroll-to-top {
-        left: 16px;
+        right: 16px;
         bottom: 16px;
         width: 42px;
         height: 42px;

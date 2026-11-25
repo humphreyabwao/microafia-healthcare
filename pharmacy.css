@@ -412,8 +412,8 @@ text-align: left; cursor: pointer; }
     .ph-cartbar:not([hidden]) { display: flex; }
 
     /* keep the floating buttons clear of the cart bar */
-    body:has(.ph-cartbar:not([hidden])) .floating-whatsapp,
-    body:has(.ph-cartbar:not([hidden])) .scroll-to-top { bottom: 84px; }
+    body:has(.ph-cartbar:not([hidden])) .floating-whatsapp { bottom: 84px; }
+    body:has(.ph-cartbar:not([hidden])) .scroll-to-top { bottom: 152px; }
 
     .ph-cart-btn span:not(.ph-cart-count) { display: none; }
 }

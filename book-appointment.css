@@ -280,8 +280,8 @@
     .ap-panel { position: static; }
     .ap-bar:not([hidden]) { display: flex; }
     body:has(.ap-bar:not([hidden])) .cb-root,
-    body:has(.ap-bar:not([hidden])) .scroll-to-top { bottom: 84px; }
-    body:has(.ap-bar:not([hidden])) .floating-whatsapp { bottom: 152px; }
+    body:has(.ap-bar:not([hidden])) .floating-whatsapp { bottom: 84px; }
+    body:has(.ap-bar:not([hidden])) .scroll-to-top { bottom: 152px; }
 }
 
 @media (max-width: 575px) {
