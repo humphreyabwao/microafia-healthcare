@@ -3072,6 +3072,12 @@ a.ct-method:hover { background: rgba(255, 255, 255, 0.12); }
     padding: var(--section-y) 0;
 }
 
+/* Reviews and Bloodline share a background: on phones/tablets their two
+   paddings stacked into one big blank band, so keep just one */
+@media (max-width: 991px) {
+    .reviews-section + .bl-section { padding-top: 8px; }
+}
+
 .bl-layout {
     display: grid;
     grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);   /* video ~62% */
