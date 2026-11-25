@@ -221,7 +221,6 @@ textarea {
     background: rgba(255, 255, 255, 0.2);
 }
 
-.upper-nav .btn-notification,
 .upper-nav .btn-signin {
     width: 30px;
     height: 30px;
@@ -233,14 +232,9 @@ textarea {
     font-size: 12.5px;
 }
 
-.upper-nav .btn-notification:hover,
 .upper-nav .btn-signin:hover {
     background: var(--brand-mint);
     color: var(--brand-900);
-}
-
-.upper-nav .notification-badge {
-    border-color: var(--brand-900);
 }
 
 /* Shared social / icon buttons (also used in mobile bar) */
@@ -265,48 +259,6 @@ textarea {
 .social-links a:hover {
     background: var(--brand-900);
     color: var(--white);
-}
-
-.btn-notification {
-    position: relative;
-    display: flex;
-    flex-shrink: 0;
-    align-items: center;
-    justify-content: center;
-    width: 38px;
-    height: 38px;
-    padding: 0;
-    border: 0;
-    border-radius: 50%;
-    background: var(--gray-100);
-    color: var(--text-medium);
-    font-size: 15px;
-    font-family: inherit;
-    cursor: pointer;
-}
-
-.btn-notification:hover {
-    background: var(--brand-900);
-    color: var(--white);
-}
-
-.notification-badge {
-    position: absolute;
-    top: -4px;
-    right: -4px;
-    min-width: 17px;
-    height: 17px;
-    padding: 0 4px;
-    background: var(--danger);
-    color: var(--white);
-    font-size: 9.5px;
-    font-weight: 700;
-    line-height: 1;
-    border-radius: var(--radius-pill);
-    border: 2px solid var(--white);
-    display: none;          /* JS sets display:flex when there are notifications */
-    align-items: center;
-    justify-content: center;
 }
 
 .btn-signin {
@@ -676,12 +628,6 @@ textarea {
     width: 32px;
     height: 32px;
     font-size: 13px;
-}
-
-.mobile-nav .btn-notification {
-    width: 36px;
-    height: 36px;
-    font-size: 14px;
 }
 
 .mobile-nav .btn-signin {
@@ -3781,7 +3727,6 @@ a.ct-method:hover { background: rgba(255, 255, 255, 0.12); }
     .upper-nav-contact .upper-nav-email-text { display: none; }
     .upper-nav-right { gap: 3px; }
     .upper-nav .upper-nav-divider { display: block; height: 16px; margin: 0 3px; background: rgba(255, 255, 255, 0.3); }
-    .upper-nav .btn-notification { display: none; }
     .upper-nav .btn-signin { display: inline-flex; width: 30px; height: 30px; font-size: 10px; background: rgba(255, 255, 255, 0.1); }
     .upper-nav .social-links a { width: 26px; height: 32px; font-size: 10px; }
     .mobile-nav { height: 60px; }
@@ -3790,14 +3735,11 @@ a.ct-method:hover { background: rgba(255, 255, 255, 0.12); }
     .mobile-nav .social-links { display: none; }
     .mobile-nav .btn-signin { display: none; }
     .mobile-nav-right { gap: 4px; }
-    .mobile-nav .btn-notification,
     .mobile-nav .menu-toggle { width: 44px; height: 44px; font-size: 10px; }
-    .mobile-nav .btn-notification { background: transparent; }
     .mobile-nav .menu-toggle { background: transparent; }
     .mobile-nav .hamburger,
     .mobile-nav .hamburger::before,
     .mobile-nav .hamburger::after { width: 14px; height: 1.5px; }
-    .mobile-nav .notification-badge { top: 1px; right: 0; min-width: 14px; height: 14px; font-size: 8px; }
 
     .mobile-nav,
     .mobile-menu { display: block; }
