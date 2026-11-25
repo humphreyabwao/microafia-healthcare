@@ -32,9 +32,12 @@ const modulePageMap = {
     // Add new modules here: 'module-name': 'page.html'
 };
 
+// Clean URLs (/admin, /admin/appointments): the hosts redirect /admin/ and *.html,
+// so linking to them directly would cost an extra round trip on every navigation.
 function toAdminPath(page) {
-    if (!page) return ADMIN_BASE;
-    return page.startsWith('/') ? page : `${ADMIN_BASE}${page}`;
+    if (!page || page === 'index.html') return '/admin';
+    if (page.startsWith('/')) return page;
+    return ADMIN_BASE + page.replace(/\.html$/, '');
 }
 
 function normalizePath(path) {
@@ -186,12 +189,14 @@ firebase.auth().onAuthStateChanged(async (user) => {
     let cached = readCachedProfile();
     if (cached && (cached.id !== user.uid || cached.status !== 'active')) {
         try { sessionStorage.removeItem(PROFILE_CACHE_KEY); } catch (_) { /* ignore */ }
+        // The shell was drawn early for a different account: start clean
+        if (earlyProfile) { window.location.reload(); return; }
         cached = null;
     }
 
     if (cached) {
-        // Instant: show the page now, confirm with the server in the background.
-        applyProfile(cached);
+        // Instant: the page is already showing (see earlyProfile); confirm in the background.
+        if (!earlyProfile) applyProfile(cached);
         try {
             const fresh = await verifyStaff(user);
             if (!fresh) return;
@@ -1093,3 +1098,15 @@ document.addEventListener('DOMContentLoaded', () => {
         setupDashboardRealtime();
     }
 });
+
+// ---------- Instant shell ----------
+// A staff profile verified earlier in this tab (by the login page or the previous
+// admin page) draws the menus and page immediately, without waiting for Firebase
+// to start. onAuthStateChanged above still confirms the session and re-checks the
+// record with the server; data itself is always protected by Firestore rules.
+const earlyProfile = (() => {
+    const cached = readCachedProfile();
+    return cached && cached.status === 'active' ? cached : null;
+})();
+if (earlyProfile) applyProfile(earlyProfile);
+

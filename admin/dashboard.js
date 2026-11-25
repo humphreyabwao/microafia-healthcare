@@ -8,43 +8,43 @@
 
     // Fixed series order = colour order (validated for colour-blind separation).
     const SERIES = [
-        { key: 'appointments', label: 'Appointments', color: '#0d9488', href: '/admin/appointments.html' },
-        { key: 'lab',          label: 'Lab orders',   color: '#eb6834', href: '/admin/lab-orders.html' },
-        { key: 'pharmacy',     label: 'Pharmacy',     color: '#2a78d6', href: '/admin/pharmacy.html' },
-        { key: 'wellness',     label: 'Wellness',     color: '#eda100', href: '/admin/wellness.html' },
-        { key: 'enquiries',    label: 'Enquiries',    color: '#e87ba4', href: '/admin/messages.html' }
+        { key: 'appointments', label: 'Appointments', color: '#0d9488', href: '/admin/appointments' },
+        { key: 'lab',          label: 'Lab orders',   color: '#eb6834', href: '/admin/lab-orders' },
+        { key: 'pharmacy',     label: 'Pharmacy',     color: '#2a78d6', href: '/admin/pharmacy' },
+        { key: 'wellness',     label: 'Wellness',     color: '#eda100', href: '/admin/wellness' },
+        { key: 'enquiries',    label: 'Enquiries',    color: '#e87ba4', href: '/admin/messages' }
     ];
     const SERIES_BY_KEY = Object.fromEntries(SERIES.map(s => [s.key, s]));
     const VALUE_COLOR = '#064e3b';   // single-measure bars (not a series identity)
 
     const SOURCES = [
         { col: 'appointments', module: 'appointments', series: 'appointments', kind: 'Appointment',
-          href: '/admin/appointments.html', open: ['pending'], openLabel: 'appointments to confirm',
+          href: '/admin/appointments', open: ['pending'], openLabel: 'appointments to confirm',
           name: d => [d.firstName, d.lastName].filter(Boolean).join(' ') || d.name,
           detail: d => d.serviceName || d.service },
         { col: 'lab_orders', module: 'lab-orders', series: 'lab', kind: 'Lab order',
-          href: '/admin/lab-orders.html', open: ['pending', 'new', 'submitted'], openLabel: 'lab orders waiting',
+          href: '/admin/lab-orders', open: ['pending', 'new', 'submitted'], openLabel: 'lab orders waiting',
           name: d => d.customerName || d.name,
           detail: d => (d.tests || []).map(t => (t && t.name) || t).filter(Boolean).join(', '),
           value: d => Number(d.total) || 0,
           items: d => (d.tests || []).map(t => (t && t.name) || t).filter(x => typeof x === 'string') },
         { col: 'pharmacy_orders', module: 'pharmacy', series: 'pharmacy', kind: 'Pharmacy order',
-          href: '/admin/pharmacy.html', open: ['pending'], openLabel: 'deliveries to confirm',
+          href: '/admin/pharmacy', open: ['pending'], openLabel: 'deliveries to confirm',
           name: d => d.customerName,
           detail: d => (d.items || []).map(i => i && i.name).filter(Boolean).join(', ') || d.requestType,
           value: d => Number(d.subtotal) || 0 },
         { col: 'wellness_bookings', module: 'wellness', series: 'wellness', kind: 'Wellness booking',
-          href: '/admin/wellness.html', open: ['pending'], openLabel: 'wellness bookings to confirm',
+          href: '/admin/wellness', open: ['pending'], openLabel: 'wellness bookings to confirm',
           name: d => d.fullName || d.name,
           detail: d => d.packageName || d.package },
         { col: 'contact_messages', module: 'messages', series: 'enquiries', kind: 'Message',
-          href: '/admin/messages.html', open: ['unread', ''], openLabel: 'unread messages',
+          href: '/admin/messages', open: ['unread', ''], openLabel: 'unread messages',
           name: d => d.name, detail: d => d.message },
         { col: 'callback_requests', module: 'callbacks', series: 'enquiries', kind: 'Callback',
-          href: '/admin/callbacks.html', open: ['pending', ''], openLabel: 'callbacks to return',
+          href: '/admin/callbacks', open: ['pending', ''], openLabel: 'callbacks to return',
           name: d => d.name, detail: d => d.phone ? 'Asked for a call back' : '' },
         { col: 'bloodline_applications', module: 'bloodline', series: null, kind: 'Bloodline application',
-          href: '/admin/bloodline.html', open: ['new'], openLabel: 'new Bloodline applications',
+          href: '/admin/bloodline', open: ['new'], openLabel: 'new Bloodline applications',
           name: d => d.fullName, detail: d => d.testType }
     ];
 
@@ -85,7 +85,28 @@
     }
 
     // ---------- live listeners ----------
+    // Draw once when every feed has reported (or after FIRST_PAINT_WAIT), so the
+    // numbers don't visibly jump as each collection arrives; live updates after that.
+    const FIRST_PAINT_WAIT = 1500;
+    const waiting = new Set();
+    let firstPaintDone = false;
+    function firstPaint() {
+        if (firstPaintDone) return;
+        firstPaintDone = true;
+        document.body.classList.remove('db-loading');
+        schedule();
+    }
+    function reported(col) {
+        waiting.delete(col);
+        if (!waiting.size) firstPaint();
+        else if (firstPaintDone) schedule();
+    }
+
     function subscribe() {
+        document.body.classList.add('db-loading');
+        SOURCES.forEach(src => { if (state.allowed.includes(src.module)) waiting.add(src.col); });
+        if (!waiting.size) { firstPaint(); return; }
+        setTimeout(firstPaint, FIRST_PAINT_WAIT);
         SOURCES.forEach(src => {
             if (!state.allowed.includes(src.module)) return;
             state.docs[src.col] = [];
@@ -97,18 +118,18 @@
                 });
                 delete state.errors[src.col];
                 state.lastUpdate = new Date();
-                schedule();
+                reported(src.col);
             }, err => {
                 console.error('Dashboard listener failed for', src.col, err.code || err.message);
                 state.errors[src.col] = true;
-                schedule();
+                reported(src.col);
             });
         });
     }
 
     let queued = false;
     function schedule() {
-        if (queued) return;
+        if (queued || !firstPaintDone) return;
         queued = true;
         requestAnimationFrame(() => { queued = false; render(); });
     }
@@ -201,6 +222,7 @@
             const c = sum(cur), p = sum(prev);
             tiles.push({ label: 'Order value', value: compactMoney(c), title: money(c), delta: delta(c, p) });
         }
+        $('dbKpis').removeAttribute('aria-busy');
         $('dbKpis').innerHTML = tiles.map(t => `
             <div class="db-kpi${t.lead ? ' db-kpi--lead' : ''}">
                 <p class="db-kpi-label">${t.color ? `<span class="db-swatch" style="background:${t.color}"></span>` : ''}${esc(t.label)}</p>
@@ -496,8 +518,15 @@
                 render();
             });
         });
-        let rt;
-        new ResizeObserver(() => { clearTimeout(rt); rt = setTimeout(schedule, 120); }).observe($('lineChart'));
+        // Redraw charts only when the chart area actually changes width
+        let rt, lastWidth = 0;
+        new ResizeObserver(([entry]) => {
+            const width = Math.round(entry.contentRect.width);
+            if (!lastWidth || width === lastWidth) { lastWidth = width; return; }
+            lastWidth = width;
+            clearTimeout(rt);
+            rt = setTimeout(schedule, 120);
+        }).observe($('lineChart'));
         // keep "x min ago" fresh
         setInterval(() => { if (state.lastUpdate) renderActivity(); }, 60000);
     }

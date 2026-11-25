@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Check authentication
     firebase.auth().onAuthStateChanged(function(user) {
         if (!user) {
-            window.location.href = 'login.html';
+            window.location.href = '/admin/login';
             return;
         }
         initSettings(user);
@@ -266,7 +266,7 @@ function initSettings(user) {
         signOutBtn.addEventListener('click', function() {
             if (confirm('Are you sure you want to sign out?')) {
                 firebase.auth().signOut().then(() => {
-                    window.location.href = 'login.html';
+                    window.location.href = '/admin/login';
                 }).catch(error => {
                     console.error('Error signing out:', error);
                     showToast('Failed to sign out. Please try again.', 'error');

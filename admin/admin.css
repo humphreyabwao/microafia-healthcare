@@ -111,6 +111,10 @@ body.permissions-loaded .main-content {
     opacity: 1;
 }
 
+/* Verified earlier in this tab: no spinner, no fade - the page just appears */
+.mf-session .permissions-loading { display: none; }
+.mf-session .main-content { opacity: 1; transition: none; }
+
 /* Loading overlay */
 .permissions-loading {
     position: fixed;

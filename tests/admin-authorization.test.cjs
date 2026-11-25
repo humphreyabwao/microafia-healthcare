@@ -43,7 +43,7 @@ test('an authenticated account cannot promote itself without a staff record', as
     assert.equal(result.writes, 0);
     assert(result.signedOut);
     assert.equal(result.loaded, false);
-    assert.equal(result.href, '/admin/login.html');
+    assert.equal(result.href, '/admin/login');
     assert.match(result.notice, /not set up for the staff dashboard/, 'login page explains why instead of a silent bounce');
 });
 test('existing active staff keep dashboard access', async () => {
@@ -82,16 +82,16 @@ test('a profile verified at login opens the page immediately, then re-checks', a
 test('background re-check ends the session when access was removed', async () => {
     const result = await authorize({ exists: true, status: 'inactive', cached: profile });
     assert(result.signedOut);
-    assert.equal(result.href, '/admin/login.html');
+    assert.equal(result.href, '/admin/login');
 });
 test('background re-check ends the session when the rules deny access', async () => {
     const result = await authorize({ fail: 'denied', cached: profile });
     assert(result.signedOut);
 });
-test('a cached profile for another account is ignored', async () => {
+test('a cached profile for another account is discarded and the page restarts', async () => {
     const result = await authorize({ hang: true, cached: { ...profile, id: 'someone-else' } });
-    assert.equal(result.loaded, false);
-    assert.match(result.errorHTML, /Try again/);
+    assert(result.reloaded, 'reloads to run a clean check for the real account');
+    assert.equal(result.cachedAfter, undefined, "the other account's profile is removed");
 });
 
 for (const pathname of ['/admin', '/admin/', '/admin/index', '/admin/index.html']) {
@@ -106,7 +106,7 @@ for (const pathname of ['/admin', '/admin/', '/admin/index', '/admin/index.html'
 test('clean dashboard URL still redirects staff with no dashboard access', async () => {
     const result = await authorize({ exists: true, pathname: '/admin', role: 'staff', modules: ['appointments'] });
     assert.equal(result.loaded, false);
-    assert.equal(result.href, '/admin/appointments.html');
+    assert.equal(result.href, '/admin/appointments');
 });
 
 test('denied staff lookup shows an actionable error without bouncing to login', async () => {

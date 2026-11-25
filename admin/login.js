@@ -16,7 +16,7 @@ const forgotPassword = document.getElementById('forgotPassword');
 // Shared with admin/admin.js
 const PROFILE_CACHE_KEY = 'mf_admin_profile';
 const LOGIN_NOTICE_KEY = 'mf_login_notice';
-const DASHBOARD = '/admin/';
+const DASHBOARD = '/admin';
 const CHECK_TIMEOUT = 5000;   // then hand over to the dashboard, which retries and explains
 
 // Client-side throttle (Firebase also rate-limits on the server)
@@ -187,7 +187,7 @@ emailInput?.addEventListener('input', () => errorMessage.classList.remove('is-in
 // ---------- warm the cache ----------
 // While the person types, fetch the dashboard files so the redirect opens instantly.
 function prefetchDashboard() {
-    ['/admin/', '/admin/admin.css', '/admin/dashboard.css', '/admin/security.js', '/admin/admin.js', '/admin/dashboard.js']
+    ['/admin', '/admin/admin.css', '/admin/dashboard.css', '/admin/security.js', '/admin/admin.js', '/admin/dashboard.js']
         .forEach(href => {
             const link = document.createElement('link');
             link.rel = 'prefetch';

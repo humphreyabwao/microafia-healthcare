@@ -29,7 +29,7 @@ const BASE = 'http://127.0.0.1:8000';
         };
         const dashboardShown = page => page.waitForFunction(() =>
             location.pathname.startsWith('/admin') && !location.pathname.includes('login') &&
-            document.body.classList.contains('permissions-loaded'), null, { timeout: 5000 });
+            !!document.body && document.body.classList.contains('permissions-loaded'), null, { timeout: 5000 });
 
         // 1. Staff member: one staff check (on the login page), dashboard opens from it
         {

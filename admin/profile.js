@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Check authentication
     firebase.auth().onAuthStateChanged(function(user) {
         if (!user) {
-            window.location.href = 'login.html';
+            window.location.href = '/admin/login';
             return;
         }
         initProfile(user);

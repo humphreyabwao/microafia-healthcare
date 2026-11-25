@@ -484,3 +484,19 @@ button.db-legend-item:focus-visible { outline: 2px solid var(--primary); outline
     .db-live-dot { animation: none; }
     .db-hbar-fill { transition: none; }
 }
+
+/* Placeholder tiles until the first draw (replaced by dashboard.js) */
+.db-kpi--skel span {
+    display: block;
+    height: 10px;
+    margin-bottom: 12px;
+    border-radius: 6px;
+    background: linear-gradient(90deg, #f1f4f2 25%, #e7ece9 50%, #f1f4f2 75%);
+    background-size: 200% 100%;
+    animation: dbSkel 1.2s ease-in-out infinite;
+}
+.db-kpi--skel span:nth-child(1) { width: 45%; }
+.db-kpi--skel span:nth-child(2) { width: 60%; height: 26px; }
+.db-kpi--skel span:nth-child(3) { width: 75%; margin-bottom: 0; }
+@keyframes dbSkel { from { background-position: 100% 0; } to { background-position: -100% 0; } }
+@media (prefers-reduced-motion: reduce) { .db-kpi--skel span { animation: none; } }
