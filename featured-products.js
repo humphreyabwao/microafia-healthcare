@@ -128,19 +128,23 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         el('cat').textContent = p.category || 'Pharmacy';
+        el('name').textContent = p.name || '';
+        info.classList.toggle('is-rx', !!p.requiresPrescription);
         el('desc').textContent = p.description || 'Quality-assured and available for delivery to your door.';
         el('price').textContent = p.promo ? '' : ksh(p.price);
         el('price').hidden = !!p.promo;
 
         const order = el('order');
+        const arrow = ' <i class="fas fa-arrow-right" aria-hidden="true"></i>';
         if (p.promo) {
             order.href = '/pharmacy';
-            order.innerHTML = 'Shop pharmacy';
+            order.innerHTML = 'Shop pharmacy' + arrow;
             order.removeAttribute('aria-label');
         } else {
-            order.href = '/pharmacy?add=' + encodeURIComponent(p.id);
-            order.innerHTML = 'Request delivery';
-            order.setAttribute('aria-label', `Request delivery of ${p.name}`);
+            // Opens the product's page in the pharmacy (details, price, add to cart)
+            order.href = '/pharmacy?product=' + encodeURIComponent(p.id);
+            order.innerHTML = 'View in pharmacy' + arrow;
+            order.setAttribute('aria-label', `View ${p.name} in the pharmacy`);
         }
     }
 
