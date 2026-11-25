@@ -117,3 +117,13 @@
 
 /* Radio grid: 3 per row on wide screens for the five test types */
 .bloodline-form .radio-group { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+
+/* Hero uses light DNA artwork (no people), so the shade is a little deeper
+   than the shared default to keep the heading and text crisp */
+.bl-apply-hero { background-position: center 40%; }
+.bl-apply-hero::before {
+    background: linear-gradient(90deg, rgba(3, 20, 15, 0.82) 0%, rgba(3, 20, 15, 0.6) 55%, rgba(3, 20, 15, 0.35) 100%);
+}
+@media (max-width: 991px) {
+    .bl-apply-hero::before { background: linear-gradient(180deg, rgba(3, 20, 15, 0.65), rgba(3, 20, 15, 0.82)); }
+}
